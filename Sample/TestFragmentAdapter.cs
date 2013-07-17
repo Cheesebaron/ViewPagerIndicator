@@ -1,35 +1,52 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.App;
-using Android.Views;
-using Android.Widget;
-using Fragment = Android.Support.V4.App.Fragment;
-using FragmentManager = Android.Support.V4.App.FragmentManager;
+using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
 
 namespace Sample
 {
-    public class TestFragmentAdapter : FragmentPagerAdapter
+    public class TestFragmentAdapter : FragmentPagerAdapter, IIconPageAdapter
     {
-        public TestFragmentAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) {
-        }
+        private static readonly string[] Content = new[] {"This", "Is", "A", "Test"};
+        private static readonly int[] Icons = new[]
+        {
+            Resource.Drawable.perm_group_calendar,
+            Resource.Drawable.perm_group_camera,
+            Resource.Drawable.perm_group_device_alarms,
+            Resource.Drawable.perm_group_location
+        };
 
-        public TestFragmentAdapter(FragmentManager p0) : base(p0) {
+        private int _count = Content.Length;
+
+        public TestFragmentAdapter(FragmentManager p0) 
+            : base(p0) 
+        {
         }
 
         public override int Count
         {
-            get { throw new NotImplementedException(); }
+            get { return _count; }
         }
 
-        public override Fragment GetItem(int p0) { throw new NotImplementedException(); }
+        public override Fragment GetItem(int position)
+        {
+            return TestFragment.NewInstance(Content[position % Content.Length]);
+        }
 
-        
+        public override Java.Lang.ICharSequence GetPageTitleFormatted(int p0)
+        {
+            return new Java.Lang.String(Content[p0 % Content.Length]);
+        }
+
+        public void SetCount(int count)
+        {
+            if (count <= 0 || count > 10) return;
+
+            _count = count;
+            NotifyDataSetChanged();
+        }
+
+        public int GetIconResId(int index)
+        {
+            return Icons[index % Icons.Length];
+        }
     }
 }

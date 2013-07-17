@@ -14,6 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CirclePageIndicator.cs" />
+    <Compile Include="IcsLinearLayout.cs" />
+    <Compile Include="Interfaces\IIconPageAdapter.cs" />
     <Compile Include="Interfaces\IPageIndicator.cs" />
     <Compile Include="LinePageIndicator.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

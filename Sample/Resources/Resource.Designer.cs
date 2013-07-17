@@ -425,28 +425,91 @@ namespace Sample
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int custom_tab_indicator = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int vpi__tab_indicator = 2130837505;
+			public const int custom_tab_indicator_divider = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int vpi__tab_selected_focused_holo = 2130837506;
+			public const int custom_tab_indicator_focused = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int vpi__tab_selected_holo = 2130837507;
+			public const int custom_tab_indicator_selected = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int vpi__tab_selected_pressed_holo = 2130837508;
+			public const int custom_tab_indicator_selected_focused = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int vpi__tab_unselected_focused_holo = 2130837509;
+			public const int custom_tab_indicator_selected_pressed = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int vpi__tab_unselected_holo = 2130837510;
+			public const int custom_tab_indicator_unselected = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int vpi__tab_unselected_pressed_holo = 2130837511;
+			public const int custom_tab_indicator_unselected_focused = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int custom_tab_indicator_unselected_pressed = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int Icon = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int perm_group_calendar = 2130837514;
+			
+			// aapt resource value: 0x7f02000b
+			public const int perm_group_calendar_normal = 2130837515;
+			
+			// aapt resource value: 0x7f02000c
+			public const int perm_group_calendar_selected = 2130837516;
+			
+			// aapt resource value: 0x7f02000d
+			public const int perm_group_camera = 2130837517;
+			
+			// aapt resource value: 0x7f02000e
+			public const int perm_group_camera_normal = 2130837518;
+			
+			// aapt resource value: 0x7f02000f
+			public const int perm_group_camera_selected = 2130837519;
+			
+			// aapt resource value: 0x7f020010
+			public const int perm_group_device_alarms = 2130837520;
+			
+			// aapt resource value: 0x7f020011
+			public const int perm_group_device_alarms_normal = 2130837521;
+			
+			// aapt resource value: 0x7f020012
+			public const int perm_group_device_alarms_selected = 2130837522;
+			
+			// aapt resource value: 0x7f020013
+			public const int perm_group_location = 2130837523;
+			
+			// aapt resource value: 0x7f020014
+			public const int perm_group_location_normal = 2130837524;
+			
+			// aapt resource value: 0x7f020015
+			public const int perm_group_location_selected = 2130837525;
+			
+			// aapt resource value: 0x7f020016
+			public const int vpi__tab_indicator = 2130837526;
+			
+			// aapt resource value: 0x7f020017
+			public const int vpi__tab_selected_focused_holo = 2130837527;
+			
+			// aapt resource value: 0x7f020018
+			public const int vpi__tab_selected_holo = 2130837528;
+			
+			// aapt resource value: 0x7f020019
+			public const int vpi__tab_selected_pressed_holo = 2130837529;
+			
+			// aapt resource value: 0x7f02001a
+			public const int vpi__tab_unselected_focused_holo = 2130837530;
+			
+			// aapt resource value: 0x7f02001b
+			public const int vpi__tab_unselected_holo = 2130837531;
+			
+			// aapt resource value: 0x7f02001c
+			public const int vpi__tab_unselected_pressed_holo = 2130837532;
 			
 			static Drawable()
 			{
@@ -461,14 +524,26 @@ namespace Sample
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f040005
-			public const int MyButton = 2130968581;
+			// aapt resource value: 0x7f040008
+			public const int add_page = 2130968584;
 			
 			// aapt resource value: 0x7f040003
 			public const int bottom = 2130968579;
 			
+			// aapt resource value: 0x7f040006
+			public const int indicator = 2130968582;
+			
 			// aapt resource value: 0x7f040000
 			public const int none = 2130968576;
+			
+			// aapt resource value: 0x7f040005
+			public const int pager = 2130968581;
+			
+			// aapt resource value: 0x7f040007
+			public const int random = 2130968583;
+			
+			// aapt resource value: 0x7f040009
+			public const int remove_page = 2130968585;
 			
 			// aapt resource value: 0x7f040004
 			public const int top = 2130968580;
@@ -521,7 +596,40 @@ namespace Sample
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int simple_circles = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int simple_circles_vertical = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int simple_icons = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int simple_lines = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int simple_tabs = 2130903044;
+			
+			// aapt resource value: 0x7f030005
+			public const int simple_titles = 2130903045;
+			
+			// aapt resource value: 0x7f030006
+			public const int simple_titles_bottom = 2130903046;
+			
+			// aapt resource value: 0x7f030007
+			public const int simple_underlines = 2130903047;
+			
+			// aapt resource value: 0x7f030008
+			public const int themed_circles = 2130903048;
+			
+			// aapt resource value: 0x7f030009
+			public const int themed_lines = 2130903049;
+			
+			// aapt resource value: 0x7f03000a
+			public const int themed_titles = 2130903050;
+			
+			// aapt resource value: 0x7f03000b
+			public const int themed_underlines = 2130903051;
 			
 			static Layout()
 			{
@@ -529,6 +637,22 @@ namespace Sample
 			}
 			
 			private Layout()
+			{
+			}
+		}
+		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f0b0000
+			public const int menu = 2131427328;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
 			{
 			}
 		}
@@ -554,6 +678,27 @@ namespace Sample
 		
 		public partial class Style
 		{
+			
+			// aapt resource value: 0x7f090008
+			public const int CustomCirclePageIndicator = 2131296264;
+			
+			// aapt resource value: 0x7f090007
+			public const int CustomLinePageIndicator = 2131296263;
+			
+			// aapt resource value: 0x7f090009
+			public const int CustomTabPageIndicator = 2131296265;
+			
+			// aapt resource value: 0x7f09000a
+			public const int CustomTabPageIndicator_Text = 2131296266;
+			
+			// aapt resource value: 0x7f090006
+			public const int CustomTitlePageIndicator = 2131296262;
+			
+			// aapt resource value: 0x7f09000b
+			public const int CustomUnderlinePageIndicator = 2131296267;
+			
+			// aapt resource value: 0x7f090005
+			public const int StyledIndicators = 2131296261;
 			
 			// aapt resource value: 0x7f090003
 			public const int TextAppearance_TabPageIndicator = 2131296259;

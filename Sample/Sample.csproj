@@ -55,9 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activity1.cs" />
+    <Compile Include="BaseSampleActivity.cs" />
+    <Compile Include="Circles\SampleCirclesDefault.cs" />
+    <Compile Include="Circles\SampleCirclesInitialPage.cs" />
+    <Compile Include="Circles\SampleCirclesSnap.cs" />
+    <Compile Include="Circles\SampleCirclesStyledLayout.cs" />
+    <Compile Include="Circles\SampleCirclesStyledMethods.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestFragment.cs" />
     <Compile Include="TestFragmentAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,22 +71,91 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Layout\Main.axml" />
+    <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Values\Strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\Drawable\Icon.png" />
+    <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\drawable\custom_tab_indicator.xml" />
+    <AndroidResource Include="Resources\drawable\perm_group_calendar.xml" />
+    <AndroidResource Include="Resources\drawable\perm_group_camera.xml" />
+    <AndroidResource Include="Resources\drawable\perm_group_device_alarms.xml" />
+    <AndroidResource Include="Resources\drawable\perm_group_location.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\custom_tab_indicator_divider.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\custom_tab_indicator_focused.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\custom_tab_indicator_selected.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\custom_tab_indicator_selected_pressed.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\custom_tab_indicator_unselected.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\custom_tab_indicator_unselected_focused.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\custom_tab_indicator_unselected_pressed.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\perm_group_calendar_normal.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\perm_group_calendar_selected.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\perm_group_camera_normal.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\perm_group_camera_selected.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\perm_group_device_alarms_normal.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\perm_group_device_alarms_selected.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\perm_group_location_normal.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\perm_group_location_selected.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\custom_tab_indicator_divider.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\custom_tab_indicator_selected.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\custom_tab_indicator_selected_focused.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\custom_tab_indicator_selected_pressed.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\custom_tab_indicator_unselected.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\custom_tab_indicator_unselected_focused.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\custom_tab_indicator_unselected_pressed.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\perm_group_calendar_normal.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\perm_group_calendar_selected.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\perm_group_camera_normal.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\perm_group_camera_selected.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\perm_group_device_alarms_normal.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\perm_group_device_alarms_selected.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\perm_group_location_normal.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\perm_group_location_selected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\custom_tab_indicator_divider.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\custom_tab_indicator_selected.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\custom_tab_indicator_selected_focused.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\custom_tab_indicator_selected_pressed.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\custom_tab_indicator_unselected.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\custom_tab_indicator_unselected_focused.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\custom_tab_indicator_unselected_pressed.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\perm_group_calendar_normal.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\perm_group_calendar_selected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\perm_group_camera_normal.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\perm_group_camera_selected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\perm_group_device_alarms_normal.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\perm_group_device_alarms_selected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\perm_group_location_normal.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\perm_group_location_selected.png" />
+    <AndroidResource Include="Resources\layout\simple_circles.xml" />
+    <AndroidResource Include="Resources\layout\simple_circles_vertical.xml" />
+    <AndroidResource Include="Resources\layout\simple_icons.xml" />
+    <AndroidResource Include="Resources\layout\simple_lines.xml" />
+    <AndroidResource Include="Resources\layout\simple_tabs.xml" />
+    <AndroidResource Include="Resources\layout\simple_titles.xml" />
+    <AndroidResource Include="Resources\layout\simple_titles_bottom.xml" />
+    <AndroidResource Include="Resources\layout\simple_underlines.xml" />
+    <AndroidResource Include="Resources\layout\themed_circles.xml" />
+    <AndroidResource Include="Resources\layout\themed_lines.xml" />
+    <AndroidResource Include="Resources\layout\themed_titles.xml" />
+    <AndroidResource Include="Resources\layout\themed_underlines.xml" />
+    <AndroidResource Include="Resources\menu\menu.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Library\Library.csproj">
       <Project>{fa322a14-2b8e-4496-b950-4d8263ca0a2d}</Project>
       <Name>Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lines\" />
+    <Folder Include="Titles\" />
+    <Folder Include="Underlines\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
