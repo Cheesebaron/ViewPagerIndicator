@@ -6,7 +6,7 @@ using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
 namespace Sample.Circles
 {
-    [Activity(Label = "Circles/Styled Methods")]
+    [Activity(Label = "Circles/Styled Methods", Theme = "@style/LightTheme")]
     [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
     public class SampleCirclesStyledMethods : BaseSampleActivity
     {

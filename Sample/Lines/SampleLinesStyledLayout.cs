@@ -5,7 +5,7 @@ using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
 namespace Sample.Lines
 {
-    [Activity(Label = "Lines/Styled Layout")]
+    [Activity(Label = "Lines/Styled Layout", Theme = "@style/LightTheme")]
     [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
     public class SampleLinesStyledLayout : BaseSampleActivity
     {

@@ -1,27 +1,30 @@
 using Android.App;
 using Android.OS;
 using Android.Support.V4.View;
+using Android.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
-namespace Sample.Circles
+namespace Sample.Titles
 {
-    [Activity(Label = "Circles/Styled", Theme = "@style/LightTheme")]
+    [Activity(Label = "Titles/With Listener")]
     [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
-    public class SampleCirclesStyledLayout : BaseSampleActivity
+    public class SampleTitlesWithListener : BaseSampleActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.themed_circles);
+            SetContentView(Resource.Layout.simple_titles);
 
             _adapter = new TestFragmentAdapter(SupportFragmentManager);
 
             _pager = FindViewById<ViewPager>(Resource.Id.pager);
             _pager.Adapter = _adapter;
 
-            _indicator = FindViewById<CirclePageIndicator>(Resource.Id.indicator);
-            _indicator.SetViewPager(_pager);
+            var indicator = FindViewById<TitlePageIndicator>(Resource.Id.indicator);
+            indicator.SetViewPager(_pager);
+            indicator.PageSelected +=
+                (sender, args) => Toast.MakeText(this, "Changed to page " + args.Position, ToastLength.Short).Show();
         }
     }
 }

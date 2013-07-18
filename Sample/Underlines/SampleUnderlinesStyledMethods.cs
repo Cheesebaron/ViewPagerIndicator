@@ -4,31 +4,29 @@ using Android.OS;
 using Android.Support.V4.View;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
-namespace Sample.Lines
+namespace Sample.Underlines
 {
-    [Activity(Label = "Lines/Styled Methods", Theme = "@style/LightTheme")]
+    [Activity(Label = "Underlines/Styled Methods", Theme = "@style/LightTheme")]
     [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
-    public class SampleLinesStyledMethods : BaseSampleActivity
+    public class SampleUnderlinesStyledMethods : BaseSampleActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.simple_lines);
+            SetContentView(Resource.Layout.simple_underlines);
 
             _adapter = new TestFragmentAdapter(SupportFragmentManager);
 
             _pager = FindViewById<ViewPager>(Resource.Id.pager);
             _pager.Adapter = _adapter;
 
-            var indicator = FindViewById<LinePageIndicator>(Resource.Id.indicator);
+            var indicator = FindViewById<UnderlinePageIndicator>(Resource.Id.indicator);
             indicator.SetViewPager(_pager);
-
-            var density = Resources.DisplayMetrics.Density;
-            indicator.SelectedColor = Color.Argb(136, 255, 0, 0);
-            indicator.UnselectedColor = Color.Argb(255, 136, 136, 136);
-            indicator.StrokeWidth = 4 * density;
-            indicator.LineWidth = 30 * density;
+            indicator.SelectedColor = Color.Argb(0xFF, 0xCC, 0x00, 0x00);
+            indicator.SetBackgroundColor(Color.Argb(0xFF, 0xCC, 0xCC, 0xCC));
+            indicator.FadeLength = 1000;
+            indicator.FadeDelay = 1000;
         }
     }
 }

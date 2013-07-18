@@ -697,6 +697,9 @@ namespace Sample
 			// aapt resource value: 0x7f09000b
 			public const int CustomUnderlinePageIndicator = 2131296267;
 			
+			// aapt resource value: 0x7f09000c
+			public const int LightTheme = 2131296268;
+			
 			// aapt resource value: 0x7f090005
 			public const int StyledIndicators = 2131296261;
 			

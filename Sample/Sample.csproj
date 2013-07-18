@@ -76,6 +76,20 @@
     <Compile Include="Tabs\SampleTabsDefault.cs" />
     <Compile Include="TestFragment.cs" />
     <Compile Include="TestFragmentAdapter.cs" />
+    <Compile Include="Titles\SampleTitlesBottom.cs" />
+    <Compile Include="Titles\SampleTitlesCenterClickListener.cs" />
+    <Compile Include="Titles\SampleTitlesDefault.cs" />
+    <Compile Include="Titles\SampleTitlesInitialPage.cs" />
+    <Compile Include="Titles\SampleTitlesStyledLayout.cs" />
+    <Compile Include="Titles\SampleTitlesStyledMethods.cs" />
+    <Compile Include="Titles\SampleTitlesStyledTheme.cs" />
+    <Compile Include="Titles\SampleTitlesTriangle.cs" />
+    <Compile Include="Titles\SampleTitlesWithListener.cs" />
+    <Compile Include="Underlines\SampleUnderlinesStyledTheme.cs" />
+    <Compile Include="Underlines\SampleUnderlinesStyledMethods.cs" />
+    <Compile Include="Underlines\SampleUnderlinesDefault.cs" />
+    <Compile Include="Underlines\SampleUnderlinesNoFade.cs" />
+    <Compile Include="Underlines\SampleUnderlinesStyledLayout.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -164,10 +178,7 @@
       <Name>Library</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Titles\" />
-    <Folder Include="Underlines\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
      Other similar extension points exist, see Microsoft.Common.targets.
