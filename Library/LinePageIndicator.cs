@@ -210,7 +210,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                         var halfWidth = Width / 2f;
                         var sixthWidth = Width / 6f;
 
-                        if ((_currentPage > 0) && (e.GetX() > halfWidth - sixthWidth))
+                        if ((_currentPage > 0) && (e.GetX() < halfWidth - sixthWidth))
                         {
                             if (action != (int)MotionEventActions.Cancel)
                                 _viewPager.CurrentItem = _currentPage - 1;
