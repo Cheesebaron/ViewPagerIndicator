@@ -7,7 +7,7 @@ Paging indicator widgets that are compatible with the `ViewPager` from the
 Usage
 =====
 
-*For a working implementation of this project see the `sample/` solution.*
+*For a working implementation of this project see the `sample` solution.*
 
   1. Include one of the widgets in your view. This should usually be placed
      adjacent to the `ViewPager` it represents.
@@ -29,8 +29,8 @@ Usage
          titleIndicator.SetViewPager(pager);
 
   3. *(Optional)* If you want to listen for a `PageChange` event, you should use it
-	 on the ViewPagerIndicator, rather than setting an `OnPageChangeListener` on the
-	 `ViewPager`, otherwise the `ViewPager` will not update.
+	 on the `ViewPagerIndicator`, rather than setting an `OnPageChangeListener` on the
+	 `ViewPager`, otherwise the `ViewPagerIndicator` will not update.
 
          //continued from above
          titleIndicator.PageChange += MyPageChangeEventHandler;
@@ -55,21 +55,23 @@ methods.
 Including In Your Project
 -------------------------
 
-ViewPagerIndicator is an [Android Library project][7], which you can reference in
+ViewPagerIndicator is an Android Library project, which you can reference in
 your Android Project.
 
 This project depends on the `ViewPager` class which is available in the
 [Android Support Library][2].
 
-Originally Developed By
-============
-
- * Jake Wharton - <jakewharton@gmail.com>
- 
 Ported to Xamarin.Android By
 ============
 
  * Tomasz Cielecki
+
+
+Originally Developed By
+============
+
+ * Jake Wharton - <jakewharton@gmail.com>
+
 
 License
 =======
