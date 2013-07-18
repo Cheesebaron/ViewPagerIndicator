@@ -1,13 +1,14 @@
 using Android.App;
 using Android.OS;
 using Android.Support.V4.View;
+using Android.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
 namespace Sample.Circles
 {
-    [Activity(Label = "Circles/Initial")]
+    [Activity(Label = "Circles/With Listener")]
     [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
-    public class SampleCirclesInitialPage : BaseSampleActivity
+    public class SampleCirclesWithListener : BaseSampleActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -22,7 +23,10 @@ namespace Sample.Circles
 
             _indicator = FindViewById<CirclePageIndicator>(Resource.Id.indicator);
             _indicator.SetViewPager(_pager);
-            _indicator.CurrentItem = _adapter.Count - 1;
+
+            ((CirclePageIndicator)_indicator).PageSelected += (s, e) =>
+                                                              Toast.MakeText(this, "Changed to page " + e.Position,
+                                                                             ToastLength.Short).Show();
         }
     }
 }

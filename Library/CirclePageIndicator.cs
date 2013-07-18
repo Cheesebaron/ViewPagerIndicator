@@ -57,7 +57,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var defaultFillColor = res.GetColor(Resource.Color.default_circle_indicator_fill_color);
             var defaultOrientation = res.GetInteger(Resource.Integer.default_circle_indicator_orientation);
             var defaultStrokeColor = res.GetColor(Resource.Color.default_circle_indicator_stroke_color);
-            var defaultStrokeWidth = res.GetColor(Resource.Dimension.default_circle_indicator_stroke_width);
+            var defaultStrokeWidth = res.GetDimension(Resource.Dimension.default_circle_indicator_stroke_width);
             var defaultRadius = res.GetDimension(Resource.Dimension.default_circle_indicator_radius);
             var defaultCentered = res.GetBoolean(Resource.Boolean.default_circle_indicator_centered);
             var defaultSnap = res.GetBoolean(Resource.Boolean.default_circle_indicator_snap);
@@ -75,7 +75,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             _paintFill.SetStyle(Paint.Style.Fill);
             _paintFill.Color = a.GetColor(Resource.Styleable.CirclePageIndicator_fillColor, defaultFillColor);
             _radius = a.GetDimension(Resource.Styleable.CirclePageIndicator_radius, defaultRadius);
-            _snap = a.GetBoolean(Resource.Boolean.default_circle_indicator_snap, defaultSnap);
+            _snap = a.GetBoolean(Resource.Styleable.CirclePageIndicator_snap, defaultSnap);
 
             var background = a.GetDrawable(Resource.Styleable.CirclePageIndicator_android_background);
             if (null != background)
@@ -308,7 +308,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                         var halfWidth = Width / 2f;
                         var sixthWidth = Width / 6f;
 
-                        if((_currentPage > 0) && (e.GetX() > halfWidth - sixthWidth))
+                        if((_currentPage > 0) && (e.GetX() < halfWidth - sixthWidth))
                         {
                             if (action != (int)MotionEventActions.Cancel)
                                 _viewPager.CurrentItem = _currentPage - 1;

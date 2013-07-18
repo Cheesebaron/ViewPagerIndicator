@@ -5,7 +5,8 @@ using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
 namespace Sample.Circles
 {
-    [Activity(Label = "Circles Snap")]
+    [Activity(Label = "Circles/Snap")]
+    [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
     public class SampleCirclesSnap : BaseSampleActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

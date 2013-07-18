@@ -55,12 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityListItem.cs" />
     <Compile Include="BaseSampleActivity.cs" />
     <Compile Include="Circles\SampleCirclesDefault.cs" />
     <Compile Include="Circles\SampleCirclesInitialPage.cs" />
     <Compile Include="Circles\SampleCirclesSnap.cs" />
     <Compile Include="Circles\SampleCirclesStyledLayout.cs" />
     <Compile Include="Circles\SampleCirclesStyledMethods.cs" />
+    <Compile Include="Icons\SampleIconsDefault.cs" />
+    <Compile Include="ListSamples.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestFragment.cs" />

@@ -5,7 +5,8 @@ using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
 namespace Sample.Circles
 {
-    [Activity(Label = "Circles Styled")]
+    [Activity(Label = "Circles/Styled")]
+    [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
     public class SampleCirclesStyledLayout : BaseSampleActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

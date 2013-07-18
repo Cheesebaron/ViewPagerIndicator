@@ -2,13 +2,12 @@ using Android.App;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.View;
-using Android.Text;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
-using Java.Lang;
 
 namespace Sample.Circles
 {
-    [Activity(Label = "Circles Styled Methods")]
+    [Activity(Label = "Circles/Styled Methods")]
+    [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
     public class SampleCirclesStyledMethods : BaseSampleActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -33,14 +32,6 @@ namespace Sample.Circles
             indicator.FillColor = Color.Argb(255, 136, 136, 136);
             indicator.StrokeColor = Color.Argb(255, 0, 0, 0);
             indicator.StrokeWidth = 2 * density;
-        }
-
-        public class Filter : Java.Lang.Object, IInputFilter
-        {
-            public ICharSequence FilterFormatted(ICharSequence source, int start, int end, ISpanned dest, int dstart, int dend)
-            {
-                //Stuff
-            }
         }
     }
 }

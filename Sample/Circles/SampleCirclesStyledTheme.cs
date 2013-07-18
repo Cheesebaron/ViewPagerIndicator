@@ -5,15 +5,15 @@ using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
 namespace Sample.Circles
 {
-    [Activity(Label = "Circles/Initial")]
+    [Activity(Label = "Circles/Styled Theme")]
     [IntentFilter(new[] { Android.Content.Intent.ActionMain }, Categories = new[] { "dk.ostebaronen.viewpagerindicator.droid.sample" })]
-    public class SampleCirclesInitialPage : BaseSampleActivity
+    public class SampleCirclesStyledTheme : BaseSampleActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.simple_circles);
+            SetContentView(Resource.Layout.themed_circles);
 
             _adapter = new TestFragmentAdapter(SupportFragmentManager);
 
@@ -22,7 +22,6 @@ namespace Sample.Circles
 
             _indicator = FindViewById<CirclePageIndicator>(Resource.Id.indicator);
             _indicator.SetViewPager(_pager);
-            _indicator.CurrentItem = _adapter.Count - 1;
         }
     }
 }
