@@ -19,9 +19,16 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public int Position { get; set; }
     }
 
+    public class TabReselectedEventArgs : EventArgs
+    {
+        public int Position { get; set; }
+    }
+
     public delegate void PageScrollStateChangedEventHandler(object sender, PageScrollStateChangedEventArgs args);
 
     public delegate void PageScrolledEventHandler(object sender, PageScrolledEventArgs args);
 
     public delegate void PageSelectedEventHandler(object sender, PageSelectedEventArgs args);
+
+    public delegate void TabReselectedEventHandler(object sender, TabReselectedEventArgs args);
 }

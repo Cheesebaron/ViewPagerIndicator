@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
@@ -7,6 +6,8 @@ using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Java.Interop;
+using Java.Lang;
+using Math = System.Math;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
@@ -31,27 +32,11 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private bool _isDragging;
         private int _currentPage;
 
+        private readonly Runnable _fadeRunnable;
+
         public event PageScrollStateChangedEventHandler PageScrollStateChanged;
         public event PageSelectedEventHandler PageSelected;
         public event PageScrolledEventHandler PageScrolled;
-
-        private void Fade()
-        {
-            if(!_fades) return;
-
-            ThreadPool.QueueUserWorkItem(x =>
-            {
-                var alpha = _paint.Alpha;
-                do
-                {
-                    Thread.Sleep(FadeFrameMs);
-                    alpha = Math.Max(alpha - _fadeBy, 0);
-                    _paint.Alpha = alpha;
-                    PostInvalidate();
-                }
-                while(alpha > 0);
-            });
-        }
 
         public UnderlinePageIndicator(Context context)
             : this(context, null)
@@ -90,6 +75,17 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             var configuration = ViewConfiguration.Get(context);
             _touchSlop = ViewConfigurationCompat.GetScaledPagingTouchSlop(configuration);
+
+            _fadeRunnable = new Runnable(() =>
+            {
+                if (!_fades) return;
+
+                var alpha = Math.Max(_paint.Alpha - _fadeBy, 0);
+                _paint.Alpha = alpha;
+                Invalidate();
+                if (alpha > 0)
+                    PostDelayed(_fadeRunnable, FadeFrameMs);
+            });
         }
 
         public bool Fades
@@ -102,11 +98,11 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     _fades = value;
                     if(_fades)
                     {
-                        Post(Fade);
+                        Post(_fadeRunnable);
                     }
                     else
                     {
-                        RemoveCallbacks(Fade);
+                        RemoveCallbacks(_fadeRunnable);
                         _paint.Alpha = 0xFF;
                         Invalidate();
                     }
@@ -272,7 +268,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             _viewPager = view;
             _viewPager.SetOnPageChangeListener(this);
             Invalidate();
-            Post(Fade);
+            Post(_fadeRunnable);
         }
 
         public void SetViewPager(ViewPager view, int initialPosition)
@@ -307,11 +303,11 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             {
                 if (positionOffsetPixels > 0)
                 {
-                    RemoveCallbacks(Fade);
+                    RemoveCallbacks(_fadeRunnable);
                     _paint.Alpha = 0xFF;
                 }
                 else if(_scrollState != ViewPager.ScrollStateDragging)
-                    PostDelayed(Fade, FadeFrameMs);
+                    PostDelayed(_fadeRunnable, FadeFrameMs);
             }
             Invalidate();
 
@@ -335,7 +331,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 _currentPage = position;
                 _positionOffset = 0;
                 Invalidate();
-                Fade();
+                _fadeRunnable.Run();
             }
 
             if (null != _listener)
