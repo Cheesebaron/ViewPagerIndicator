@@ -11,7 +11,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
     public class TabPageIndicator : HorizontalScrollView, IPageIndicator
     {
-        public static readonly string EmptyTitle = "";
+        public static readonly ICharSequence EmptyTitle = new Java.Lang.String("");
 
         private Runnable _tabSelector;
         private readonly IcsLinearLayout _tabLayout;
@@ -94,9 +94,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 RemoveCallbacks(_tabSelector);
         }
 
-        private void AddTab(int index, string text, int iconResId)
+        private void AddTab(int index, ICharSequence text, int iconResId)
         {
-            var tabView = new TabView(Context, this) {Focusable = true, Index = index, Text = text};
+            var tabView = new TabView(Context, this) {Focusable = true, Index = index, TextFormatted = text};
             tabView.Click += (sender, args) =>
             {
                 var tabview = (TabView)sender;
@@ -182,9 +182,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var count = adapter.Count;
             for(var i = 0; i < count; i++)
             {
-                var title = adapter.GetPageTitle(i);
-                if (!string.IsNullOrEmpty(title))
-                    title = EmptyTitle;
+                var title = adapter.GetPageTitleFormatted(i) ?? EmptyTitle;
 
                 var iconResId = 0;
                 if (iconAdapter != null)
