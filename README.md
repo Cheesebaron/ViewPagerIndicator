@@ -61,7 +61,7 @@ your Android Project.
 This project depends on the `ViewPager` class which is available in the
 [Android Support Library][2].
 
-If you are using Xamarin Support v4 component or any other component, which includes it, you will need to also rebuild the ViewPagerIndicator using that instead of Mono.Android.Support.v4 bundled with Xamarin.Android.
+>If you are using Xamarin Support v4 component or any other component, which includes it, you will need to also rebuild the ViewPagerIndicator using that instead of Mono.Android.Support.v4 bundled with Xamarin.Android.
 
 Ported to Xamarin.Android By
 ============
