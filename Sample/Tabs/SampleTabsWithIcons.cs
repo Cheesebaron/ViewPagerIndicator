@@ -1,6 +1,5 @@
 using Android.App;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Support.V4.View;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
@@ -28,26 +27,26 @@ namespace Sample.Tabs
             _indicator.SetViewPager(_pager);
         }
 
-        private class GoogleMusicAdapter : FragmentPagerAdapter, IIconPageAdapter 
+        private class GoogleMusicAdapter : TestFragmentAdapter, IIconPageAdapter 
         {
-            private static readonly string[] Content = new[]
+            private static readonly string[] Content =
             {
                 "Calendar", "Camera", "Alarms", "Location"
             };
 
-            private static readonly int[] Icons = new[]
+            private static readonly int[] Icons =
             {
                 Resource.Drawable.perm_group_calendar,
                 Resource.Drawable.perm_group_camera,
                 Resource.Drawable.perm_group_device_alarms,
-                Resource.Drawable.perm_group_location,
+                Resource.Drawable.perm_group_location
             };
 
             public GoogleMusicAdapter(FragmentManager p0) 
                 : base(p0) 
             { }
 
-            public int GetIconResId(int index) { return Icons[index]; }
+            public new int GetIconResId(int index) { return Icons[index]; }
 
             public override int Count
             {

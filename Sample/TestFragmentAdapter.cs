@@ -5,8 +5,8 @@ namespace Sample
 {
     public class TestFragmentAdapter : FragmentPagerAdapter, IIconPageAdapter
     {
-        private static readonly string[] Content = new[] {"This", "Is", "A", "Test"};
-        private static readonly int[] Icons = new[]
+        private static readonly string[] Content = {"This", "Is", "A", "Test"};
+        private static readonly int[] Icons =
         {
             Resource.Drawable.perm_group_calendar,
             Resource.Drawable.perm_group_camera,

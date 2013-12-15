@@ -3,6 +3,7 @@ using Android.OS;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
+using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
 using Fragment = Android.Support.V4.App.Fragment;
 using FragmentManager = Android.Support.V4.App.FragmentManager;
 
@@ -27,9 +28,9 @@ namespace Sample.Tabs
             _indicator.SetViewPager(_pager);
         }
 
-        private class GoogleMusicAdapter : FragmentPagerAdapter
+        private class GoogleMusicAdapter : TestFragmentAdapter, IIconPageAdapter
         {
-            private static readonly string[] Content = new[]
+            private static readonly string[] Content =
             {
                 "Recent", "Artists", "Album", "Songs", "Playlists", "Genres"
             };
@@ -42,6 +43,8 @@ namespace Sample.Tabs
             {
                 get { return Content.Length; }
             }
+
+            public new int GetIconResId(int index) { return 0; }
 
             public override Fragment GetItem(int p0) { return TestFragment.NewInstance(Content[p0 % Content.Length]); }
 
