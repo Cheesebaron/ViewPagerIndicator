@@ -25,9 +25,11 @@ namespace Sample
 
             ListAdapter = new ArrayAdapter<ActivityListItem>(this, Android.Resource.Layout.SimpleListItem1, Android.Resource.Id.Text1, items);
 
-            ListView.ItemClick += (s, e) =>
-            {
-                var item = (ActivityListItem)(s as ListView).GetItemAtPosition(e.Position);
+            ListView.ItemClick += (s, e) => {
+                var listView = s as ListView;
+                if (listView == null) return;
+
+                var item = (ActivityListItem)listView.GetItemAtPosition(e.Position);
                 LaunchActivityItem(item);
             };
         }
@@ -60,7 +62,7 @@ namespace Sample
             return results;
         }
 
-        private List<ActivityListItem> GetMenuItems(List<ActivityListItem> activities, string prefix)
+        private static List<ActivityListItem> GetMenuItems(IReadOnlyCollection<ActivityListItem> activities, string prefix)
         {
             // Get menu items at this level
             var items = activities.Where(a => a.IsMenuItem);
