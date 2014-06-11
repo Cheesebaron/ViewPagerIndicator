@@ -741,17 +741,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         protected override void OnRestoreInstanceState(IParcelable state)
         {
-            try
+            var savedState = state as TitleSavedState;
+            if (savedState != null)
             {
-                var savedState = (TitleSavedState)state;
                 base.OnRestoreInstanceState(savedState.SuperState);
-                _currentPage = savedState.CurrentPage;
+                _currentPage = savedState.CurrentPage;    
             }
-            catch
-            {
+            else
                 base.OnRestoreInstanceState(state);
-                // Ignore, this needs to support IParcelable...
-            }
             RequestLayout();
         }
 
@@ -765,7 +762,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             return savedState;
         }
 
-        public class TitleSavedState : BaseSavedState
+        public class TitleSavedState 
+            : BaseSavedState
         {
             public int CurrentPage { get; set; }
 
@@ -786,12 +784,12 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 dest.WriteInt(CurrentPage);
             }
             [ExportField("CREATOR")]
-            static SavedStateCreator InitializeCreator()
+            public static TitleSavedStateCreator InitializeCreator()
             {
-                return new SavedStateCreator();
+                return new TitleSavedStateCreator();
             }
 
-            class SavedStateCreator : Java.Lang.Object, IParcelableCreator
+            public class TitleSavedStateCreator : Java.Lang.Object, IParcelableCreator
             {
                 public Java.Lang.Object CreateFromParcel(Parcel source)
                 {

@@ -488,18 +488,16 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         protected override void OnRestoreInstanceState(IParcelable state)
         {
-            try
+            var savedState = state as CircleSavedState;
+            if (savedState != null)
             {
-                var savedState = (CircleSavedState)state;
                 base.OnRestoreInstanceState(savedState.SuperState);
                 _currentPage = savedState.CurrentPage;
                 _snapPage = savedState.CurrentPage;
             }
-            catch
-            {
+            else
                 base.OnRestoreInstanceState(state);
-                // Ignore, this needs to support IParcelable...
-            }
+
             RequestLayout();
         }
 
@@ -513,14 +511,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             return savedState;
         }
 
-        public class CircleSavedState : BaseSavedState
+        public class CircleSavedState 
+            : BaseSavedState
         {
             public int CurrentPage { get; set; }
 
             public CircleSavedState(IParcelable superState)
-                : base(superState)
-            {
-            }
+                : base(superState) { }
 
             private CircleSavedState(Parcel parcel)
                 : base(parcel)
@@ -533,13 +530,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 base.WriteToParcel(dest, flags);
                 dest.WriteInt(CurrentPage);
             }
+
             [ExportField("CREATOR")]
-            static SavedStateCreator InitializeCreator()
+            public static CircleSavedStateCreator InitializeCreator()
             {
-                return new SavedStateCreator();
+                return new CircleSavedStateCreator();
             }
 
-            class SavedStateCreator : Java.Lang.Object, IParcelableCreator
+            public class CircleSavedStateCreator : Java.Lang.Object, IParcelableCreator
             {
                 public Java.Lang.Object CreateFromParcel(Parcel source)
                 {

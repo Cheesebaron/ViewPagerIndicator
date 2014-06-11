@@ -343,18 +343,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         protected override void OnRestoreInstanceState(IParcelable state)
         {
-            try
+            var savedState = state as UnderlineSavedState;
+            if (savedState != null)
             {
-                var savedState = (UnderlineSavedState)state;
                 base.OnRestoreInstanceState(savedState.SuperState);
-                _currentPage = savedState.CurrentPage;
-                RequestLayout();
+                _currentPage = savedState.CurrentPage;    
             }
-            catch
-            {
+            else
                 base.OnRestoreInstanceState(state);
-                // Ignore, this needs to support IParcelable...
-            }
             RequestLayout();
         }
 
@@ -368,14 +364,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             return savedState;
         }
 
-        public class UnderlineSavedState : BaseSavedState
+        public class UnderlineSavedState 
+            : BaseSavedState
         {
             public int CurrentPage { get; set; }
 
             public UnderlineSavedState(IParcelable superState)
-                : base(superState)
-            {
-            }
+                : base(superState) { }
 
             private UnderlineSavedState(Parcel parcel)
                 : base(parcel)
@@ -388,13 +383,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 base.WriteToParcel(dest, flags);
                 dest.WriteInt(CurrentPage);
             }
+
             [ExportField("CREATOR")]
-            static SavedStateCreator InitializeCreator()
+            public static UnderlineSavedStateCreator InitializeCreator()
             {
-                return new SavedStateCreator();
+                return new UnderlineSavedStateCreator();
             }
 
-            class SavedStateCreator : Java.Lang.Object, IParcelableCreator
+            public class UnderlineSavedStateCreator : Java.Lang.Object, IParcelableCreator
             {
                 public Java.Lang.Object CreateFromParcel(Parcel source)
                 {
