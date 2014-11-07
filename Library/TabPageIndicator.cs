@@ -9,7 +9,9 @@ using Java.Lang;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class TabPageIndicator : HorizontalScrollView, IPageIndicator
+    public class TabPageIndicator 
+        : HorizontalScrollView
+        , IPageIndicator
     {
         public static readonly ICharSequence EmptyTitle = new Java.Lang.String("");
 

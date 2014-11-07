@@ -11,7 +11,9 @@ using Math = System.Math;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class UnderlinePageIndicator : View, IPageIndicator
+    public class UnderlinePageIndicator 
+        : View
+        , IPageIndicator
     {
         private const int InvalidPointer = -1;
         private const int FadeFrameMs = 30;

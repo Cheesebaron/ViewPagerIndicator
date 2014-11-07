@@ -6,14 +6,15 @@ using Android.Widget;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class IcsLinearLayout : LinearLayout
+    public class IcsLinearLayout 
+        : LinearLayout
     {
-        private static readonly int[] Ll = new[]
-            {
-                Android.Resource.Attribute.Divider,
-                Android.Resource.Attribute.ShowDividers,
-                Android.Resource.Attribute.DividerPadding
-            };
+        private static readonly int[] Ll =
+        {
+            Android.Resource.Attribute.Divider,
+            Android.Resource.Attribute.ShowDividers,
+            Android.Resource.Attribute.DividerPadding
+        };
 
         private const int LlDivider = 0;
         private const int LlShowDivider = 1;

@@ -9,7 +9,9 @@ using Java.Interop;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class LinePageIndicator : View, IPageIndicator
+    public class LinePageIndicator 
+        : View
+        , IPageIndicator
     {
         private const int InvalidPointer = -1;
 

@@ -9,7 +9,9 @@ using Java.Lang;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class IconPageIndicator : HorizontalScrollView, IPageIndicator
+    public class IconPageIndicator 
+        : HorizontalScrollView
+        , IPageIndicator
     {
         private readonly IcsLinearLayout _iconsLayout;
 

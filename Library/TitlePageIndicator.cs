@@ -10,14 +10,17 @@ using Java.Interop;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class CenterItemClickEventArgs : EventArgs
+    public class CenterItemClickEventArgs 
+        : EventArgs
     {
         public int Position { get; set; }
     }
 
     public delegate void CenterItemClickEventHander(object sender, CenterItemClickEventArgs args);
 
-    public class TitlePageIndicator : View, IPageIndicator
+    public class TitlePageIndicator 
+        : View
+        , IPageIndicator
     {
         private const float SelectionFadePercentage = 0.25f;
         private const float BoldFadePercentage = 0.05f;
