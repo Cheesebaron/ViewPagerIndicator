@@ -133,20 +133,20 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 		public partial class Boolean
 		{
 			
-			// aapt resource value: 0x7f050000
-			public static int default_circle_indicator_centered = 2131034112;
+			// aapt resource value: 0x7f040000
+			public static int default_circle_indicator_centered = 2130968576;
 			
-			// aapt resource value: 0x7f050001
-			public static int default_circle_indicator_snap = 2131034113;
+			// aapt resource value: 0x7f040001
+			public static int default_circle_indicator_snap = 2130968577;
 			
-			// aapt resource value: 0x7f050002
-			public static int default_line_indicator_centered = 2131034114;
+			// aapt resource value: 0x7f040002
+			public static int default_line_indicator_centered = 2130968578;
 			
-			// aapt resource value: 0x7f050003
-			public static int default_title_indicator_selected_bold = 2131034115;
+			// aapt resource value: 0x7f040003
+			public static int default_title_indicator_selected_bold = 2130968579;
 			
-			// aapt resource value: 0x7f050004
-			public static int default_underline_indicator_fades = 2131034116;
+			// aapt resource value: 0x7f040004
+			public static int default_underline_indicator_fades = 2130968580;
 			
 			static Boolean()
 			{
@@ -161,62 +161,62 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040008
-			public static int default_circle_indicator_fill_color = 2130968584;
+			// aapt resource value: 0x7f030008
+			public static int default_circle_indicator_fill_color = 2130903048;
 			
-			// aapt resource value: 0x7f040009
-			public static int default_circle_indicator_page_color = 2130968585;
+			// aapt resource value: 0x7f030009
+			public static int default_circle_indicator_page_color = 2130903049;
 			
-			// aapt resource value: 0x7f04000a
-			public static int default_circle_indicator_stroke_color = 2130968586;
+			// aapt resource value: 0x7f03000a
+			public static int default_circle_indicator_stroke_color = 2130903050;
 			
-			// aapt resource value: 0x7f04000b
-			public static int default_line_indicator_selected_color = 2130968587;
+			// aapt resource value: 0x7f03000b
+			public static int default_line_indicator_selected_color = 2130903051;
 			
-			// aapt resource value: 0x7f04000c
-			public static int default_line_indicator_unselected_color = 2130968588;
+			// aapt resource value: 0x7f03000c
+			public static int default_line_indicator_unselected_color = 2130903052;
 			
-			// aapt resource value: 0x7f04000d
-			public static int default_title_indicator_footer_color = 2130968589;
+			// aapt resource value: 0x7f03000d
+			public static int default_title_indicator_footer_color = 2130903053;
 			
-			// aapt resource value: 0x7f04000e
-			public static int default_title_indicator_selected_color = 2130968590;
+			// aapt resource value: 0x7f03000e
+			public static int default_title_indicator_selected_color = 2130903054;
 			
-			// aapt resource value: 0x7f04000f
-			public static int default_title_indicator_text_color = 2130968591;
+			// aapt resource value: 0x7f03000f
+			public static int default_title_indicator_text_color = 2130903055;
 			
-			// aapt resource value: 0x7f040010
-			public static int default_underline_indicator_selected_color = 2130968592;
+			// aapt resource value: 0x7f030010
+			public static int default_underline_indicator_selected_color = 2130903056;
 			
-			// aapt resource value: 0x7f040000
-			public static int vpi__background_holo_dark = 2130968576;
+			// aapt resource value: 0x7f030000
+			public static int vpi__background_holo_dark = 2130903040;
 			
-			// aapt resource value: 0x7f040001
-			public static int vpi__background_holo_light = 2130968577;
+			// aapt resource value: 0x7f030001
+			public static int vpi__background_holo_light = 2130903041;
 			
-			// aapt resource value: 0x7f040004
-			public static int vpi__bright_foreground_disabled_holo_dark = 2130968580;
+			// aapt resource value: 0x7f030004
+			public static int vpi__bright_foreground_disabled_holo_dark = 2130903044;
 			
-			// aapt resource value: 0x7f040005
-			public static int vpi__bright_foreground_disabled_holo_light = 2130968581;
+			// aapt resource value: 0x7f030005
+			public static int vpi__bright_foreground_disabled_holo_light = 2130903045;
 			
-			// aapt resource value: 0x7f040002
-			public static int vpi__bright_foreground_holo_dark = 2130968578;
+			// aapt resource value: 0x7f030002
+			public static int vpi__bright_foreground_holo_dark = 2130903042;
 			
-			// aapt resource value: 0x7f040003
-			public static int vpi__bright_foreground_holo_light = 2130968579;
+			// aapt resource value: 0x7f030003
+			public static int vpi__bright_foreground_holo_light = 2130903043;
 			
-			// aapt resource value: 0x7f040006
-			public static int vpi__bright_foreground_inverse_holo_dark = 2130968582;
+			// aapt resource value: 0x7f030006
+			public static int vpi__bright_foreground_inverse_holo_dark = 2130903046;
 			
-			// aapt resource value: 0x7f040007
-			public static int vpi__bright_foreground_inverse_holo_light = 2130968583;
+			// aapt resource value: 0x7f030007
+			public static int vpi__bright_foreground_inverse_holo_light = 2130903047;
 			
-			// aapt resource value: 0x7f040011
-			public static int vpi__dark_theme = 2130968593;
+			// aapt resource value: 0x7f030011
+			public static int vpi__dark_theme = 2130903057;
 			
-			// aapt resource value: 0x7f040012
-			public static int vpi__light_theme = 2130968594;
+			// aapt resource value: 0x7f030012
+			public static int vpi__light_theme = 2130903058;
 			
 			static Color()
 			{
@@ -231,44 +231,44 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 		public partial class Dimension
 		{
 			
-			// aapt resource value: 0x7f070000
-			public static int default_circle_indicator_radius = 2131165184;
+			// aapt resource value: 0x7f060000
+			public static int default_circle_indicator_radius = 2131099648;
 			
-			// aapt resource value: 0x7f070001
-			public static int default_circle_indicator_stroke_width = 2131165185;
+			// aapt resource value: 0x7f060001
+			public static int default_circle_indicator_stroke_width = 2131099649;
 			
-			// aapt resource value: 0x7f070003
-			public static int default_line_indicator_gap_width = 2131165187;
+			// aapt resource value: 0x7f060003
+			public static int default_line_indicator_gap_width = 2131099651;
 			
-			// aapt resource value: 0x7f070002
-			public static int default_line_indicator_line_width = 2131165186;
+			// aapt resource value: 0x7f060002
+			public static int default_line_indicator_line_width = 2131099650;
 			
-			// aapt resource value: 0x7f070004
-			public static int default_line_indicator_stroke_width = 2131165188;
+			// aapt resource value: 0x7f060004
+			public static int default_line_indicator_stroke_width = 2131099652;
 			
-			// aapt resource value: 0x7f070005
-			public static int default_title_indicator_clip_padding = 2131165189;
+			// aapt resource value: 0x7f060005
+			public static int default_title_indicator_clip_padding = 2131099653;
 			
-			// aapt resource value: 0x7f070007
-			public static int default_title_indicator_footer_indicator_height = 2131165191;
+			// aapt resource value: 0x7f060007
+			public static int default_title_indicator_footer_indicator_height = 2131099655;
 			
-			// aapt resource value: 0x7f070008
-			public static int default_title_indicator_footer_indicator_underline_padding = 2131165192;
+			// aapt resource value: 0x7f060008
+			public static int default_title_indicator_footer_indicator_underline_padding = 2131099656;
 			
-			// aapt resource value: 0x7f070006
-			public static int default_title_indicator_footer_line_height = 2131165190;
+			// aapt resource value: 0x7f060006
+			public static int default_title_indicator_footer_line_height = 2131099654;
 			
-			// aapt resource value: 0x7f070009
-			public static int default_title_indicator_footer_padding = 2131165193;
+			// aapt resource value: 0x7f060009
+			public static int default_title_indicator_footer_padding = 2131099657;
 			
-			// aapt resource value: 0x7f07000a
-			public static int default_title_indicator_text_size = 2131165194;
+			// aapt resource value: 0x7f06000a
+			public static int default_title_indicator_text_size = 2131099658;
 			
-			// aapt resource value: 0x7f07000b
-			public static int default_title_indicator_title_padding = 2131165195;
+			// aapt resource value: 0x7f06000b
+			public static int default_title_indicator_title_padding = 2131099659;
 			
-			// aapt resource value: 0x7f07000c
-			public static int default_title_indicator_top_padding = 2131165196;
+			// aapt resource value: 0x7f06000c
+			public static int default_title_indicator_top_padding = 2131099660;
 			
 			static Dimension()
 			{
@@ -317,20 +317,20 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f030003
-			public static int bottom = 2130903043;
+			// aapt resource value: 0x7f080003
+			public static int bottom = 2131230723;
 			
-			// aapt resource value: 0x7f030000
-			public static int none = 2130903040;
+			// aapt resource value: 0x7f080000
+			public static int none = 2131230720;
 			
-			// aapt resource value: 0x7f030004
-			public static int top = 2130903044;
+			// aapt resource value: 0x7f080004
+			public static int top = 2131230724;
 			
-			// aapt resource value: 0x7f030001
-			public static int triangle = 2130903041;
+			// aapt resource value: 0x7f080001
+			public static int triangle = 2131230721;
 			
-			// aapt resource value: 0x7f030002
-			public static int underline = 2130903042;
+			// aapt resource value: 0x7f080002
+			public static int underline = 2131230722;
 			
 			static Id()
 			{
@@ -345,20 +345,20 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 		public partial class Integer
 		{
 			
-			// aapt resource value: 0x7f060000
-			public static int default_circle_indicator_orientation = 2131099648;
+			// aapt resource value: 0x7f050000
+			public static int default_circle_indicator_orientation = 2131034112;
 			
-			// aapt resource value: 0x7f060001
-			public static int default_title_indicator_footer_indicator_style = 2131099649;
+			// aapt resource value: 0x7f050001
+			public static int default_title_indicator_footer_indicator_style = 2131034113;
 			
-			// aapt resource value: 0x7f060002
-			public static int default_title_indicator_line_position = 2131099650;
+			// aapt resource value: 0x7f050002
+			public static int default_title_indicator_line_position = 2131034114;
 			
-			// aapt resource value: 0x7f060003
-			public static int default_underline_indicator_fade_delay = 2131099651;
+			// aapt resource value: 0x7f050003
+			public static int default_underline_indicator_fade_delay = 2131034115;
 			
-			// aapt resource value: 0x7f060004
-			public static int default_underline_indicator_fade_length = 2131099652;
+			// aapt resource value: 0x7f050004
+			public static int default_underline_indicator_fade_length = 2131034116;
 			
 			static Integer()
 			{
@@ -373,20 +373,20 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f080003
-			public static int TextAppearance_TabPageIndicator = 2131230723;
+			// aapt resource value: 0x7f070003
+			public static int TextAppearance_TabPageIndicator = 2131165187;
 			
-			// aapt resource value: 0x7f080000
-			public static int Theme_PageIndicatorDefaults = 2131230720;
+			// aapt resource value: 0x7f070000
+			public static int Theme_PageIndicatorDefaults = 2131165184;
 			
-			// aapt resource value: 0x7f080001
-			public static int Widget = 2131230721;
+			// aapt resource value: 0x7f070001
+			public static int Widget = 2131165185;
 			
-			// aapt resource value: 0x7f080004
-			public static int Widget_IconPageIndicator = 2131230724;
+			// aapt resource value: 0x7f070004
+			public static int Widget_IconPageIndicator = 2131165188;
 			
-			// aapt resource value: 0x7f080002
-			public static int Widget_TabPageIndicator = 2131230722;
+			// aapt resource value: 0x7f070002
+			public static int Widget_TabPageIndicator = 2131165186;
 			
 			static Style()
 			{
