@@ -71,7 +71,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             var background = a.GetDrawable(Resource.Styleable.UnderlinePageIndicator_android_background);
             if(null != background)
-                SetBackgroundDrawable(background);
+                Background = background;
 
             a.Recycle();
 

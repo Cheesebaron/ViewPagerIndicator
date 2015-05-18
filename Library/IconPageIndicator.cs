@@ -35,7 +35,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             HorizontalScrollBarEnabled = false;
 
             _iconsLayout = new IcsLinearLayout(context, Resource.Attribute.vpiIconPageIndicatorStyle);
-            AddView(_iconsLayout, new LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.FillParent, GravityFlags.Center));
+            AddView(_iconsLayout, new LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, GravityFlags.Center));
         }
 
         private void AnimateToIcon(int position)

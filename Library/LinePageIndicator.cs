@@ -69,8 +69,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             _paintSelected.Color = a.GetColor(Resource.Styleable.LinePageIndicator_selectedColor, defaultSelectedColor);
 
             var background = a.GetDrawable(Resource.Styleable.LinePageIndicator_android_background);
-            if(null != background)
-                SetBackgroundDrawable(background);
+            if (null != background)
+                Background = background;
 
             a.Recycle();
 

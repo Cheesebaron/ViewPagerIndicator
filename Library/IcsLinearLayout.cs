@@ -35,7 +35,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             _showDividers = a.GetInteger(LlShowDivider, (int)ShowDividers.None);
         }
 
-        public Drawable DividerDrawable
+        public new Drawable DividerDrawable
         {
             get { return _divider; }
             set
