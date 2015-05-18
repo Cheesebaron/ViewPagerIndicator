@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
@@ -18,6 +19,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
     public delegate void CenterItemClickEventHander(object sender, CenterItemClickEventArgs args);
 
+    [Register("dk.ostebaronen.droid.viewpagerindicator.TitlePageIndicator")]
     public class TitlePageIndicator 
         : View
         , IPageIndicator
