@@ -159,13 +159,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_viewPager == view) return;
 
             if (null != _viewPager)
-                _viewPager.SetOnPageChangeListener(null);
+				_viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
                 throw new InvalidOperationException("ViewPager does not have an Adapter instance.");
 
             _viewPager = view;
-            _viewPager.SetOnPageChangeListener(this);
+			_viewPager.AddOnPageChangeListener(this);
             NotifyDataSetChanged();
         }
 
