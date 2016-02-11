@@ -12,6 +12,7 @@ TestResults
 *.suo
 *.user
 *.sln.docstates
+*.userprefs
 
 # Build results
 [Dd]ebug/
@@ -109,3 +110,8 @@ UpgradeLog*.XML
 
 # Ignore Xamarin components
 [Cc]omponents/
+
+# Xamarin.Android
+Resource.Designer.cs
+Resource.designer.cs
+
