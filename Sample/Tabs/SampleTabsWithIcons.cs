@@ -5,6 +5,7 @@ using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
 using Fragment = Android.Support.V4.App.Fragment;
 using FragmentManager = Android.Support.V4.App.FragmentManager;
+using Android.Views;
 
 namespace Sample.Tabs
 {
@@ -27,7 +28,9 @@ namespace Sample.Tabs
             _indicator.SetViewPager(_pager);
         }
 
-        private class GoogleMusicAdapter : TestFragmentAdapter, IIconPageAdapter 
+        private class GoogleMusicAdapter : TestFragmentAdapter, IIconPageAdapter
+        // TODO uncomment to see IIconGravityProvider effect (the icon renders on top of the tab title)
+        //, IIconGravityProvider
         {
             private static readonly string[] Content =
             {
@@ -56,6 +59,11 @@ namespace Sample.Tabs
             public override Fragment GetItem(int p0) { return TestFragment.NewInstance(Content[p0 % Content.Length]); }
 
             public override Java.Lang.ICharSequence GetPageTitleFormatted(int p0) { return new Java.Lang.String(Content[p0 % Content.Length].ToUpper()); }
+
+            public GravityFlags IconGravity
+            {
+                get { return GravityFlags.Top; }
+            }
         }
     }
 }

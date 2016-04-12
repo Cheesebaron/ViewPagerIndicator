@@ -1,10 +1,9 @@
 using Android.Support.V4.App;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
-using Android.Views;
 
 namespace Sample
 {
-    public class TestFragmentAdapter : FragmentPagerAdapter, IIconPageAdapter, IIconGravityProvider
+    public class TestFragmentAdapter : FragmentPagerAdapter, IIconPageAdapter
     {
         private static readonly string[] Content = {"This", "Is", "A", "Test"};
         private static readonly int[] Icons =
@@ -48,11 +47,6 @@ namespace Sample
         public int GetIconResId(int index)
         {
             return Icons[index % Icons.Length];
-        }
-
-        public GravityFlags IconGravity
-        {
-            get { return GravityFlags.Top; }
         }
     }
 }
