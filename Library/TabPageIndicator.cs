@@ -98,7 +98,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 RemoveCallbacks(_tabSelector);
         }
 
-        private void AddTab(int index, ICharSequence text, int iconResId)
+        private void AddTab(int index, ICharSequence text, int iconResId, GravityFlags iconGravity)
         {
             var tabView = new TabView(Context, this) {Focusable = true, Index = index, TextFormatted = text};
             tabView.Click += (sender, args) =>
@@ -113,7 +113,23 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             };
 
             if (iconResId != 0)
-                tabView.SetCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
+            {
+                switch (iconGravity) {
+                case GravityFlags.Top:
+                    tabView.SetCompoundDrawablesWithIntrinsicBounds(0, iconResId, 0, 0);
+                    break;
+                case GravityFlags.Right:
+                    tabView.SetCompoundDrawablesWithIntrinsicBounds(0, 0, iconResId, 0);
+                    break;
+                case GravityFlags.Bottom:
+                    tabView.SetCompoundDrawablesWithIntrinsicBounds(0, 0, 0, iconResId);
+                    break;
+                case GravityFlags.Left:
+                default:
+                    tabView.SetCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
+                    break;
+                }
+            }
 
             _tabLayout.AddView(tabView, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MatchParent, 1));
         }
@@ -179,9 +195,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             _tabLayout.RemoveAllViews();
             var adapter = _viewPager.Adapter;
-            IIconPageAdapter iconAdapter = null;
-            if (adapter is IIconPageAdapter)
-                iconAdapter = (IIconPageAdapter)adapter;
+            var iconAdapter = adapter as IIconPageAdapter;
+            var gravityProvider = adapter as IIconGravityProvider;
+            var iconGravity = gravityProvider != null ? gravityProvider.IconGravity : GravityFlags.NoGravity;
 
             var count = adapter.Count;
             for(var i = 0; i < count; i++)
@@ -191,7 +207,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 var iconResId = 0;
                 if (iconAdapter != null)
                     iconResId = iconAdapter.GetIconResId(i);
-                AddTab(i, title, iconResId);
+                AddTab(i, title, iconResId, iconGravity);
             }
             if (_selectedTabIndex > count)
                 _selectedTabIndex = count - 1;
