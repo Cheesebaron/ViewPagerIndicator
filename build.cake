@@ -117,9 +117,9 @@ Task("Package")
             Source = dll.ToString()
         });
     }
-    
+
     var nugetSettings = new NuGetPackSettings {
-        Id = "DK.Ostebaronen.Droid.ViewPagerIndicator",
+        Id = "ViewPagerIndicator",
         Title = "ViewPagerIndicator for Xamarin.Android",
         Authors = new [] { "Tomasz Cielecki" },
         Owners = new [] { "cheesebaron" },
