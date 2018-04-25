@@ -140,7 +140,7 @@ Task("Package")
         Files = nugetContent,
         BasePath = "./",
         Dependencies = new NuSpecDependency[] {
-            new NuSpecDependency { Id = "Xamarin.Android.Support.v4", Version = "27.0.2" }
+            new NuSpecDependency { Id = "Xamarin.Android.Support.v4", Version = "25.4.0.2" }
         }
     };
 
