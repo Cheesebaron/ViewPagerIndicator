@@ -115,7 +115,7 @@ Task("Package")
         Information("File: {0}", dll.ToString());
         nugetContent.Add(new NuSpecContent
         {
-            Target = "lib/MonoAndroid81",
+            Target = "lib/MonoAndroid70",
             Source = dll.ToString()
         });
     }
