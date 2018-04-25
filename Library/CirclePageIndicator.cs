@@ -25,7 +25,6 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private ViewPager _viewPager;
         private ViewPager.IOnPageChangeListener _listener;
         private int _currentPage;
-        private int _snapPage;
         private float _pageOffset;
         private int _scrollState;
         private int _orientation;
@@ -254,7 +253,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
 
             //Draw the filled circle according to the current scroll
-            var cx = (_snap ? _snapPage : _currentPage) * threeRadius;
+            var cx = _currentPage * threeRadius;
             if(_snap)
                 cx += _pageOffset * threeRadius;
 
@@ -433,7 +432,6 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if(_snap || _scrollState == ViewPager.ScrollStateIdle)
             {
                 _currentPage = position;
-                _snapPage = position;
                 Invalidate();
             }
 
@@ -497,7 +495,6 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             {
                 base.OnRestoreInstanceState(savedState.SuperState);
                 _currentPage = savedState.CurrentPage;
-                _snapPage = savedState.CurrentPage;
             }
             else
                 base.OnRestoreInstanceState(state);
