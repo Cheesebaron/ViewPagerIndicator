@@ -93,11 +93,11 @@ Task("Build")
         .WithProperty("NoPackageAnalysis", "True")
         .WithTarget("Build");
 
-    settings.BinaryLogger = new MSBuildBinaryLogSettings 
-    {
-        Enabled = true,
-        FileName = "viewpagerindicator.binlog"
-    };
+//     settings.BinaryLogger = new MSBuildBinaryLogSettings 
+//     {
+//         Enabled = true,
+//         FileName = "viewpagerindicator.binlog"
+//     };
 
     MSBuild(sln, settings);
 });
