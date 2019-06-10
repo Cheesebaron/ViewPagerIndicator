@@ -2,12 +2,14 @@
 #tool nuget:?package=vswhere&version=2.6.7
 #addin nuget:?package=Cake.Figlet&version=1.3.0
 
-var sln = new FilePath("./ViewPagerIndicator.sln");
-var outputDir = new DirectoryPath("./artifacts");
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var verbosityArg = Argument("verbosity", "Minimal");
+var outputDirArg = Argument("outputDir", "./artifacts");
 var verbosity = Verbosity.Minimal;
+
+var sln = new FilePath("./ViewPagerIndicator.sln");
+var outputDir = new DirectoryPath(outputDirArg);
 
 var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
 
@@ -113,7 +115,7 @@ Task("Package")
         Information("File: {0}", dll.ToString());
         nugetContent.Add(new NuSpecContent
         {
-            Target = "lib/MonoAndroid70",
+            Target = "lib/MonoAndroid90",
             Source = dll.ToString()
         });
     }
@@ -138,7 +140,7 @@ Task("Package")
         Files = nugetContent,
         BasePath = "./",
         Dependencies = new NuSpecDependency[] {
-            new NuSpecDependency { Id = "Xamarin.Android.Support.v4", Version = "25.4.0.2" }
+            new NuSpecDependency { Id = "Xamarin.Android.Support.ViewPager", Version = "28.0.0.1" }
         }
     };
 
