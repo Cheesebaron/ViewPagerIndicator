@@ -19,7 +19,7 @@ Usage
         <dk.ostebaronen.droid.viewpagerindicator.TitlePageIndicator
             android:id="@+id/titles"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent" />
+            android:layout_width="match_parent" />
 
   2. In your `OnCreate` method (or `OnCreateView` for a fragment), bind the
      indicator to the `ViewPager`.
