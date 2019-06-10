@@ -15,7 +15,6 @@ $zipPath = "$env:TEMP\microsoft-dist-openjdk-1.8.0.25.zip"
 Write-Host "Unpacking..."
 7z x $zipPath -oC:\openjdk_temp | Out-Null
 [IO.Directory]::Move('C:\openjdk_temp', $jdkPath)
-Remove-Item 'C:\openjdk_temp' -Recurse -Force
 del $zipPath
 
 Write-Host "Setting ENV var..."
