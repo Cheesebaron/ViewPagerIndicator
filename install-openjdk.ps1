@@ -1,15 +1,16 @@
-$download_url = "https://dl.xamarin.com/OpenJDK/mac/microsoft-dist-openjdk-1.8.0.25.zip"
+$openjdk_version = "1.8.0.25"
+$download_url = "https://dl.xamarin.com/OpenJDK/mac/microsoft-dist-openjdk-" + $openjdk_version + ".zip"
 
 Write-Host "Installing OpenJDK ..." -ForegroundColor Cyan
 
-$jdkPath = 'C:\Program Files\OpenJDK'
+$jdkPath = "C:\Program Files\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version
 
 if(Test-Path $jdkPath) {
     Remove-Item $jdkPath -Recurse -Force
 }
 
 Write-Host "Downloading..."
-$zipPath = "$env:TEMP\microsoft-dist-openjdk-1.8.0.25.zip"
+$zipPath = "$env:TEMP\microsoft-dist-openjdk-" + $openjdk_version + ".zip"
 (New-Object Net.WebClient).DownloadFile($download_url, $zipPath)
 
 Write-Host "Unpacking..."
@@ -18,9 +19,10 @@ Write-Host "Unpacking..."
 del $zipPath
 
 Write-Host "Setting ENV var..."
-[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Progra~1\OpenJDK", "machine")
-[Environment]::SetEnvironmentVariable("JAVA_SDK", "C:\Progra~1\OpenJDK", "machine")
-$env:JAVA_HOME="C:\Progra~1\OpenJDK"
-$env:JAVA_SDK="C:\Progra~1\OpenJDK"
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version, "machine")
+[Environment]::SetEnvironmentVariable("JAVA_SDK", "C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version, "machine")
+$env:JAVA_HOME="C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version
+$env:JAVA_SDK="C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version
 
-Add-Path 'C:\Program Files\OpenJDK\bin'
+Add-Path $jdkPath
+Add-Path $jdkPath + "\bin"
