@@ -23,8 +23,14 @@ Setup(context => {
 
     if (isRunningOnPipelines)
     {
-        var buildNumber = AppVeyor.Environment.Build.Number;
-        TFBuild.Commands.UpdateBuildNumber(versionInfo.InformationalVersion
+        var buildNumber = TFBuild.Environment.Build.Number;
+        var informationalVersion = versionInfo.InformationalVersion;
+
+        var invalidChars = new char[] { '"', '/', ':', '<', '>', '\\', '|', '?', '@', '*' };
+        foreach (var invalidChar in invalidChars)
+            informationalVersion = informationalVersion.Replace(invalidChar, '.');
+
+        TFBuild.Commands.UpdateBuildNumber(informationalVersion
             + "-" + buildNumber);
     }
 
