@@ -19,8 +19,8 @@ Write-Host "Unpacking..."
 del $zipPath
 
 Write-Host "Setting ENV var..."
-[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version, "machine")
-[Environment]::SetEnvironmentVariable("JAVA_SDK", "C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version, "machine")
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version, [System.EnvironmentVariableTarget]::User)
+[Environment]::SetEnvironmentVariable("JAVA_SDK", "C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version, [System.EnvironmentVariableTarget]::User)
 $env:JAVA_HOME="C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version
 $env:JAVA_SDK="C:\Progra~1\Android\jdk\microsoft_dist_openjdk_" + $openjdk_version
 
