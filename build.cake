@@ -71,11 +71,9 @@ Task("Restore")
     .IsDependentOn("ResolveBuildTools")
     .Does(() => 
 {
-    // var settings = GetDefaultBuildSettings()
-    //     .WithTarget("Restore");
-    // MSBuild(sln, settings);
-
-    NuGetRestore(sln);
+    var settings = GetDefaultBuildSettings()
+        .WithTarget("Restore");
+    MSBuild(sln, settings);
 });
 
 Task("Build")
