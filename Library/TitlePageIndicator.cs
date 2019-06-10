@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
@@ -94,7 +95,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var res = Resources;
 
             //Load defaults from resources
-            var defaultFooterColor = res.GetColor(Resource.Color.default_title_indicator_footer_color);
+            var defaultFooterColor = ContextCompat.GetColor(context, Resource.Color.default_title_indicator_footer_color);
             var defaultFooterLineHeight = res.GetDimension(Resource.Dimension.default_title_indicator_footer_line_height);
             var defaultFooterIndicatorStyle =
                 res.GetInteger(Resource.Integer.default_title_indicator_footer_indicator_style);
@@ -104,9 +105,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 res.GetDimension(Resource.Dimension.default_title_indicator_footer_indicator_underline_padding);
             var defaultFooterPadding = res.GetDimension(Resource.Dimension.default_title_indicator_footer_padding);
             var defaultLinePosition = res.GetInteger(Resource.Integer.default_title_indicator_line_position);
-            var defaultSelectedColor = res.GetColor(Resource.Color.default_title_indicator_selected_color);
+            var defaultSelectedColor = ContextCompat.GetColor(context, Resource.Color.default_title_indicator_selected_color);
             var defaultSelectedBold = res.GetBoolean(Resource.Boolean.default_title_indicator_selected_bold);
-            var defaultTextColor = res.GetColor(Resource.Color.default_title_indicator_text_color);
+            var defaultTextColor = ContextCompat.GetColor(context, Resource.Color.default_title_indicator_text_color);
             var defaultTextSize = res.GetDimension(Resource.Dimension.default_title_indicator_text_size);
             var defaultTitlePadding = res.GetDimension(Resource.Dimension.default_title_indicator_title_padding);
             var defaultClipPadding = res.GetDimension(Resource.Dimension.default_title_indicator_clip_padding);
@@ -149,7 +150,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             a.Recycle();
 
             var configuration = ViewConfiguration.Get(context);
-            _touchSlop = ViewConfigurationCompat.GetScaledPagingTouchSlop(configuration);
+            _touchSlop = configuration.ScaledPagingTouchSlop;
         }
 
         public Color FooterColor
@@ -494,16 +495,16 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if(base.OnTouchEvent(e)) return true;
             if(null == _viewPager || _viewPager.Adapter.Count == 0) return false;
 
-            var action = (int)e.Action & MotionEventCompat.ActionMask;
+            var action = e.ActionMasked;
             switch(action)
             {
-                case (int)MotionEventActions.Down:
-                    _activePointerId = MotionEventCompat.GetPointerId(e, 0);
+                case MotionEventActions.Down:
+                    _activePointerId = e.GetPointerId(0);
                     _lastMotionX = e.GetX();
                     break;
-                case (int)MotionEventActions.Move:
-                    var activePointerIndex = MotionEventCompat.FindPointerIndex(e, _activePointerId);
-                    var x = MotionEventCompat.GetX(e, activePointerIndex);
+                case MotionEventActions.Move:
+                    var activePointerIndex = e.FindPointerIndex(_activePointerId);
+                    var x = e.GetX(activePointerIndex);
                     var deltaX = x - _lastMotionX;
 
                     if (!_isDragging)
@@ -519,8 +520,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
                     break;
 
-                case (int)MotionEventActions.Cancel:
-                case (int)MotionEventActions.Up:
+                case MotionEventActions.Cancel:
+                case MotionEventActions.Up:
                     if (!_isDragging)
                     {
                         var count = _viewPager.Adapter.Count;
@@ -534,7 +535,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                         {
                             if(_currentPage > 0)
                             {
-                                if(action != (int)MotionEventActions.Cancel)
+                                if(action != MotionEventActions.Cancel)
                                     _viewPager.CurrentItem = _currentPage - 1;
                                 return true;
                             }
@@ -543,7 +544,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                         {
                             if(_currentPage < count - 1)
                             {
-                                if(action != (int)MotionEventActions.Cancel)
+                                if(action != MotionEventActions.Cancel)
                                     _viewPager.CurrentItem = _currentPage + 1;
                                 return true;
                             }
@@ -551,7 +552,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                         else
                         {
                             //Middle third
-                            if(null != CenterItemClick && action != (int)MotionEventActions.Cancel)
+                            if(null != CenterItemClick && action != MotionEventActions.Cancel)
                                 CenterItemClick(this, new CenterItemClickEventArgs { Position = _currentPage });
                         }
                     }
@@ -561,24 +562,24 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     if (_viewPager.IsFakeDragging) _viewPager.EndFakeDrag();
                     break;
 
-                case (int)MotionEventActions.PointerDown:
+                case MotionEventActions.PointerDown:
                     {
-                        var pointerIndex = MotionEventCompat.GetActionIndex(e);
-                        _lastMotionX = MotionEventCompat.GetX(e, pointerIndex);
-                        _activePointerId = MotionEventCompat.GetPointerId(e, pointerIndex);
+                        var pointerIndex = e.ActionIndex;
+                        _lastMotionX = e.GetX(pointerIndex);
+                        _activePointerId = e.GetPointerId(pointerIndex);
                         break;
                     }
 
-                case (int)MotionEventActions.PointerUp:
+                case MotionEventActions.PointerUp:
                     {
-                        var pointerIndex = MotionEventCompat.GetActionIndex(e);
-                        var pointerId = MotionEventCompat.GetPointerId(e, pointerIndex);
+                        var pointerIndex = e.ActionIndex;
+                        var pointerId = e.GetPointerId(pointerIndex);
                         if (pointerId == _activePointerId)
                         {
                             var newPointerIndex = pointerIndex == 0 ? 1 : 0;
-                            _activePointerId = MotionEventCompat.GetPointerId(e, newPointerIndex);
+                            _activePointerId = e.GetPointerId(newPointerIndex);
                         }
-                        _lastMotionX = MotionEventCompat.GetX(e, MotionEventCompat.FindPointerIndex(e, _activePointerId));
+                        _lastMotionX = e.GetX(e.FindPointerIndex(_activePointerId));
                         break;
                     }
             }
@@ -683,8 +684,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (null != _listener)
                 _listener.OnPageScrollStateChanged(state);
 
-            if (null != PageScrollStateChanged)
-                PageScrollStateChanged(this, new PageScrollStateChangedEventArgs { State = state });
+            PageScrollStateChanged?.Invoke(this, new PageScrollStateChangedEventArgs { State = state });
         }
 
         public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
@@ -696,14 +696,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (null != _listener)
                 _listener.OnPageScrolled(position, positionOffset, positionOffsetPixels);
 
-            if(null != PageScrolled)
-                PageScrolled(this,
-                             new PageScrolledEventArgs
-                             {
-                                 Position = position,
-                                 PositionOffset = positionOffset,
-                                 PositionOffsetPixels = positionOffsetPixels
-                             });
+            PageScrolled?.Invoke(this,
+                new PageScrolledEventArgs
+                {
+                    Position = position,
+                    PositionOffset = positionOffset,
+                    PositionOffsetPixels = positionOffsetPixels
+                });
         }
 
         public void OnPageSelected(int position)
@@ -717,8 +716,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (null != _listener)
                 _listener.OnPageSelected(position);
 
-            if (null != PageSelected)
-                PageSelected(this, new PageSelectedEventArgs { Position = position });
+            PageSelected?.Invoke(this, new PageSelectedEventArgs { Position = position });
         }
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -728,7 +726,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             //Determine the height
             float height;
             var heightSpecMode = MeasureSpec.GetMode(heightMeasureSpec);
-            if(heightSpecMode == MeasureSpecMode.Exactly)
+            if (heightSpecMode == MeasureSpecMode.Exactly)
                 height = MeasureSpec.GetSize(heightMeasureSpec);
             else
             {
@@ -736,7 +734,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 _bounds.SetEmpty();
                 _bounds.Bottom = (int)(_paintText.Descent() - _paintText.Ascent());
                 height = _bounds.Bottom - _bounds.Top + _footerLineHeight + _footerPadding + _topPadding;
-                if(_footerIndicatorStyle != IndicatorStyle.None)
+                if (_footerIndicatorStyle != IndicatorStyle.None)
                     height += _footerIndicatorHeight;
             }
             var measuredHeight = (int)height;

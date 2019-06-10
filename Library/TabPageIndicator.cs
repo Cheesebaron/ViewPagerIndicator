@@ -164,8 +164,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_listener != null)
                 _listener.OnPageSelected(position);
 
-            if (null != PageSelected)
-                PageSelected(this, new PageSelectedEventArgs { Position = position });
+            PageSelected?.Invoke(this, new PageSelectedEventArgs { Position = position });
         }
 
         public void SetOnPageChangeListener(ViewPager.IOnPageChangeListener listener) { _listener = listener; }

@@ -114,8 +114,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_listener != null)
                 _listener.OnPageScrollStateChanged(state);
 
-            if (null != PageScrollStateChanged)
-                PageScrollStateChanged(this, new PageScrollStateChangedEventArgs { State = state });
+            PageScrollStateChanged?.Invoke(this, new PageScrollStateChangedEventArgs { State = state });
         }
 
         public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
@@ -123,14 +122,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_listener != null)
                 _listener.OnPageScrolled(position, positionOffset, positionOffsetPixels);
 
-            if (null != PageScrolled)
-                PageScrolled(this,
-                             new PageScrolledEventArgs
-                             {
-                                 Position = position,
-                                 PositionOffset = positionOffset,
-                                 PositionOffsetPixels = positionOffsetPixels
-                             });
+            PageScrolled?.Invoke(this,
+             new PageScrolledEventArgs
+             {
+                 Position = position,
+                 PositionOffset = positionOffset,
+                 PositionOffsetPixels = positionOffsetPixels
+             });
         }
 
         public void OnPageSelected(int position)
@@ -139,8 +137,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_listener != null)
                 _listener.OnPageSelected(position);
 
-            if (null != PageSelected)
-                PageSelected(this, new PageSelectedEventArgs { Position = position });
+            PageSelected?.Invoke(this, new PageSelectedEventArgs { Position = position });
         }
 
         public int CurrentItem

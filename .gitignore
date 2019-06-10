@@ -115,3 +115,14 @@ UpgradeLog*.XML
 Resource.Designer.cs
 Resource.designer.cs
 
+# visual studio
+.vs/
+
+# mfractor
+.mfractor/
+
+# cake
+tools/
+
+# build output
+artifacts/
