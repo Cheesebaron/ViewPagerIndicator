@@ -126,6 +126,8 @@ Task("Package")
         });
     }
 
+    var releaseNotes = ParseReleaseNotes("./releasenotes.md").Notes.ToArray();
+
     var nugetSettings = new NuGetPackSettings {
         Id = "ViewPagerIndicator",
         Title = "ViewPagerIndicator for Xamarin.Android",
@@ -139,6 +141,7 @@ Task("Package")
         Description = "A port of ViewPagerIndicator for Xamarin.Android. A highly customizable indicator for ViewPager.",
         RequireLicenseAcceptance = false,
         Version = versionInfo.NuGetVersion,
+        ReleaseNotes = releaseNotes,
         Symbols = false,
         NoPackageAnalysis = true,
         OutputDirectory = outputDir,
