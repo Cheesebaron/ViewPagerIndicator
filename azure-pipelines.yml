@@ -1,3 +1,7 @@
+variables:
+  shoudlPushNuget: false
+  configuration: 'Release'
+
 pool:
   name: Hosted Windows 2019 with VS2019
 
@@ -17,11 +21,11 @@ steps:
   inputs:
     targetType: filePath
     filePath: ./build.ps1
-    arguments: '--outputDir=$(Build.ArtifactStagingDirectory)'
+    arguments: '--outputDir=$(Build.ArtifactStagingDirectory) --configuration=$(configuration)'
 
 - task: NuGetCommand@2
   displayName: 'NuGet push'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), variables['shouldPushNuget'])
   inputs:
     command: push
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
