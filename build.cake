@@ -159,7 +159,8 @@ Task("Default")
     .IsDependentOn("ResolveBuildTools")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
-    .IsDependentOn("Package");
+    .IsDependentOn("Package")
+    .IsDependentOn("UploadArtifacts");
 
 RunTarget(target);
 
