@@ -17,19 +17,19 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.directionalviewpager.DirectionalViewPager
         android:id="@+id/pager"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         />
     <dk.ostebaronen.droid.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
         android:padding="10dip"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_width="wrap_content"
         />
 </LinearLayout>
