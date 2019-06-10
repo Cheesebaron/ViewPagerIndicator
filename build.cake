@@ -1,6 +1,6 @@
-#tool nuget:?package=GitVersion.CommandLine
-#tool nuget:?package=vswhere
-#addin nuget:?package=Cake.Figlet
+#tool nuget:?package=GitVersion.CommandLine&version=4.0.0
+#tool nuget:?package=vswhere&version=2.6.7
+#addin nuget:?package=Cake.Figlet&version=1.3.0
 
 var sln = new FilePath("./ViewPagerIndicator.sln");
 var outputDir = new DirectoryPath("./artifacts");
