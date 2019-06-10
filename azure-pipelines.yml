@@ -1,0 +1,18 @@
+pool:
+  name: Hosted Windows 2019 with VS2019
+steps:
+- task: PowerShell@2
+  displayName: 'Run Cake Build'
+  inputs:
+    targetType: filePath
+    filePath: ./build.ps1
+    arguments: '--outputDir=$(Build.ArtifactStagingDirectory)'
+
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+    nuGetFeedType: external
+    publishFeedCredentials: 'ViewPagerIndicator NuGet v3'

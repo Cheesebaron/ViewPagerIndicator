@@ -11,7 +11,7 @@ var verbosity = Verbosity.Minimal;
 var sln = new FilePath("./ViewPagerIndicator.sln");
 var outputDir = new DirectoryPath(outputDirArg);
 
-var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
+var isRunningOnPipelines = TFBuild.IsRunningOnAzurePipelines;
 
 GitVersion versionInfo = null;
 
@@ -21,10 +21,10 @@ Setup(context => {
         OutputType = GitVersionOutput.Json
     });
 
-    if (isRunningOnAppVeyor)
+    if (isRunningOnPipelines)
     {
         var buildNumber = AppVeyor.Environment.Build.Number;
-        AppVeyor.UpdateBuildVersion(versionInfo.InformationalVersion
+        TFBuild.Commands.UpdateBuildNumber(versionInfo.InformationalVersion
             + "-" + buildNumber);
     }
 
@@ -147,28 +147,11 @@ Task("Package")
     NuGetPack(nugetSettings);
 });
 
-Task("UploadAppVeyorArtifact")
-    .IsDependentOn("Package")
-    .WithCriteria(() => isRunningOnAppVeyor)
+Task("UploadArtifacts")
+    .WithCriteria(() => isRunningOnPipelines)
     .Does(() => 
 {
-    Information("Artifacts Dir: {0}", outputDir.FullPath);
-
-    var uploadSettings = new AppVeyorUploadArtifactsSettings();
-
-    var artifacts = GetFiles(outputDir.FullPath + "/**/*");
-
-    foreach(var file in artifacts)
-    {
-        Information("Uploading {0}", file.FullPath);
-
-        if (file.GetExtension().Contains("nupkg"))
-            uploadSettings.ArtifactType = AppVeyorUploadArtifactType.NuGetPackage;
-        else
-            uploadSettings.ArtifactType = AppVeyorUploadArtifactType.Auto;
-
-        AppVeyor.UploadArtifact(file.FullPath, uploadSettings);
-    }
+    TFBuild.Commands.UploadArtifactDirectory(outputDir);
 });
 
 Task("Default")
@@ -176,8 +159,7 @@ Task("Default")
     .IsDependentOn("ResolveBuildTools")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
-    .IsDependentOn("Package")
-    .IsDependentOn("UploadAppVeyorArtifact");
+    .IsDependentOn("Package");
 
 RunTarget(target);
 
