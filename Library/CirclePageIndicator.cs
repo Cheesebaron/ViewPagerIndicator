@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
@@ -55,15 +56,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             if(IsInEditMode) return;
 
-            var res = Resources;
-            var defaultPageColor = res.GetColor(Resource.Color.default_circle_indicator_page_color);
-            var defaultFillColor = res.GetColor(Resource.Color.default_circle_indicator_fill_color);
-            var defaultOrientation = res.GetInteger(Resource.Integer.default_circle_indicator_orientation);
-            var defaultStrokeColor = res.GetColor(Resource.Color.default_circle_indicator_stroke_color);
-            var defaultStrokeWidth = res.GetDimension(Resource.Dimension.default_circle_indicator_stroke_width);
-            var defaultRadius = res.GetDimension(Resource.Dimension.default_circle_indicator_radius);
-            var defaultCentered = res.GetBoolean(Resource.Boolean.default_circle_indicator_centered);
-            var defaultSnap = res.GetBoolean(Resource.Boolean.default_circle_indicator_snap);
+            var defaultPageColor = ContextCompat.GetColor(context, Resource.Color.default_circle_indicator_page_color);
+            var defaultFillColor = ContextCompat.GetColor(context, Resource.Color.default_circle_indicator_fill_color);
+            var defaultOrientation = Resources.GetInteger(Resource.Integer.default_circle_indicator_orientation);
+            var defaultStrokeColor = ContextCompat.GetColor(context, Resource.Color.default_circle_indicator_stroke_color);
+            var defaultStrokeWidth = Resources.GetDimension(Resource.Dimension.default_circle_indicator_stroke_width);
+            var defaultRadius = Resources.GetDimension(Resource.Dimension.default_circle_indicator_radius);
+            var defaultCentered = Resources.GetBoolean(Resource.Boolean.default_circle_indicator_centered);
+            var defaultSnap = Resources.GetBoolean(Resource.Boolean.default_circle_indicator_snap);
 
             var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.CirclePageIndicator, defStyle, 0);
 

@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
@@ -94,7 +95,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var res = Resources;
 
             //Load defaults from resources
-            var defaultFooterColor = res.GetColor(Resource.Color.default_title_indicator_footer_color);
+            var defaultFooterColor = ContextCompat.GetColor(context, Resource.Color.default_title_indicator_footer_color);
             var defaultFooterLineHeight = res.GetDimension(Resource.Dimension.default_title_indicator_footer_line_height);
             var defaultFooterIndicatorStyle =
                 res.GetInteger(Resource.Integer.default_title_indicator_footer_indicator_style);
@@ -104,9 +105,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 res.GetDimension(Resource.Dimension.default_title_indicator_footer_indicator_underline_padding);
             var defaultFooterPadding = res.GetDimension(Resource.Dimension.default_title_indicator_footer_padding);
             var defaultLinePosition = res.GetInteger(Resource.Integer.default_title_indicator_line_position);
-            var defaultSelectedColor = res.GetColor(Resource.Color.default_title_indicator_selected_color);
+            var defaultSelectedColor = ContextCompat.GetColor(context, Resource.Color.default_title_indicator_selected_color);
             var defaultSelectedBold = res.GetBoolean(Resource.Boolean.default_title_indicator_selected_bold);
-            var defaultTextColor = res.GetColor(Resource.Color.default_title_indicator_text_color);
+            var defaultTextColor = ContextCompat.GetColor(context, Resource.Color.default_title_indicator_text_color);
             var defaultTextSize = res.GetDimension(Resource.Dimension.default_title_indicator_text_size);
             var defaultTitlePadding = res.GetDimension(Resource.Dimension.default_title_indicator_title_padding);
             var defaultClipPadding = res.GetDimension(Resource.Dimension.default_title_indicator_clip_padding);

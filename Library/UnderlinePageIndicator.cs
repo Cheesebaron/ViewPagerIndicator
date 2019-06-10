@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
@@ -62,7 +63,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var defaultFades = res.GetBoolean(Resource.Boolean.default_underline_indicator_fades);
             var defaultFadeDelay = res.GetInteger(Resource.Integer.default_underline_indicator_fade_delay);
             var defaultFadeLength = res.GetInteger(Resource.Integer.default_underline_indicator_fade_length);
-            var defaultSelectedColor = res.GetColor(Resource.Color.default_underline_indicator_selected_color);
+            var defaultSelectedColor = ContextCompat.GetColor(context, Resource.Color.default_underline_indicator_selected_color);
 
             var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.UnderlinePageIndicator, defStyle, 0);
 

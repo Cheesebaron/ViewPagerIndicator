@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
@@ -53,8 +54,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var res = Resources;
 
             //Load defaults from resources
-            var defaultSelectedColor = res.GetColor(Resource.Color.default_line_indicator_selected_color);
-            var defaultUnselectedColor = res.GetColor(Resource.Color.default_line_indicator_unselected_color);
+            var defaultSelectedColor = ContextCompat.GetColor(context, Resource.Color.default_line_indicator_selected_color);
+            var defaultUnselectedColor = ContextCompat.GetColor(context, Resource.Color.default_line_indicator_unselected_color);
             var defaultLineWidth = res.GetDimension(Resource.Dimension.default_line_indicator_line_width);
             var defaultGapWidth = res.GetDimension(Resource.Dimension.default_line_indicator_gap_width);
             var defaultStrokeWidth = res.GetDimension(Resource.Dimension.default_line_indicator_stroke_width);
