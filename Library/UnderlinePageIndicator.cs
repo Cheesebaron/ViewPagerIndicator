@@ -36,7 +36,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private int _activePointerId = InvalidPointer;
         private bool _isDragging;
         private int _currentPage;
-
+        private Color _selectedColor;
         private readonly Runnable _fadeRunnable;
 
         public event PageScrollStateChangedEventHandler PageScrollStateChanged;
@@ -108,7 +108,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     else
                     {
                         RemoveCallbacks(_fadeRunnable);
-                        _paint.Alpha = 0xFF;
+                        _paint.Alpha = Color.GetAlphaComponent(_selectedColor);
                         Invalidate();
                     }
                 }
@@ -123,7 +123,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             set
             {
                 _fadeLength = value;
-                _fadeBy = 0xFF / (_fadeLength / FadeFrameMs);
+                _fadeBy = Color.GetAlphaComponent(_selectedColor) / (_fadeLength / FadeFrameMs);
             }
         }
 
@@ -132,6 +132,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             get { return _paint.Color; }
             set
             {
+                _selectedColor = value;
                 _paint.Color = value;
                 Invalidate();
             }
@@ -309,7 +310,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 if (positionOffsetPixels > 0)
                 {
                     RemoveCallbacks(_fadeRunnable);
-                    _paint.Alpha = 0xFF;
+                    _paint.Alpha = Color.GetAlphaComponent(_selectedColor);
                 }
                 else if(_scrollState != ViewPager.ScrollStateDragging)
                     PostDelayed(_fadeRunnable, FadeFrameMs);
