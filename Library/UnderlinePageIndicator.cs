@@ -79,7 +79,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             a.Recycle();
 
             var configuration = ViewConfiguration.Get(context);
-            _touchSlop = ViewConfigurationCompat.GetScaledPagingTouchSlop(configuration);
+            _touchSlop = configuration.ScaledPagingTouchSlop;
 
             _fadeRunnable = new Runnable(() =>
             {
