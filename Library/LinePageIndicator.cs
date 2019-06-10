@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
@@ -53,8 +54,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var res = Resources;
 
             //Load defaults from resources
-            var defaultSelectedColor = res.GetColor(Resource.Color.default_line_indicator_selected_color);
-            var defaultUnselectedColor = res.GetColor(Resource.Color.default_line_indicator_unselected_color);
+            var defaultSelectedColor = ContextCompat.GetColor(context, Resource.Color.default_line_indicator_selected_color);
+            var defaultUnselectedColor = ContextCompat.GetColor(context, Resource.Color.default_line_indicator_unselected_color);
             var defaultLineWidth = res.GetDimension(Resource.Dimension.default_line_indicator_line_width);
             var defaultGapWidth = res.GetDimension(Resource.Dimension.default_line_indicator_gap_width);
             var defaultStrokeWidth = res.GetDimension(Resource.Dimension.default_line_indicator_stroke_width);
@@ -77,7 +78,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             a.Recycle();
 
             var configuration = ViewConfiguration.Get(context);
-            _touchSlop = ViewConfigurationCompat.GetScaledPagingTouchSlop(configuration);
+            _touchSlop = configuration.ScaledPagingTouchSlop;
         }
 
         public bool Centered
@@ -181,16 +182,16 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if(null == _viewPager || _viewPager.Adapter.Count == 0)
                 return false;
 
-            var action = (int)e.Action & MotionEventCompat.ActionMask;
+            var action = e.ActionMasked;
             switch (action)
             {
-                case (int)MotionEventActions.Down:
-                    _activePointerId = MotionEventCompat.GetPointerId(e, 0);
+                case MotionEventActions.Down:
+                    _activePointerId = e.GetPointerId(0);
                     _lastMotionX = e.GetX();
                     break;
-                case (int)MotionEventActions.Move:
-                    var activePointerIndex = MotionEventCompat.FindPointerIndex(e, _activePointerId);
-                    var x = MotionEventCompat.GetX(e, activePointerIndex);
+                case MotionEventActions.Move:
+                    var activePointerIndex = e.FindPointerIndex(_activePointerId);
+                    var x = e.GetX(activePointerIndex);
                     var deltaX = x - _lastMotionX;
 
                     if (!_isDragging)
@@ -206,8 +207,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
                     break;
 
-                case (int)MotionEventActions.Cancel:
-                case (int)MotionEventActions.Up:
+                case MotionEventActions.Cancel:
+                case MotionEventActions.Up:
                     if (!_isDragging)
                     {
                         var count = _viewPager.Adapter.Count;
@@ -216,13 +217,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
                         if ((_currentPage > 0) && (e.GetX() < halfWidth - sixthWidth))
                         {
-                            if (action != (int)MotionEventActions.Cancel)
+                            if (action != MotionEventActions.Cancel)
                                 _viewPager.CurrentItem = _currentPage - 1;
                             return true;
                         }
                         if ((_currentPage < count - 1) && (e.GetX() > halfWidth + sixthWidth))
                         {
-                            if (action != (int)MotionEventActions.Cancel)
+                            if (action != MotionEventActions.Cancel)
                                 _viewPager.CurrentItem = _currentPage + 1;
                             return true;
                         }
@@ -233,24 +234,24 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     if (_viewPager.IsFakeDragging) _viewPager.EndFakeDrag();
                     break;
 
-                case (int)MotionEventActions.PointerDown:
+                case MotionEventActions.PointerDown:
                 {
-                    var pointerIndex = MotionEventCompat.GetActionIndex(e);
-                    _lastMotionX = MotionEventCompat.GetX(e, pointerIndex);
-                    _activePointerId = MotionEventCompat.GetPointerId(e, pointerIndex);
+                    var pointerIndex = e.ActionIndex;
+                    _lastMotionX = e.GetX(pointerIndex);
+                    _activePointerId = e.GetPointerId(pointerIndex);
                     break;
                 }
 
-                case (int)MotionEventActions.PointerUp:
+                case MotionEventActions.PointerUp:
                 {
-                    var pointerIndex = MotionEventCompat.GetActionIndex(e);
-                    var pointerId = MotionEventCompat.GetPointerId(e, pointerIndex);
+                    var pointerIndex = e.ActionIndex;
+                    var pointerId = e.GetPointerId(pointerIndex);
                     if (pointerId == _activePointerId)
                     {
                         var newPointerIndex = pointerIndex == 0 ? 1 : 0;
-                        _activePointerId = MotionEventCompat.GetPointerId(e, newPointerIndex);
+                        _activePointerId = e.GetPointerId(newPointerIndex);
                     }
-                    _lastMotionX = MotionEventCompat.GetX(e, MotionEventCompat.FindPointerIndex(e, _activePointerId));
+                    _lastMotionX = e.GetX(e.FindPointerIndex(_activePointerId));
                     break;
                 }
             }
@@ -305,8 +306,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (null != _listener)
                 _listener.OnPageScrollStateChanged(state);
 
-            if (null != PageScrollStateChanged)
-                PageScrollStateChanged(this, new PageScrollStateChangedEventArgs { State = state });
+            PageScrollStateChanged?.Invoke(this, new PageScrollStateChangedEventArgs { State = state });
         }
 
         public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
@@ -314,14 +314,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (null != _listener)
                 _listener.OnPageScrolled(position, positionOffset, positionOffsetPixels);
 
-            if (null != PageScrolled)
-                PageScrolled(this,
-                             new PageScrolledEventArgs
-                             {
-                                 Position = position,
-                                 PositionOffset = positionOffset,
-                                 PositionOffsetPixels = positionOffsetPixels
-                             });
+            PageScrolled?.Invoke(this,
+                new PageScrolledEventArgs
+                {
+                    Position = position,
+                    PositionOffset = positionOffset,
+                    PositionOffsetPixels = positionOffsetPixels
+                });
         }
 
         public void OnPageSelected(int position)
@@ -332,8 +331,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (null != _listener)
                 _listener.OnPageSelected(position);
 
-            if (null != PageSelected)
-                PageSelected(this, new PageSelectedEventArgs { Position = position });
+            PageSelected?.Invoke(this, new PageSelectedEventArgs { Position = position });
         }
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -357,7 +355,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 if (specMode == MeasureSpecMode.AtMost)
                     result = Math.Min(result, specSize);
             }
-            return (int)FloatMath.Ceil(result);
+            return (int)Math.Ceiling(result);
         }
 
         private int MeasureHeight(int measureSpec)
@@ -374,7 +372,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 if (specMode == MeasureSpecMode.AtMost)
                     result = Math.Min(result, specSize);
             }
-            return (int)FloatMath.Ceil(result);
+
+            return (int)Math.Ceiling(result);
         }
 
         protected override void OnRestoreInstanceState(IParcelable state)
