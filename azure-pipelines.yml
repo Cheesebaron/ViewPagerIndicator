@@ -1,5 +1,16 @@
 pool:
   name: Hosted Windows 2019 with VS2019
+
+trigger:
+  branches:
+    include:
+    - master
+
+pr:
+  branches:
+    include:
+    - '*'
+
 steps:
 - task: PowerShell@2
   displayName: 'Run Cake Build'
