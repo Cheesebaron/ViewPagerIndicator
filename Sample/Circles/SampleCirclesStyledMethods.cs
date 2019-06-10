@@ -32,6 +32,7 @@ namespace Sample.Circles
             indicator.FillColor = Color.Argb(255, 136, 136, 136);
             indicator.StrokeColor = Color.Argb(255, 0, 0, 0);
             indicator.StrokeWidth = 2 * density;
+            indicator.ExtraSpacing = 30 * density;
         }
     }
 }
