@@ -1,15 +1,17 @@
-#tool nuget:?package=GitVersion.CommandLine
-#tool nuget:?package=vswhere
-#addin nuget:?package=Cake.Figlet
+#tool nuget:?package=GitVersion.CommandLine&version=4.0.0
+#tool nuget:?package=vswhere&version=2.6.7
+#addin nuget:?package=Cake.Figlet&version=1.3.0
 
-var sln = new FilePath("./ViewPagerIndicator.sln");
-var outputDir = new DirectoryPath("./artifacts");
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var verbosityArg = Argument("verbosity", "Minimal");
+var outputDirArg = Argument("outputDir", "./artifacts");
 var verbosity = Verbosity.Minimal;
 
-var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
+var sln = new FilePath("./ViewPagerIndicator.sln");
+var outputDir = new DirectoryPath(outputDirArg);
+
+var isRunningOnPipelines = TFBuild.IsRunningOnAzurePipelines || TFBuild.IsRunningOnAzurePipelinesHosted;
 
 GitVersion versionInfo = null;
 
@@ -19,10 +21,16 @@ Setup(context => {
         OutputType = GitVersionOutput.Json
     });
 
-    if (isRunningOnAppVeyor)
+    if (isRunningOnPipelines)
     {
-        var buildNumber = AppVeyor.Environment.Build.Number;
-        AppVeyor.UpdateBuildVersion(versionInfo.InformationalVersion
+        var buildNumber = TFBuild.Environment.Build.Number;
+        var informationalVersion = versionInfo.InformationalVersion;
+
+        var invalidChars = new char[] { '"', '/', ':', '<', '>', '\\', '|', '?', '@', '*' };
+        foreach (var invalidChar in invalidChars)
+            informationalVersion = informationalVersion.Replace(invalidChar, '.');
+
+        TFBuild.Commands.UpdateBuildNumber(informationalVersion
             + "-" + buildNumber);
     }
 
@@ -61,7 +69,7 @@ Task("ResolveBuildTools")
     var vsLatest = VSWhereLatest(vsWhereSettings);
     msBuildPath = (vsLatest == null)
         ? null
-        : vsLatest.CombineWithFilePath("./MSBuild/15.0/Bin/MSBuild.exe");
+        : vsLatest.CombineWithFilePath("./MSBuild/Current/Bin/MSBuild.exe");
 
     if (msBuildPath != null)
         Information("Found MSBuild at {0}", msBuildPath.ToString());
@@ -71,11 +79,9 @@ Task("Restore")
     .IsDependentOn("ResolveBuildTools")
     .Does(() => 
 {
-    // var settings = GetDefaultBuildSettings()
-    //     .WithTarget("Restore");
-    // MSBuild(sln, settings);
-
-    NuGetRestore(sln);
+    var settings = GetDefaultBuildSettings()
+        .WithTarget("Restore");
+    MSBuild(sln, settings);
 });
 
 Task("Build")
@@ -115,7 +121,7 @@ Task("Package")
         Information("File: {0}", dll.ToString());
         nugetContent.Add(new NuSpecContent
         {
-            Target = "lib/MonoAndroid70",
+            Target = "lib/MonoAndroid90",
             Source = dll.ToString()
         });
     }
@@ -140,34 +146,18 @@ Task("Package")
         Files = nugetContent,
         BasePath = "./",
         Dependencies = new NuSpecDependency[] {
-            new NuSpecDependency { Id = "Xamarin.Android.Support.v4", Version = "25.4.0.2" }
+            new NuSpecDependency { Id = "Xamarin.Android.Support.ViewPager", Version = "28.0.0.1" }
         }
     };
 
     NuGetPack(nugetSettings);
 });
 
-Task("UploadAppVeyorArtifact")
-    .IsDependentOn("Package")
-    .WithCriteria(() => isRunningOnAppVeyor)
+Task("UploadArtifacts")
+    .WithCriteria(() => isRunningOnPipelines)
     .Does(() => 
 {
-    Information("Artifacts Dir: {0}", outputDir.FullPath);
-
-    var uploadSettings = new AppVeyorUploadArtifactsSettings();
-
-    var artifacts = GetFiles(outputDir.FullPath + "/**/*");
-
-    foreach(var file in artifacts) {
-        Information("Uploading {0}", file.FullPath);
-
-        if (file.GetExtension().Contains("nupkg"))
-            uploadSettings.ArtifactType = AppVeyorUploadArtifactType.NuGetPackage;
-        else
-            uploadSettings.ArtifactType = AppVeyorUploadArtifactType.Auto;
-
-        AppVeyor.UploadArtifact(file.FullPath, uploadSettings);
-    }
+    TFBuild.Commands.UploadArtifactDirectory(outputDir);
 });
 
 Task("Default")
@@ -176,7 +166,7 @@ Task("Default")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
     .IsDependentOn("Package")
-    .IsDependentOn("UploadAppVeyorArtifact");
+    .IsDependentOn("UploadArtifacts");
 
 RunTarget(target);
 
@@ -188,7 +178,7 @@ MSBuildSettings GetDefaultBuildSettings()
         ToolPath = msBuildPath,
         Verbosity = verbosity,
         ArgumentCustomization = args => args.Append("/m"),
-        ToolVersion = MSBuildToolVersion.VS2017
+        ToolVersion = MSBuildToolVersion.VS2019
     };
 
     return settings;
