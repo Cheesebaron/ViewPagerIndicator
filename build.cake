@@ -61,7 +61,7 @@ Task("ResolveBuildTools")
     var vsLatest = VSWhereLatest(vsWhereSettings);
     msBuildPath = (vsLatest == null)
         ? null
-        : vsLatest.CombineWithFilePath("./MSBuild/15.0/Bin/MSBuild.exe");
+        : vsLatest.CombineWithFilePath("./MSBuild/Current/Bin/MSBuild.exe");
 
     if (msBuildPath != null)
         Information("Found MSBuild at {0}", msBuildPath.ToString());
@@ -158,7 +158,8 @@ Task("UploadAppVeyorArtifact")
 
     var artifacts = GetFiles(outputDir.FullPath + "/**/*");
 
-    foreach(var file in artifacts) {
+    foreach(var file in artifacts)
+    {
         Information("Uploading {0}", file.FullPath);
 
         if (file.GetExtension().Contains("nupkg"))
