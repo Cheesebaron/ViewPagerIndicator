@@ -36,6 +36,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private float _lastMotionX = -1;
         private int _activePointerId = InvalidPointer;
         private bool _isDragging;
+        private float _extraSpacing;
 
         public event PageScrollStateChangedEventHandler PageScrollStateChanged;
         public event PageSelectedEventHandler PageSelected;
@@ -64,6 +65,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var defaultRadius = Resources.GetDimension(Resource.Dimension.default_circle_indicator_radius);
             var defaultCentered = Resources.GetBoolean(Resource.Boolean.default_circle_indicator_centered);
             var defaultSnap = Resources.GetBoolean(Resource.Boolean.default_circle_indicator_snap);
+            var defaultExtraSpacing = Resources.GetDimension(Resource.Dimension.default_circle_indicator_extra_spacing);
 
             var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.CirclePageIndicator, defStyle, 0);
 
@@ -79,6 +81,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             _paintFill.Color = a.GetColor(Resource.Styleable.CirclePageIndicator_fillColor, defaultFillColor);
             _radius = a.GetDimension(Resource.Styleable.CirclePageIndicator_radius, defaultRadius);
             _snap = a.GetBoolean(Resource.Styleable.CirclePageIndicator_snap, defaultSnap);
+            _extraSpacing = a.GetDimension(Resource.Styleable.CirclePageIndicator_extraSpacing, defaultExtraSpacing);
 
             var background = a.GetDrawable(Resource.Styleable.CirclePageIndicator_android_background);
             if (null != background)
@@ -178,6 +181,16 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
         }
 
+        public float ExtraSpacing
+        {
+            get => _extraSpacing;
+            set
+            {
+                _extraSpacing = value;
+                Invalidate();
+            }
+        }
+
         protected override void OnDraw(Canvas canvas)
         {
             base.OnDraw(canvas);
@@ -214,12 +227,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 shortPaddingBefore = PaddingLeft;
             }
 
-            var threeRadius = _radius * 3;
+            var threeRadius = _radius * 2 + _extraSpacing;
             var shortOffset = shortPaddingBefore + _radius;
             var longOffset = longPaddingBefore + _radius;
             if(_centered)
-                longOffset += ((longSize - longPaddingBefore - longPaddingAfter) / 2.0f) -
-                              ((count * threeRadius) / 2.0f);
+            {
+                longOffset += ((longSize - longPaddingBefore - longPaddingAfter) / 2.0f) - (((count - 1) * threeRadius + _radius * 2) / 2.0f);
+            }
+                
 
             float dX;
             float dY;
@@ -459,7 +474,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             {
                 //Calculate the width according to the views count
                 var count = _viewPager.Adapter.Count;
-                result = (int)(PaddingLeft + PaddingRight + (count * 2 * _radius) + (count - 1) * _radius + 1);
+                result = (int)(PaddingLeft + PaddingRight + (count * 2 * _radius) + (count - 1) * (_radius + _extraSpacing) + 1 + _extraSpacing);
                 if(specMode == MeasureSpecMode.AtMost)
                     result = Math.Min(result, specSize);
             }
