@@ -11,7 +11,7 @@ var verbosity = Verbosity.Minimal;
 var sln = new FilePath("./ViewPagerIndicator.sln");
 var outputDir = new DirectoryPath(outputDirArg);
 
-var isRunningOnPipelines = TFBuild.IsRunningOnAzurePipelines;
+var isRunningOnPipelines = TFBuild.IsRunningOnAzurePipelines || TFBuild.IsRunningOnAzurePipelinesHosted;
 
 GitVersion versionInfo = null;
 
