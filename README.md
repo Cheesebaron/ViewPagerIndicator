@@ -16,28 +16,34 @@ Usage
   1. Include one of the widgets in your view. This should usually be placed
      adjacent to the `ViewPager` it represents.
 
-        <dk.ostebaronen.droid.viewpagerindicator.TitlePageIndicator
-            android:id="@+id/titles"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
+      ```xml
+      <dk.ostebaronen.droid.viewpagerindicator.TitlePageIndicator
+         android:id="@+id/titles"
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent" />
+      ```
 
   2. In your `OnCreate` method (or `OnCreateView` for a fragment), bind the
      indicator to the `ViewPager`.
 
-         //Set the pager with an adapter
-         var pager = FindViewById<ViewPager>(Resource.Id.pager);
-         pager.Adapter = new TestAdapter(SupportFragmentManager);
+      ```csharp
+      //Set the pager with an adapter
+      var pager = FindViewById<ViewPager>(Resource.Id.pager);
+      pager.Adapter = new TestAdapter(SupportFragmentManager);
 
-         //Bind the title indicator to the adapter
-         var titleIndicator = FindViewById<TitlePageIndicator>(Resource.Id.titles);
-         titleIndicator.SetViewPager(pager);
+      //Bind the title indicator to the adapter
+      var titleIndicator = FindViewById<TitlePageIndicator>(Resource.Id.titles);
+      titleIndicator.SetViewPager(pager);
+      ```
 
   3. *(Optional)* If you want to listen for a `PageChange` event, you should use it
 	 on the `ViewPagerIndicator`, rather than setting an `OnPageChangeListener` on the
 	 `ViewPager`, otherwise the `ViewPagerIndicator` will not update.
 
-         //continued from above
-         titleIndicator.PageChange += MyPageChangeEventHandler;
+      ```csharp
+      //continued from above
+      titleIndicator.PageChange += MyPageChangeEventHandler;
+      ```
 
 
 Theming
@@ -80,22 +86,22 @@ Originally Developed By
 License
 =======
 
-	Copyright 2013 Tomasz Cielecki
-    Copyright 2012 Jake Wharton
-    Copyright 2011 Patrik Åkerfeldt
-    Copyright 2011 Francisco Figueiredo Jr.
+      Copyright 2013 Tomasz Cielecki
+      Copyright 2012 Jake Wharton
+      Copyright 2011 Patrik Åkerfeldt
+      Copyright 2011 Francisco Figueiredo Jr.
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+         http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
 
 
  [1]: https://github.com/pakerfeldt
