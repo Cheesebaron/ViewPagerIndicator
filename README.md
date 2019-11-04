@@ -1,7 +1,7 @@
 ViewPagerIndicator
 ==========================
 
-[![Build Status](https://osteost.visualstudio.com/ViewPagerIndicator/_apis/build/status/Cheesebaron.ViewPagerIndicator?branchName=master)](https://osteost.visualstudio.com/ViewPagerIndicator/_build/latest?definitionId=7&branchName=master)
+[![Build Status](https://dev.azure.com/Cheesebaron/ViewPagerIndicator/_apis/build/status/Cheesebaron.ViewPagerIndicator?branchName=master)](https://dev.azure.com/Cheesebaron/ViewPagerIndicator/_build/latest?definitionId=7&branchName=master)
 
 Paging indicator widgets that are compatible with the `ViewPager` from the
 [Android Support Library][2] to improve discoverability of content.
