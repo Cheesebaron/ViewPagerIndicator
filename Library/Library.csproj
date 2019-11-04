@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CirclePageIndicator.cs" />
+    <Compile Include="Extensions\JavaObjectExtensions.cs" />
     <Compile Include="IconPageIndicator.cs" />
     <Compile Include="IcsLinearLayout.cs" />
     <Compile Include="Interfaces\IIconPageAdapter.cs" />

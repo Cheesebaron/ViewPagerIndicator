@@ -29,10 +29,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public IcsLinearLayout(Context context, int themeAttr)
             : base(context)
         {
-            var a = context.ObtainStyledAttributes(null, Ll, themeAttr, 0);
-            DividerDrawable = a.GetDrawable(LlDivider);
-            _dividerPadding = a.GetDimensionPixelSize(LlDividerPadding, 0);
-            _showDividers = a.GetInteger(LlShowDivider, (int)ShowDividers.None);
+            using (var a = context.ObtainStyledAttributes(null, Ll, themeAttr, 0))
+            {
+                DividerDrawable = a.GetDrawable(LlDivider);
+                _dividerPadding = a.GetDimensionPixelSize(LlDividerPadding, 0);
+                _showDividers = a.GetInteger(LlShowDivider, (int)ShowDividers.None);
+
+                a.Recycle();
+            }
         }
 
         public new Drawable DividerDrawable
@@ -188,6 +192,22 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 return hasVisibleViewBefore;
             }
             return false;
+        }
+
+        private bool _isDisposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                _divider?.Dispose();
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
         }
     }
 }

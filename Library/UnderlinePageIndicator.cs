@@ -7,6 +7,7 @@ using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
+using DK.Ostebaronen.Droid.ViewPagerIndicator.Extensions;
 using Java.Interop;
 using Java.Lang;
 using Math = System.Math;
@@ -65,21 +66,22 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var defaultFadeLength = res.GetInteger(Resource.Integer.default_underline_indicator_fade_length);
             var defaultSelectedColor = ContextCompat.GetColor(context, Resource.Color.default_underline_indicator_selected_color);
 
-            var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.UnderlinePageIndicator, defStyle, 0);
+            using (var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.UnderlinePageIndicator, defStyle, 0))
+            {
+                Fades = a.GetBoolean(Resource.Styleable.UnderlinePageIndicator_fades, defaultFades);
+                SelectedColor = a.GetColor(Resource.Styleable.UnderlinePageIndicator_selectedColor, defaultSelectedColor);
+                FadeDelay = a.GetInteger(Resource.Styleable.UnderlinePageIndicator_fadeDelay, defaultFadeDelay);
+                FadeLength = a.GetInteger(Resource.Styleable.UnderlinePageIndicator_fadeLength, defaultFadeLength);
 
-            Fades = a.GetBoolean(Resource.Styleable.UnderlinePageIndicator_fades, defaultFades);
-            SelectedColor = a.GetColor(Resource.Styleable.UnderlinePageIndicator_selectedColor, defaultSelectedColor);
-            FadeDelay = a.GetInteger(Resource.Styleable.UnderlinePageIndicator_fadeDelay, defaultFadeDelay);
-            FadeLength = a.GetInteger(Resource.Styleable.UnderlinePageIndicator_fadeLength, defaultFadeLength);
+                var background = a.GetDrawable(Resource.Styleable.UnderlinePageIndicator_android_background);
+                if (null != background)
+                    Background = background;
 
-            var background = a.GetDrawable(Resource.Styleable.UnderlinePageIndicator_android_background);
-            if(null != background)
-                Background = background;
+                a.Recycle();
+            }
 
-            a.Recycle();
-
-            var configuration = ViewConfiguration.Get(context);
-            _touchSlop = configuration.ScaledPagingTouchSlop;
+            using (var configuration = ViewConfiguration.Get(context))
+                _touchSlop = configuration.ScaledPagingTouchSlop;
 
             _fadeRunnable = new Runnable(() =>
             {
@@ -93,15 +95,26 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             });
         }
 
+        private ViewPager ViewPager
+        {
+            get
+            {
+                if (_viewPager.IsNull())
+                    return null;
+
+                return _viewPager;
+            }
+        }
+
         public bool Fades
         {
-            get { return _fades; }
+            get => _fades;
             set
             {
-                if(value != _fades)
+                if (value != _fades)
                 {
                     _fades = value;
-                    if(_fades)
+                    if (_fades)
                     {
                         Post(_fadeRunnable);
                     }
@@ -119,7 +132,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public int FadeLength
         {
-            get { return _fadeLength; }
+            get => _fadeLength;
             set
             {
                 _fadeLength = value;
@@ -129,7 +142,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Color SelectedColor
         {
-            get { return _paint.Color; }
+            get => _paint.Color;
             set
             {
                 _selectedColor = value;
@@ -140,10 +153,10 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public int CurrentItem
         {
-            get { return _currentPage; }
+            get => _currentPage;
             set
             {
-                if (null == _viewPager)
+                if (null == ViewPager)
                     throw new InvalidOperationException("ViewPager has not been bound.");
 
                 _viewPager.CurrentItem = value;
@@ -156,7 +169,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             base.OnDraw(canvas);
 
-            if(null == _viewPager) return;
+            if(null == ViewPager) return;
 
             var count = _viewPager.Adapter.Count;
             if (count == 0) return;
@@ -180,7 +193,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (base.OnTouchEvent(e))
                 return true;
 
-            if (null == _viewPager || _viewPager.Adapter.Count == 0)
+            if (ViewPager?.Adapter.Count == 0)
                 return false;
 
             var action = e.ActionMasked;
@@ -203,8 +216,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     if (_isDragging)
                     {
                         _lastMotionX = x;
-                        if (_viewPager.IsFakeDragging || _viewPager.BeginFakeDrag())
-                            _viewPager.FakeDragBy(deltaX);
+                        if (ViewPager != null && (ViewPager.IsFakeDragging || ViewPager.BeginFakeDrag()))
+                            ViewPager.FakeDragBy(deltaX);
                     }
 
                     break;
@@ -233,7 +246,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
                     _isDragging = false;
                     _activePointerId = InvalidPointer;
-                    if (_viewPager.IsFakeDragging) _viewPager.EndFakeDrag();
+                    if (ViewPager?.IsFakeDragging ?? false) ViewPager.EndFakeDrag();
                     break;
 
                 case MotionEventActions.PointerDown:
@@ -265,7 +278,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             if (_viewPager == view) return;
 
-            if (null != _viewPager)
+            if (null != ViewPager)
 				_viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
@@ -406,6 +419,29 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     return new UnderlineSavedState[size];
                 }
             }
+        }
+
+        private bool _isDisposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                _paint?.Dispose();
+                _fadeRunnable?.Dispose();
+
+                if (_viewPager != null)
+                {
+                    _viewPager.RemoveOnPageChangeListener(this);
+                    _viewPager = null;
+                }
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
         }
     }
 }

@@ -5,6 +5,7 @@ using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using DK.Ostebaronen.Droid.ViewPagerIndicator.Extensions;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
 using Java.Lang;
 
@@ -40,6 +41,17 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             AddView(_iconsLayout, new LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, GravityFlags.Center));
         }
 
+        private ViewPager ViewPager
+        {
+            get
+            {
+                if (_viewPager.IsNull())
+                    return null;
+
+                return _viewPager;
+            }
+        }
+
         private void AnimateToIcon(int position)
         {
             var iconView = _iconsLayout.GetChildAt(position);
@@ -73,7 +85,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             if (_viewPager == view) return;
 
-            if (null != _viewPager)
+            if (null != ViewPager)
 				_viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
@@ -145,7 +157,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             get { return _selectedIndex; }
             set
             {
-                if (null == _viewPager)
+                if (null == ViewPager)
                     throw new InvalidOperationException("ViewPager has not been bound.");
 
                 _viewPager.CurrentItem = value;
@@ -161,6 +173,28 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                         AnimateToIcon(value);
                 }
             }
+        }
+
+        private bool _isDisposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                _iconSelector?.Dispose();
+
+                if (_viewPager != null)
+                {
+                    _viewPager.RemoveOnPageChangeListener(this);
+                    _viewPager = null;
+                }
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
         }
     }
 }

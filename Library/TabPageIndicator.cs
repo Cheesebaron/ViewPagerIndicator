@@ -5,6 +5,7 @@ using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using DK.Ostebaronen.Droid.ViewPagerIndicator.Extensions;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
 using Java.Lang;
 
@@ -42,6 +43,17 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             _tabLayout = new IcsLinearLayout(context, Resource.Attribute.vpiTabPageIndicatorStyle);
             AddView(_tabLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent));
+        }
+
+        private ViewPager ViewPager
+        {
+            get
+            {
+                if (_viewPager.IsNull())
+                    return null;
+
+                return _viewPager;
+            }
         }
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -101,16 +113,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private void AddTab(int index, ICharSequence text, int iconResId)
         {
             var tabView = new TabView(Context, this) {Focusable = true, Index = index, TextFormatted = text};
-            tabView.Click += (sender, args) =>
-            {
-                var tabview = (TabView)sender;
-                var oldSelected = _viewPager.CurrentItem;
-                var newSelected = tabview.Index;
-
-                _viewPager.CurrentItem = newSelected;
-                if(oldSelected == newSelected && TabReselected != null)
-                    TabReselected(this, new TabReselectedEventArgs { Position = newSelected });
-            };
+            tabView.Click += OnTabClick;
 
             if (iconResId != 0)
                 tabView.SetCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
@@ -118,13 +121,23 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             _tabLayout.AddView(tabView, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MatchParent, 1));
         }
 
+        private void OnTabClick(object sender, EventArgs args)
+        {
+            var tabview = (TabView)sender;
+            var oldSelected = _viewPager.CurrentItem;
+            var newSelected = tabview.Index;
+
+            _viewPager.CurrentItem = newSelected;
+            if (oldSelected == newSelected && TabReselected != null)
+                TabReselected(this, new TabReselectedEventArgs { Position = newSelected });
+        }
+
         public void OnPageScrollStateChanged(int state)
         {
             if (_listener != null)
                 _listener.OnPageScrollStateChanged(state);
 
-            if (null != PageScrollStateChanged)
-                PageScrollStateChanged(this, new PageScrollStateChangedEventArgs { State = state });
+            PageScrollStateChanged?.Invoke(this, new PageScrollStateChangedEventArgs { State = state });
         }
 
         public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
@@ -132,14 +145,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_listener != null)
                 _listener.OnPageScrolled(position, positionOffset, positionOffsetPixels);
 
-            if (null != PageScrolled)
-                PageScrolled(this,
-                             new PageScrolledEventArgs
-                             {
-                                 Position = position,
-                                 PositionOffset = positionOffset,
-                                 PositionOffsetPixels = positionOffsetPixels
-                             });
+            PageScrolled?.Invoke(this,
+                new PageScrolledEventArgs
+                {
+                    Position = position,
+                    PositionOffset = positionOffset,
+                    PositionOffsetPixels = positionOffsetPixels
+                });
         }
 
         public void OnPageSelected(int position)
@@ -157,7 +169,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             if (_viewPager == view) return;
 
-            if (null != _viewPager)
+            if (null != ViewPager)
 				_viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
@@ -176,7 +188,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public void NotifyDataSetChanged()
         {
-            _tabLayout.RemoveAllViews();
+            RemoveAllTabItems();
             var adapter = _viewPager.Adapter;
             IIconPageAdapter iconAdapter = null;
             if (adapter is IIconPageAdapter)
@@ -223,6 +235,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         private class TabView : TextView
         {
+            [Weak]
             private readonly TabPageIndicator _indicator;
 
             public TabView(Context context, TabPageIndicator indicator)
@@ -239,6 +252,52 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
 
             public int Index { get; set; }
+        }
+
+        private bool _isDisposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                if (_tabLayout != null)
+                {
+                    RemoveAllTabItems();
+                    _tabLayout.Dispose();
+                }
+
+                _tabSelector?.Dispose();
+
+                if (_viewPager != null)
+                {
+                    _viewPager.RemoveOnPageChangeListener(this);
+                    _viewPager = null;
+                }
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
+        }
+
+        private void RemoveAllTabItems()
+        {
+            if (_tabLayout == null)
+                return;
+
+            var childCount = _tabLayout.ChildCount;
+            for (var i = 0; i < childCount; i++)
+            {
+                var child = _tabLayout.GetChildAt(i);
+                if (child is TabView tabView)
+                {
+                    tabView.Click -= OnTabClick;
+                }
+            }
+
+            _tabLayout.RemoveAllViews();
         }
     }
 }
