@@ -1,6 +1,6 @@
-#tool nuget:?package=GitVersion.CommandLine&version=4.0.0
-#tool nuget:?package=vswhere&version=2.6.7
-#addin nuget:?package=Cake.Figlet&version=1.3.0
+#tool nuget:?package=GitVersion.CommandLine&version=5.1.1
+#tool nuget:?package=vswhere&version=2.8.4
+#addin nuget:?package=Cake.Figlet&version=1.3.1
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
