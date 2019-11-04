@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Android.Support.ViewPager" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.ViewPager" Version="28.0.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CirclePageIndicator.cs" />
