@@ -8,6 +8,8 @@ var verbosityArg = Argument("verbosity", "Minimal");
 var outputDirArg = Argument("outputDir", "./artifacts");
 var verbosity = Verbosity.Minimal;
 
+var gitVersionLog = new FilePath("./gitversion.log");
+
 var sln = new FilePath("./ViewPagerIndicator.sln");
 var outputDir = new DirectoryPath(outputDirArg);
 
@@ -18,7 +20,8 @@ GitVersion versionInfo = null;
 Setup(context => {
     versionInfo = context.GitVersion(new GitVersionSettings {
         UpdateAssemblyInfo = true,
-        OutputType = GitVersionOutput.Json
+        OutputType = GitVersionOutput.Json,
+        LogFilePath = gitVersionLog.MakeAbsolute(context.Environment)
     });
 
     if (isRunningOnPipelines)
@@ -108,55 +111,17 @@ Task("Build")
     MSBuild(sln, settings);
 });
 
-Task("Package")
-    .IsDependentOn("Build")
-    .Does(() => 
+Task("CopyArtifacts")
+   .IsDependentOn("Build")
+   .Does(() => 
 {
-    var nugetContent = new List<NuSpecContent>();
-
-    var binDir = "./Library/bin/" + configuration;
-    var files = GetFiles(binDir + "/*ViewPagerIndicator.dll") + GetFiles(binDir + "/*ViewPagerIndicator.pdb");
-    foreach(var dll in files)
-    {
-        Information("File: {0}", dll.ToString());
-        nugetContent.Add(new NuSpecContent
-        {
-            Target = "lib/MonoAndroid90",
-            Source = dll.ToString()
-        });
-    }
-
-    var releaseNotes = ParseReleaseNotes("./releasenotes.md").Notes.ToArray();
-
-    var nugetSettings = new NuGetPackSettings {
-        Id = "ViewPagerIndicator",
-        Title = "ViewPagerIndicator for Xamarin.Android",
-        Authors = new [] { "Tomasz Cielecki" },
-        Owners = new [] { "cheesebaron" },
-        IconUrl = new Uri("http://i.imgur.com/V3983YY.png"),
-        ProjectUrl = new Uri("https://github.com/Cheesebaron/ViewPagerIndicator"),
-        LicenseUrl = new Uri("https://raw.githubusercontent.com/Cheesebaron/ViewPagerIndicator/master/LICENSE"),
-        Copyright = "Copyright (c) Tomasz Cielecki",
-        Tags = new [] { "viewpagerindicator", "viewpager", "android", "xamarin", "indicator", "pager" },
-        Description = "A port of ViewPagerIndicator for Xamarin.Android. A highly customizable indicator for ViewPager.",
-        RequireLicenseAcceptance = false,
-        Version = versionInfo.NuGetVersion,
-        ReleaseNotes = releaseNotes,
-        Symbols = false,
-        NoPackageAnalysis = true,
-        OutputDirectory = outputDir,
-        Verbosity = NuGetVerbosity.Detailed,
-        Files = nugetContent,
-        BasePath = "./",
-        Dependencies = new NuSpecDependency[] {
-            new NuSpecDependency { Id = "Xamarin.Android.Support.ViewPager", Version = "28.0.0.1" }
-        }
-    };
-
-    NuGetPack(nugetSettings);
+   var nugetFiles = GetFiles("Library/bin/" + configuration + "/**/*.nupkg");
+   CopyFiles(nugetFiles, outputDir);
+   CopyFileToDirectory(gitVersionLog, outputDir);
 });
 
 Task("UploadArtifacts")
+    .IsDependentOn("CopyArtifacts")
     .WithCriteria(() => isRunningOnPipelines)
     .Does(() => 
 {
@@ -168,7 +133,6 @@ Task("Default")
     .IsDependentOn("ResolveBuildTools")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
-    .IsDependentOn("Package")
     .IsDependentOn("UploadArtifacts");
 
 RunTarget(target);
