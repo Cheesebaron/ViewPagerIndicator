@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('monoandroid'))">
+    <DefineConstants>$(DefineConstants);MONO;ANDROID</DefineConstants>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+  </PropertyGroup>
+</Project>

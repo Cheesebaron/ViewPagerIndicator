@@ -1,0 +1,42 @@
+<Project>
+  <PropertyGroup>
+    <Copyright>Copyright (c) Tomasz Cielecki</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Cheesebaron/ViewPagerIndicator</PackageProjectUrl>
+    <PackageIconUrl>http://i.imgur.com/V3983YY.png</PackageIconUrl>
+    <Authors>Tomasz Cielecki</Authors>
+    <Owners>cheesebaron</Owners>
+    <PackageTags>viewpagerindicator, viewpager, android, xamarin, indicator, pager</PackageTags>
+    <PackageReleaseNotes>https://github.com/Cheesebaron/ViewPagerIndicator/blob/master/releasenotes.md</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+    <RepositoryUrl>https://github.com/Cheesebaron/ViewPagerIndicator</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Version>0.4.0</Version>
+    <Platform>AnyCPU</Platform>
+
+    <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DesignTimeBuild>false</DesignTimeBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' And '$(OS)' == 'Windows_NT' ">
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+  
+</Project>
