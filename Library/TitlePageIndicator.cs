@@ -8,6 +8,7 @@ using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
+using DK.Ostebaronen.Droid.ViewPagerIndicator.Extensions;
 using Java.Interop;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
@@ -113,49 +114,61 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var defaultClipPadding = res.GetDimension(Resource.Dimension.default_title_indicator_clip_padding);
             var defaultTopPadding = res.GetDimension(Resource.Dimension.default_title_indicator_top_padding);
 
-            var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.TitlePageIndicator, defStyle, 0);
+            using (var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.TitlePageIndicator, defStyle, 0))
+            {
+                _footerLineHeight = a.GetDimension(Resource.Styleable.TitlePageIndicator_footerLineHeight,
+                                                   defaultFooterLineHeight);
+                _footerIndicatorStyle =
+                    (IndicatorStyle)a.GetInteger(Resource.Styleable.TitlePageIndicator_footerIndicatorStyle, defaultFooterIndicatorStyle);
+                _footerIndicatorHeight = a.GetDimension(Resource.Styleable.TitlePageIndicator_footerIndicatorHeight,
+                                                        defaultFooterIndicatorHeight);
+                _footerIndicatorUnderlinePadding =
+                    a.GetDimension(Resource.Styleable.TitlePageIndicator_footerIndicatorUnderlinePadding,
+                                   defaultFooterIndicatorUnderlinePadding);
+                _footerPadding = a.GetDimension(Resource.Styleable.TitlePageIndicator_footerPadding, defaultFooterPadding);
+                _linePosition =
+                    (LinePosition)a.GetInteger(Resource.Styleable.TitlePageIndicator_linePosition, defaultLinePosition);
+                _topPadding = a.GetDimension(Resource.Styleable.TitlePageIndicator_topPadding, defaultTopPadding);
+                _titlePadding = a.GetDimension(Resource.Styleable.TitlePageIndicator_titlePadding, defaultTitlePadding);
+                _clipPadding = a.GetDimension(Resource.Styleable.TitlePageIndicator_clipPadding, defaultClipPadding);
+                _colorSelected = a.GetColor(Resource.Styleable.TitlePageIndicator_selectedColor, defaultSelectedColor);
+                _colorText = a.GetColor(Resource.Styleable.TitlePageIndicator_android_textColor, defaultTextColor);
+                _boldText = a.GetBoolean(Resource.Styleable.TitlePageIndicator_selectedBold, defaultSelectedBold);
 
-            _footerLineHeight = a.GetDimension(Resource.Styleable.TitlePageIndicator_footerLineHeight,
-                                               defaultFooterLineHeight);
-            _footerIndicatorStyle =
-                (IndicatorStyle)a.GetInteger(Resource.Styleable.TitlePageIndicator_footerIndicatorStyle, defaultFooterIndicatorStyle);
-            _footerIndicatorHeight = a.GetDimension(Resource.Styleable.TitlePageIndicator_footerIndicatorHeight,
-                                                    defaultFooterIndicatorHeight);
-            _footerIndicatorUnderlinePadding =
-                a.GetDimension(Resource.Styleable.TitlePageIndicator_footerIndicatorUnderlinePadding,
-                               defaultFooterIndicatorUnderlinePadding);
-            _footerPadding = a.GetDimension(Resource.Styleable.TitlePageIndicator_footerPadding, defaultFooterPadding);
-            _linePosition =
-                (LinePosition)a.GetInteger(Resource.Styleable.TitlePageIndicator_linePosition, defaultLinePosition);
-            _topPadding = a.GetDimension(Resource.Styleable.TitlePageIndicator_topPadding, defaultTopPadding);
-            _titlePadding = a.GetDimension(Resource.Styleable.TitlePageIndicator_titlePadding, defaultTitlePadding);
-            _clipPadding = a.GetDimension(Resource.Styleable.TitlePageIndicator_clipPadding, defaultClipPadding);
-            _colorSelected = a.GetColor(Resource.Styleable.TitlePageIndicator_selectedColor, defaultSelectedColor);
-            _colorText = a.GetColor(Resource.Styleable.TitlePageIndicator_android_textColor, defaultTextColor);
-            _boldText = a.GetBoolean(Resource.Styleable.TitlePageIndicator_selectedBold, defaultSelectedBold);
+                var textSize = a.GetDimension(Resource.Styleable.TitlePageIndicator_android_textSize, defaultTextSize);
+                var footerColor = a.GetColor(Resource.Styleable.TitlePageIndicator_footerColor, defaultFooterColor);
+                _paintText.TextSize = textSize;
+                _paintFooterLine.SetStyle(Paint.Style.FillAndStroke);
+                _paintFooterLine.StrokeWidth = _footerLineHeight;
+                _paintFooterLine.Color = footerColor;
+                _paintFooterIndicator.SetStyle(Paint.Style.FillAndStroke);
+                _paintFooterIndicator.Color = footerColor;
 
-            var textSize = a.GetDimension(Resource.Styleable.TitlePageIndicator_android_textSize, defaultTextSize);
-            var footerColor = a.GetColor(Resource.Styleable.TitlePageIndicator_footerColor, defaultFooterColor);
-            _paintText.TextSize = textSize;
-            _paintFooterLine.SetStyle(Paint.Style.FillAndStroke);
-            _paintFooterLine.StrokeWidth = _footerLineHeight;
-            _paintFooterLine.Color = footerColor;
-            _paintFooterIndicator.SetStyle(Paint.Style.FillAndStroke);
-            _paintFooterIndicator.Color = footerColor;
+                var background = a.GetDrawable(Resource.Styleable.TitlePageIndicator_android_background);
+                if (null != background)
+                    Background = background;
 
-            var background = a.GetDrawable(Resource.Styleable.TitlePageIndicator_android_background);
-            if(null != background)
-                Background = background;
+                a.Recycle();
+            }
 
-            a.Recycle();
+            using (var configuration = ViewConfiguration.Get(context))
+                _touchSlop = configuration.ScaledPagingTouchSlop;
+        }
 
-            var configuration = ViewConfiguration.Get(context);
-            _touchSlop = configuration.ScaledPagingTouchSlop;
+        private ViewPager ViewPager
+        {
+            get
+            {
+                if (_viewPager.IsNull())
+                    return null;
+
+                return _viewPager;
+            }
         }
 
         public Color FooterColor
         {
-            get { return _paintFooterLine.Color; }
+            get => _paintFooterLine.Color;
             set
             {
                 _paintFooterLine.Color = value;
@@ -166,7 +179,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float FooterLineHeight
         {
-            get { return _footerLineHeight; }
+            get => _footerLineHeight;
             set
             {
                 _footerLineHeight = value;
@@ -177,7 +190,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float FooterIndicatorHeight
         {
-            get { return _footerIndicatorHeight; }
+            get => _footerIndicatorHeight;
             set
             {
                 _footerIndicatorHeight = value;
@@ -187,7 +200,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float FooterIndicatorPadding
         {
-            get { return _footerPadding; }
+            get => _footerPadding;
             set
             {
                 _footerPadding = value;
@@ -197,7 +210,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public IndicatorStyle FooterIndicatorStyle
         {
-            get { return _footerIndicatorStyle; }
+            get => _footerIndicatorStyle;
             set
             {
                 _footerIndicatorStyle = value;
@@ -207,7 +220,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public LinePosition IndicatorLinePosition
         {
-            get { return _linePosition; }
+            get => _linePosition;
             set
             {
                 _linePosition = value;
@@ -217,7 +230,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Color SelectedColor
         {
-            get { return _colorSelected; }
+            get => _colorSelected;
             set
             {
                 _colorSelected = value;
@@ -227,7 +240,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public bool IsSelectedBold
         {
-            get { return _boldText; }
+            get => _boldText;
             set
             {
                 _boldText = value;
@@ -237,7 +250,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Color TextColor
         {
-            get { return _colorText; }
+            get => _colorText;
             set
             {
                 _colorText = value;
@@ -247,17 +260,17 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float TextSize
         {
-            get { return _paintText.TextSize; }
+            get => _paintText.TextSize;
             set
             {
                 _paintText.TextSize = value;
                 Invalidate();
             }
         }
-        
+
         public float TitlePadding
         {
-            get { return _titlePadding; }
+            get => _titlePadding;
             set
             {
                 _titlePadding = value;
@@ -267,7 +280,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float TopPadding
         {
-            get { return _topPadding; }
+            get => _topPadding;
             set
             {
                 _topPadding = value;
@@ -277,7 +290,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float ClipPadding
         {
-            get { return _clipPadding; }
+            get => _clipPadding;
             set
             {
                 _clipPadding = value;
@@ -287,7 +300,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Typeface Typeface
         {
-            get { return _paintText.Typeface; }
+            get => _paintText.Typeface;
             set
             {
                 _paintText.SetTypeface(value);
@@ -299,13 +312,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             base.OnDraw(canvas);
 
-            if(null == _viewPager) return;
+            if(null == ViewPager) return;
 
             var count = _viewPager.Adapter.Count;
 
             if(0 == count) return;
 
-            if(-1 == _currentPage && _viewPager != null)
+            if(-1 == _currentPage && ViewPager != null)
                 _currentPage = _viewPager.CurrentItem;
 
             var bounds = CalculateAllBounds(_paintText);
@@ -493,7 +506,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public override bool OnTouchEvent(MotionEvent e)
         {
             if(base.OnTouchEvent(e)) return true;
-            if(null == _viewPager || _viewPager.Adapter.Count == 0) return false;
+            if(ViewPager?.Adapter.Count == 0) return false;
 
             var action = e.ActionMasked;
             switch(action)
@@ -514,7 +527,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     if (_isDragging)
                     {
                         _lastMotionX = x;
-                        if (_viewPager.IsFakeDragging || _viewPager.BeginFakeDrag())
+                        if (ViewPager != null && (_viewPager.IsFakeDragging || _viewPager.BeginFakeDrag()))
                             _viewPager.FakeDragBy(deltaX);
                     }
 
@@ -559,7 +572,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
                     _isDragging = false;
                     _activePointerId = InvalidPointer;
-                    if (_viewPager.IsFakeDragging) _viewPager.EndFakeDrag();
+                    if (ViewPager?.IsFakeDragging ?? false) ViewPager.EndFakeDrag();
                     break;
 
                 case MotionEventActions.PointerDown:
@@ -653,7 +666,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             if (_viewPager == view) return;
 
-            if (null != _viewPager)
+            if (null != ViewPager)
 				_viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
@@ -804,6 +817,32 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     return new TitleSavedState[size];
                 }
             }
+        }
+
+        private bool _isDisposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                _paintText?.Dispose();
+                _paintFooterIndicator?.Dispose();
+                _paintFooterLine?.Dispose();
+
+                _path?.Dispose();
+
+                if (_viewPager != null)
+                {
+                    _viewPager.RemoveOnPageChangeListener(this);
+                    _viewPager = null;
+                }
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
         }
     }
 }

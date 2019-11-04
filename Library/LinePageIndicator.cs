@@ -7,6 +7,7 @@ using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
+using DK.Ostebaronen.Droid.ViewPagerIndicator.Extensions;
 using Java.Interop;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
@@ -62,28 +63,41 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var defaultCentered = res.GetBoolean(Resource.Boolean.default_line_indicator_centered);
 
             //Retrive styles attributes
-            var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.LinePageIndicator, defStyle, 0);
-            _centered = a.GetBoolean(Resource.Styleable.LinePageIndicator_centered, defaultCentered);
-            _lineWidth = a.GetDimension(Resource.Styleable.LinePageIndicator_lineWidth, defaultLineWidth);
-            _gapWidth = a.GetDimension(Resource.Styleable.LinePageIndicator_gapWidth, defaultGapWidth);
-            StrokeWidth = a.GetDimension(Resource.Styleable.LinePageIndicator_strokeWidth, defaultStrokeWidth);
-            _paintUnSelected.Color = a.GetColor(Resource.Styleable.LinePageIndicator_unselectedColor,
-                                                defaultUnselectedColor);
-            _paintSelected.Color = a.GetColor(Resource.Styleable.LinePageIndicator_selectedColor, defaultSelectedColor);
+            using (var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.LinePageIndicator, defStyle, 0))
+            {
+                _centered = a.GetBoolean(Resource.Styleable.LinePageIndicator_centered, defaultCentered);
+                _lineWidth = a.GetDimension(Resource.Styleable.LinePageIndicator_lineWidth, defaultLineWidth);
+                _gapWidth = a.GetDimension(Resource.Styleable.LinePageIndicator_gapWidth, defaultGapWidth);
+                StrokeWidth = a.GetDimension(Resource.Styleable.LinePageIndicator_strokeWidth, defaultStrokeWidth);
+                _paintUnSelected.Color = a.GetColor(Resource.Styleable.LinePageIndicator_unselectedColor,
+                                                    defaultUnselectedColor);
+                _paintSelected.Color = a.GetColor(Resource.Styleable.LinePageIndicator_selectedColor, defaultSelectedColor);
 
-            var background = a.GetDrawable(Resource.Styleable.LinePageIndicator_android_background);
-            if (null != background)
-                Background = background;
+                var background = a.GetDrawable(Resource.Styleable.LinePageIndicator_android_background);
+                if (null != background)
+                    Background = background;
 
-            a.Recycle();
+                a.Recycle();
+            }
 
-            var configuration = ViewConfiguration.Get(context);
-            _touchSlop = configuration.ScaledPagingTouchSlop;
+            using (var configuration = ViewConfiguration.Get(context))
+                _touchSlop = configuration.ScaledPagingTouchSlop;
+        }
+
+        private ViewPager ViewPager
+        {
+            get
+            {
+                if (_viewPager.IsNull())
+                    return null;
+
+                return _viewPager;
+            }
         }
 
         public bool Centered
         {
-            get { return _centered; }
+            get => _centered;
             set
             {
                 _centered = value;
@@ -93,7 +107,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Color UnselectedColor
         {
-            get { return _paintUnSelected.Color; }
+            get => _paintUnSelected.Color;
             set
             {
                 _paintUnSelected.Color = value;
@@ -103,7 +117,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Color SelectedColor
         {
-            get { return _paintSelected.Color; }
+            get => _paintSelected.Color;
             set
             {
                 _paintSelected.Color = value;
@@ -113,7 +127,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float LineWidth
         {
-            get { return _lineWidth; } 
+            get => _lineWidth;
             set
             {
                 _lineWidth = value;
@@ -123,7 +137,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float StrokeWidth
         {
-            get { return _paintSelected.StrokeWidth; }
+            get => _paintSelected.StrokeWidth;
             set
             {
                 _paintSelected.StrokeWidth = value;
@@ -134,7 +148,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float GapWidth
         {
-            get { return _gapWidth; }
+            get => _gapWidth;
             set
             {
                 _gapWidth = value;
@@ -146,9 +160,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             base.OnDraw(canvas);
 
-            if(null == _viewPager) return;
-
-            var count = _viewPager.Adapter.Count;
+            var count = ViewPager?.Adapter.Count ?? 0;
             if(count == 0) return;
 
             if(_currentPage >= count)
@@ -179,7 +191,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if(base.OnTouchEvent(e))
                 return true;
 
-            if(null == _viewPager || _viewPager.Adapter.Count == 0)
+            if(ViewPager?.Adapter.Count == 0)
                 return false;
 
             var action = e.ActionMasked;
@@ -201,8 +213,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     if (_isDragging)
                     {
                         _lastMotionX = x;
-                        if (_viewPager.IsFakeDragging || _viewPager.BeginFakeDrag())
-                            _viewPager.FakeDragBy(deltaX);
+                        if (ViewPager != null && (ViewPager.IsFakeDragging || ViewPager.BeginFakeDrag()))
+                            ViewPager.FakeDragBy(deltaX);
                     }
 
                     break;
@@ -231,7 +243,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
                     _isDragging = false;
                     _activePointerId = InvalidPointer;
-                    if (_viewPager.IsFakeDragging) _viewPager.EndFakeDrag();
+                    if (ViewPager?.IsFakeDragging ?? false) ViewPager.EndFakeDrag();
                     break;
 
                 case MotionEventActions.PointerDown:
@@ -263,7 +275,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             if (_viewPager == view) return;
 
-            if (null != _viewPager)
+            if (null != ViewPager)
 				_viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
@@ -285,7 +297,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             get { return _currentPage; }
             set
             {
-                if (null == _viewPager)
+                if (null == ViewPager)
                     throw new InvalidOperationException("ViewPager has not been bound.");
 
                 _viewPager.CurrentItem = value;
@@ -345,7 +357,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var specMode = MeasureSpec.GetMode(measureSpec);
             var specSize = MeasureSpec.GetSize(measureSpec);
 
-            if (specMode == MeasureSpecMode.Exactly || null == _viewPager)
+            if (specMode == MeasureSpecMode.Exactly || null == ViewPager)
                 result = specSize;
             else
             {
@@ -364,7 +376,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var specMode = MeasureSpec.GetMode(measureSpec);
             var specSize = MeasureSpec.GetSize(measureSpec);
 
-            if (specMode == MeasureSpecMode.Exactly || null == _viewPager)
+            if (specMode == MeasureSpecMode.Exactly || null == ViewPager)
                 result = specSize;
             else
             {
@@ -438,6 +450,29 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     return new LineSavedState[size];
                 }
             }
+        }
+
+        private bool _isDisposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                _paintUnSelected?.Dispose();
+                _paintSelected?.Dispose();
+
+                if (_viewPager != null)
+                {
+                    _viewPager.RemoveOnPageChangeListener(this);
+                    _viewPager = null;
+                }
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
         }
     }
 }

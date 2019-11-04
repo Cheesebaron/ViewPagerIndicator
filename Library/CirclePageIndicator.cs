@@ -8,6 +8,7 @@ using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using DK.Ostebaronen.Droid.ViewPagerIndicator.Extensions;
 using Java.Interop;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
@@ -67,35 +68,47 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var defaultSnap = Resources.GetBoolean(Resource.Boolean.default_circle_indicator_snap);
             var defaultExtraSpacing = Resources.GetDimension(Resource.Dimension.default_circle_indicator_extra_spacing);
 
-            var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.CirclePageIndicator, defStyle, 0);
+            using (var a = context.ObtainStyledAttributes(attrs, Resource.Styleable.CirclePageIndicator, defStyle, 0))
+            {
+                _centered = a.GetBoolean(Resource.Styleable.CirclePageIndicator_centered, defaultCentered);
+                _orientation = a.GetInt(Resource.Styleable.CirclePageIndicator_android_orientation, defaultOrientation);
+                _paintPageFill.SetStyle(Paint.Style.Fill);
+                _paintPageFill.Color = a.GetColor(Resource.Styleable.CirclePageIndicator_pageColor, defaultPageColor);
+                _paintStroke.SetStyle(Paint.Style.Stroke);
+                _paintStroke.Color = a.GetColor(Resource.Styleable.CirclePageIndicator_strokeColor, defaultStrokeColor);
+                _paintStroke.StrokeWidth = a.GetDimension(Resource.Styleable.CirclePageIndicator_strokeWidth,
+                                                          defaultStrokeWidth);
+                _paintFill.SetStyle(Paint.Style.Fill);
+                _paintFill.Color = a.GetColor(Resource.Styleable.CirclePageIndicator_fillColor, defaultFillColor);
+                _radius = a.GetDimension(Resource.Styleable.CirclePageIndicator_radius, defaultRadius);
+                _snap = a.GetBoolean(Resource.Styleable.CirclePageIndicator_snap, defaultSnap);
+                _extraSpacing = a.GetDimension(Resource.Styleable.CirclePageIndicator_extraSpacing, defaultExtraSpacing);
 
-            _centered = a.GetBoolean(Resource.Styleable.CirclePageIndicator_centered, defaultCentered);
-            _orientation = a.GetInt(Resource.Styleable.CirclePageIndicator_android_orientation, defaultOrientation);
-            _paintPageFill.SetStyle(Paint.Style.Fill);
-            _paintPageFill.Color = a.GetColor(Resource.Styleable.CirclePageIndicator_pageColor, defaultPageColor);
-            _paintStroke.SetStyle(Paint.Style.Stroke);
-            _paintStroke.Color = a.GetColor(Resource.Styleable.CirclePageIndicator_strokeColor, defaultStrokeColor);
-            _paintStroke.StrokeWidth = a.GetDimension(Resource.Styleable.CirclePageIndicator_strokeWidth,
-                                                      defaultStrokeWidth);
-            _paintFill.SetStyle(Paint.Style.Fill);
-            _paintFill.Color = a.GetColor(Resource.Styleable.CirclePageIndicator_fillColor, defaultFillColor);
-            _radius = a.GetDimension(Resource.Styleable.CirclePageIndicator_radius, defaultRadius);
-            _snap = a.GetBoolean(Resource.Styleable.CirclePageIndicator_snap, defaultSnap);
-            _extraSpacing = a.GetDimension(Resource.Styleable.CirclePageIndicator_extraSpacing, defaultExtraSpacing);
+                var background = a.GetDrawable(Resource.Styleable.CirclePageIndicator_android_background);
+                if (null != background)
+                    Background = background;
 
-            var background = a.GetDrawable(Resource.Styleable.CirclePageIndicator_android_background);
-            if (null != background)
-                Background = background;
+                a.Recycle();
+            }
 
-            a.Recycle();
+            using (var configuration = ViewConfiguration.Get(context))
+                _touchSlop = configuration.ScaledPagingTouchSlop;
+        }
 
-            var configuration = ViewConfiguration.Get(context);
-            _touchSlop = configuration.ScaledPagingTouchSlop;
+        private ViewPager ViewPager
+        {
+            get
+            {
+                if (_viewPager.IsNull())
+                    return null;
+
+                return _viewPager;
+            }
         }
 
         public bool Centered
         {
-            get { return _centered; }
+            get => _centered;
             set
             {
                 _centered = value;
@@ -105,7 +118,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Color PageColor
         {
-            get { return _paintFill.Color; }
+            get => _paintFill.Color;
             set
             {
                 _paintFill.Color = value;
@@ -115,7 +128,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Color FillColor
         {
-            get { return _paintPageFill.Color; }
+            get => _paintPageFill.Color;
             set
             {
                 _paintPageFill.Color = value;
@@ -125,10 +138,10 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public int CircleOrientation
         {
-            get { return _orientation; }
+            get => _orientation;
             set
             {
-                switch(value)
+                switch (value)
                 {
                     case (int)Orientation.Horizontal:
                     case (int)Orientation.Vertical:
@@ -143,7 +156,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public Color StrokeColor
         {
-            get { return _paintStroke.Color; }
+            get => _paintStroke.Color;
             set
             {
                 _paintStroke.Color = value;
@@ -153,7 +166,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float StrokeWidth
         {
-            get { return _paintStroke.StrokeWidth; }
+            get => _paintStroke.StrokeWidth;
             set
             {
                 _paintStroke.StrokeWidth = value;
@@ -163,7 +176,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public float Radius
         {
-            get { return _radius; }
+            get => _radius;
             set
             {
                 _radius = value;
@@ -173,7 +186,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public bool Snap
         {
-            get { return _snap; }
+            get => _snap;
             set
             {
                 _snap = value;
@@ -195,10 +208,10 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             base.OnDraw(canvas);
 
-            if(null == _viewPager)
+            if (_isDisposed)
                 return;
 
-            var count = _viewPager.Adapter.Count;
+            var count = ViewPager?.Adapter.Count ?? 0;
             if(0 == count)
                 return;
 
@@ -290,7 +303,10 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if(base.OnTouchEvent(e))
                 return true;
 
-            if((null == _viewPager) || (0 == _viewPager.Adapter.Count))
+            if (_isDisposed)
+                return false;
+
+            if (0 == (ViewPager?.Adapter.Count ?? 0))
                 return false;
 
             var action = e.ActionMasked;
@@ -312,8 +328,8 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     if(_isDragging)
                     {
                         _lastMotionX = x;
-                        if (_viewPager.IsFakeDragging || _viewPager.BeginFakeDrag())
-                            _viewPager.FakeDragBy(deltaX);
+                        if (ViewPager != null && (ViewPager.IsFakeDragging || ViewPager.BeginFakeDrag()))
+                            ViewPager.FakeDragBy(deltaX);
                     }
 
                     break;
@@ -322,27 +338,27 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 case MotionEventActions.Up:
                     if(!_isDragging)
                     {
-                        var count = _viewPager.Adapter.Count;
+                        var count = ViewPager.Adapter.Count;
                         var halfWidth = Width / 2f;
                         var sixthWidth = Width / 6f;
 
                         if((_currentPage > 0) && (e.GetX() < halfWidth - sixthWidth))
                         {
                             if (action != MotionEventActions.Cancel)
-                                _viewPager.CurrentItem = _currentPage - 1;
+                                ViewPager.CurrentItem = _currentPage - 1;
                             return true;
                         }
                         if((_currentPage < count - 1) && (e.GetX() > halfWidth + sixthWidth))
                         {
                             if (action != MotionEventActions.Cancel)
-                                _viewPager.CurrentItem = _currentPage + 1;
+                                ViewPager.CurrentItem = _currentPage + 1;
                             return true;
                         }
                     }
 
                     _isDragging = false;
                     _activePointerId = InvalidPointer;
-                    if(_viewPager.IsFakeDragging) _viewPager.EndFakeDrag();
+                    if(ViewPager?.IsFakeDragging ?? false) ViewPager.EndFakeDrag();
                     break;
 
                 case MotionEventActions.PointerDown:
@@ -372,9 +388,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public void SetViewPager(ViewPager view)
         {
-            if(_viewPager == view) return;
+            if (_isDisposed)
+                return;
 
-            if(null != _viewPager)
+            if (_viewPager == view)
+                return;
+
+            if(!_viewPager.IsNull())
 				_viewPager.ClearOnPageChangeListeners();
 
             if(null == view.Adapter)
@@ -393,13 +413,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public int CurrentItem
         {
-            get { return _currentPage; }
+            get => _currentPage;
             set
             {
-                if(null == _viewPager)
+                if (ViewPager == null)
                     throw new InvalidOperationException("ViewPager has not been bound.");
 
-                _viewPager.CurrentItem = value;
+                ViewPager.CurrentItem = value;
                 _currentPage = value;
                 Invalidate();
             }
@@ -468,7 +488,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             var specMode = MeasureSpec.GetMode(measureSpec);
             var specSize = MeasureSpec.GetSize(measureSpec);
 
-            if(specMode == MeasureSpecMode.Exactly || null == _viewPager)
+            if(specMode == MeasureSpecMode.Exactly || null == ViewPager)
                 result = specSize;
             else
             {
@@ -562,6 +582,30 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     return new CircleSavedState[size];
                 }
             }
+        }
+
+        private bool _isDisposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (disposing)
+            {
+                _paintFill?.Dispose();
+                _paintPageFill?.Dispose();
+                _paintStroke?.Dispose();
+
+                if (_viewPager != null)
+                {
+                    _viewPager.RemoveOnPageChangeListener(this);
+                    _viewPager = null;
+                }
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
         }
     }
 }
