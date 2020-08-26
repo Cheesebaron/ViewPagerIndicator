@@ -1,13 +1,13 @@
 using System;
-using Android.Support.V4.App;
-using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
+using AndroidX.AppCompat.App;
+using AndroidX.ViewPager.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
 namespace Sample
 {
-    public abstract class BaseSampleActivity : FragmentActivity
+    public abstract class BaseSampleActivity : AppCompatActivity
     {
         private static readonly Random _random = new Random();
 

@@ -1,10 +1,10 @@
 using Android.App;
 using Android.OS;
-using Android.Support.V4.View;
+using AndroidX.ViewPager.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
-using Fragment = Android.Support.V4.App.Fragment;
-using FragmentManager = Android.Support.V4.App.FragmentManager;
+using Fragment = AndroidX.Fragment.App.Fragment;
+using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
 namespace Sample.Tabs
 {

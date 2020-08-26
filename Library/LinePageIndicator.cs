@@ -3,10 +3,10 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.Content;
-using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
+using AndroidX.Core.Content;
+using AndroidX.ViewPager.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Extensions;
 using Java.Interop;
 
