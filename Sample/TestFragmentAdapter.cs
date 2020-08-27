@@ -1,4 +1,4 @@
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
 
 namespace Sample

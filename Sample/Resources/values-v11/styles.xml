@@ -16,10 +16,10 @@
 -->
 
 <resources>
-  <style name="LightTheme" parent="@android:style/Theme.Holo.Light">
+  <style name="LightTheme" parent="@style/Theme.AppCompat">
   </style>
 
-  <style name="StyledIndicators" parent="@android:style/Theme.Holo.Light">
+  <style name="StyledIndicators" parent="@style/Theme.AppCompat">
     <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
     <item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item>
     <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>

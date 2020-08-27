@@ -1,3 +1,7 @@
+# New in 0.5.0
+- Migrate to AndroidX
+- Fix bug in TitlePageIndicator where selected item would be transparent
+
 # New in 0.4.0
 - Being a better citizen by helping GC disposing of managed resources
 - Updated to Xamarin.Android.Support.ViewPager 28.0.0.3

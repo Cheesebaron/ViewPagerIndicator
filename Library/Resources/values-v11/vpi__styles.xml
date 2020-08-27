@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <style name="Theme.PageIndicatorDefaults" parent="android:Theme.Holo">
+    <style name="Theme.PageIndicatorDefaults" parent="@style/Theme.AppCompat">
         <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
         <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
     </style>

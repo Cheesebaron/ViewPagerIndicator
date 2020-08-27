@@ -4,10 +4,10 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.Content;
-using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
+using AndroidX.Core.Content;
+using AndroidX.ViewPager.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Extensions;
 using Java.Interop;
 
@@ -409,7 +409,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
 
             //Now draw views!
-            var colorTextAlpha = _colorText >> 24;
+            var colorTextAlpha = _colorText.A;
             for(var i = 0; i < count; i++)
             {
                 //Get the title
@@ -446,7 +446,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     if(currentPage && currentSelected)
                     {
                         _paintText.Color = _colorSelected;
-                        _paintText.Alpha = (int)((_colorSelected >> 24) * selectedPercent);
+                        _paintText.Alpha = (int)(_colorSelected.A * selectedPercent);
                         canvas.DrawText(pageTitle, 0, pageTitle.Length, bound.Left, bound.Bottom + TopPadding, _paintText);
                     }
                 }

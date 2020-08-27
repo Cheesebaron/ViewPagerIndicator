@@ -1,4 +1,4 @@
-using Android.Support.V4.View;
+using AndroidX.ViewPager.Widget;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
