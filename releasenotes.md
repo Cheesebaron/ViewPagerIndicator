@@ -1,4 +1,4 @@
-# New in 0.5.0
+# New in 5.0.0
 - Migrate to AndroidX
 - Fix bug in TitlePageIndicator where selected item would be transparent
 
