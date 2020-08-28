@@ -3,6 +3,7 @@
     <Copyright>Copyright (c) Tomasz Cielecki</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Cheesebaron/ViewPagerIndicator</PackageProjectUrl>
+    <PackageIconUrl>http://i.imgur.com/V3983YY.png</PackageIconUrl>
     <Authors>Tomasz Cielecki</Authors>
     <Owners>cheesebaron</Owners>
     <PackageTags>viewpagerindicator, viewpager, android, xamarin, indicator, pager</PackageTags>
