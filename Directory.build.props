@@ -3,7 +3,7 @@
     <Copyright>Copyright (c) Tomasz Cielecki</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Cheesebaron/ViewPagerIndicator</PackageProjectUrl>
-    <PackageIconUrl>http://i.imgur.com/V3983YY.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <Authors>Tomasz Cielecki</Authors>
     <Owners>cheesebaron</Owners>
     <PackageTags>viewpagerindicator, viewpager, android, xamarin, indicator, pager</PackageTags>
@@ -25,7 +25,7 @@
     <None Include="$(MSBuildThisFileDirectory)\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <Deterministic>true</Deterministic>
 	</PropertyGroup>
@@ -45,11 +45,6 @@
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   
 </Project>

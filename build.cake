@@ -61,13 +61,8 @@ Task("Build")
     {
         Version = versionInfo.SemVer,
         PackageVersion = versionInfo.SemVer,
-        InformationalVersion = versionInfo.InformationalVersion,
-        ContinuousIntegrationBuild = true
+        InformationalVersion = versionInfo.InformationalVersion
     };
-    
-    msBuildSettings = msBuildSettings
-        .WithProperty("DebugSymbols", "True")
-        .WithProperty("DebugType", "Portable");
 
     var settings = new DotNetBuildSettings
     {
