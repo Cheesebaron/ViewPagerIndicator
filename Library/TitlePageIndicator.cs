@@ -48,16 +48,16 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private int _currentPage = -1;
         private float _pageOffset;
         private int _scrollState;
-        private readonly Paint _paintText = new Paint(PaintFlags.AntiAlias);
+        private readonly Paint _paintText = new(PaintFlags.AntiAlias);
         private bool _boldText;
         private Color _colorText;
         private Color _colorSelected;
-        private readonly Path _path = new Path();
-        private readonly Rect _bounds = new Rect();
-        private readonly Paint _paintFooterLine = new Paint(PaintFlags.AntiAlias);
+        private readonly Path _path = new();
+        private readonly Rect _bounds = new();
+        private readonly Paint _paintFooterLine = new(PaintFlags.AntiAlias);
         private IndicatorStyle _footerIndicatorStyle;
         private LinePosition _linePosition;
-        private readonly Paint _paintFooterIndicator = new Paint(PaintFlags.AntiAlias);
+        private readonly Paint _paintFooterIndicator = new(PaintFlags.AntiAlias);
         private float _footerIndicatorHeight;
         private readonly float _footerIndicatorUnderlinePadding;
         private float _footerPadding;
@@ -152,7 +152,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
 
             using (var configuration = ViewConfiguration.Get(context))
-                _touchSlop = configuration.ScaledPagingTouchSlop;
+                _touchSlop = configuration?.ScaledPagingTouchSlop ?? 0;
         }
 
         private ViewPager ViewPager
@@ -314,7 +314,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             if (null == ViewPager) return;
 
-            var count = _viewPager.Adapter.Count;
+            var count = _viewPager.Adapter?.Count ?? 0;
 
             if (0 == count) return;
 
@@ -506,7 +506,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public override bool OnTouchEvent(MotionEvent e)
         {
             if (base.OnTouchEvent(e)) return true;
-            if (ViewPager?.Adapter.Count == 0) return false;
+            if (_viewPager.Adapter?.Count == 0) return false;
 
             var action = e.ActionMasked;
             switch (action)
@@ -537,7 +537,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 case MotionEventActions.Up:
                     if (!_isDragging)
                     {
-                        var count = _viewPager.Adapter.Count;
+                        var count = _viewPager.Adapter!.Count;
                         var halfWidth = Width / 2f;
                         var sixthWidth = Width / 6f;
                         var leftThird = halfWidth - sixthWidth;
@@ -616,7 +616,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             var list = new List<Rect>();
 
-            var count = _viewPager.Adapter.Count;
+            var count = _viewPager.Adapter?.Count ?? 0;
             var halfWidth = Width / 2;
             for (var i = 0; i < count; i++)
             {
@@ -642,9 +642,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             return bounds;
         }
 
-        private String GetTitle(int i)
+        private string GetTitle(int i)
         {
-            var title = _viewPager.Adapter.GetPageTitle(i);
+            var title = _viewPager.Adapter?.GetPageTitle(i);
             return title ?? EmptyTitle;
         }
 
@@ -757,14 +757,15 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         protected override void OnRestoreInstanceState(IParcelable state)
         {
-            var savedState = state as TitleSavedState;
-            if (savedState != null)
+            if (state is TitleSavedState savedState)
             {
                 base.OnRestoreInstanceState(savedState.SuperState);
                 _currentPage = savedState.CurrentPage;
             }
             else
+            {
                 base.OnRestoreInstanceState(state);
+            }
             RequestLayout();
         }
 

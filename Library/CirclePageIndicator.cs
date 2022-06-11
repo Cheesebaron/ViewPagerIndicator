@@ -21,9 +21,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private const int InvalidPointer = -1;
 
         private float _radius;
-        private readonly Paint _paintPageFill = new Paint(PaintFlags.AntiAlias);
-        private readonly Paint _paintStroke = new Paint(PaintFlags.AntiAlias);
-        private readonly Paint _paintFill = new Paint(PaintFlags.AntiAlias);
+        private readonly Paint _paintPageFill = new(PaintFlags.AntiAlias);
+        private readonly Paint _paintStroke = new(PaintFlags.AntiAlias);
+        private readonly Paint _paintFill = new(PaintFlags.AntiAlias);
         private ViewPager _viewPager;
         private ViewPager.IOnPageChangeListener _listener;
         private int _currentPage;
@@ -92,7 +92,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
 
             using (var configuration = ViewConfiguration.Get(context))
-                _touchSlop = configuration.ScaledPagingTouchSlop;
+                _touchSlop = configuration?.ScaledPagingTouchSlop ?? 0;
         }
 
         private ViewPager ViewPager
@@ -211,7 +211,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_isDisposed)
                 return;
 
-            var count = ViewPager?.Adapter.Count ?? 0;
+            var count = ViewPager?.Adapter?.Count ?? 0;
             if (0 == count)
                 return;
 
@@ -306,7 +306,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_isDisposed)
                 return false;
 
-            if (0 == (ViewPager?.Adapter.Count ?? 0))
+            if (0 == (ViewPager?.Adapter?.Count ?? 0))
                 return false;
 
             var action = e.ActionMasked;
@@ -493,7 +493,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             else
             {
                 //Calculate the width according to the views count
-                var count = _viewPager.Adapter.Count;
+                var count = _viewPager.Adapter?.Count ?? 0;
                 result = (int)(PaddingLeft + PaddingRight + (count * 2 * _radius) + (count - 1) * (_radius + _extraSpacing) + 1 + _extraSpacing);
                 if (specMode == MeasureSpecMode.AtMost)
                     result = Math.Min(result, specSize);

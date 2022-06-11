@@ -66,7 +66,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             int parentHeightMeasureSpec, int heightUsed)
         {
             var index = IndexOfChild(child);
-            var lparams = (LayoutParams)child.LayoutParameters;
+            var lparams = (LayoutParams)child.LayoutParameters!;
 
             if (HasDividerBeforeChildAt(index))
             {
@@ -184,7 +184,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             {
                 var hasVisibleViewBefore = false;
                 for (var i = childIndex; i >= 0; i--)
-                    if (GetChildAt(i).Visibility != ViewStates.Gone)
+                    if (GetChildAt(i)?.Visibility != ViewStates.Gone)
                     {
                         hasVisibleViewBefore = true;
                         break;

@@ -55,6 +55,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private void AnimateToIcon(int position)
         {
             var iconView = _iconsLayout.GetChildAt(position);
+            if (iconView == null)
+                return;
+
             if (_iconSelector != null)
                 RemoveCallbacks(_iconSelector);
 
@@ -105,7 +108,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public void NotifyDataSetChanged()
         {
             _iconsLayout.RemoveAllViews();
-            var iconAdapter = (IIconPageAdapter)_viewPager.Adapter;
+            if (_viewPager.Adapter is not IIconPageAdapter iconAdapter)
+                return;
+
             var count = iconAdapter.Count;
             for (var i = 0; i < count; i++)
             {
@@ -123,16 +128,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public void OnPageScrollStateChanged(int state)
         {
-            if (_listener != null)
-                _listener.OnPageScrollStateChanged(state);
+            _listener?.OnPageScrollStateChanged(state);
 
             PageScrollStateChanged?.Invoke(this, new PageScrollStateChangedEventArgs { State = state });
         }
 
         public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
         {
-            if (_listener != null)
-                _listener.OnPageScrolled(position, positionOffset, positionOffsetPixels);
+            _listener?.OnPageScrolled(position, positionOffset, positionOffsetPixels);
 
             PageScrolled?.Invoke(this,
              new PageScrolledEventArgs
@@ -146,8 +149,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public void OnPageSelected(int position)
         {
             CurrentItem = position;
-            if (_listener != null)
-                _listener.OnPageSelected(position);
+            _listener?.OnPageSelected(position);
 
             PageSelected?.Invoke(this, new PageSelectedEventArgs { Position = position });
         }
@@ -167,8 +169,11 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 for (var i = 0; i < tabCount; i++)
                 {
                     var child = _iconsLayout.GetChildAt(i);
-                    var selected = (i == value);
-                    child.Selected = selected;
+                    var selected = i == value;
+                    
+                    if (child != null)
+                        child.Selected = selected;
+                    
                     if (selected)
                         AnimateToIcon(value);
                 }

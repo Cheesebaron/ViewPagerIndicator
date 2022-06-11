@@ -22,7 +22,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private const int InvalidPointer = -1;
         private const int FadeFrameMs = 30;
 
-        private readonly Paint _paint = new Paint(PaintFlags.AntiAlias);
+        private readonly Paint _paint = new(PaintFlags.AntiAlias);
         private bool _fades;
         private int _fadeBy;
         private int _fadeLength;
@@ -81,7 +81,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
 
             using (var configuration = ViewConfiguration.Get(context))
-                _touchSlop = configuration.ScaledPagingTouchSlop;
+                _touchSlop = configuration?.ScaledPagingTouchSlop ?? 0;
 
             _fadeRunnable = new Runnable(() =>
             {
@@ -171,7 +171,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             if (null == ViewPager) return;
 
-            var count = _viewPager.Adapter.Count;
+            var count = _viewPager.Adapter?.Count ?? 0;
             if (count == 0) return;
 
             if (_currentPage >= count)
@@ -193,7 +193,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (base.OnTouchEvent(e))
                 return true;
 
-            if (ViewPager?.Adapter.Count == 0)
+            if (ViewPager?.Adapter?.Count == 0)
                 return false;
 
             var action = e.ActionMasked;
@@ -226,17 +226,17 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 case MotionEventActions.Up:
                     if (!_isDragging)
                     {
-                        var count = _viewPager.Adapter.Count;
+                        var count = _viewPager.Adapter?.Count ?? 0;
                         var halfWidth = Width / 2f;
                         var sixthWidth = Width / 6f;
 
-                        if ((_currentPage > 0) && (e.GetX() > halfWidth - sixthWidth))
+                        if (_currentPage > 0 && e.GetX() > halfWidth - sixthWidth)
                         {
                             if (action != MotionEventActions.Cancel)
                                 _viewPager.CurrentItem = _currentPage - 1;
                             return true;
                         }
-                        if ((_currentPage < count - 1) && (e.GetX() > halfWidth + sixthWidth))
+                        if (_currentPage < count - 1 && e.GetX() > halfWidth + sixthWidth)
                         {
                             if (action != MotionEventActions.Cancel)
                                 _viewPager.CurrentItem = _currentPage + 1;
@@ -360,8 +360,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         protected override void OnRestoreInstanceState(IParcelable state)
         {
-            var savedState = state as UnderlineSavedState;
-            if (savedState != null)
+            if (state is UnderlineSavedState savedState)
             {
                 base.OnRestoreInstanceState(savedState.SuperState);
                 _currentPage = savedState.CurrentPage;

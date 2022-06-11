@@ -84,6 +84,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private void AnimateToTab(int position)
         {
             var iconView = _tabLayout.GetChildAt(position);
+            if (iconView == null)
+                return;
+            
             if (_tabSelector != null)
                 RemoveCallbacks(_tabSelector);
 
@@ -190,14 +193,12 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             RemoveAllTabItems();
             var adapter = _viewPager.Adapter;
-            IIconPageAdapter iconAdapter = null;
-            if (adapter is IIconPageAdapter)
-                iconAdapter = (IIconPageAdapter)adapter;
+            var iconAdapter = adapter as IIconPageAdapter;
 
-            var count = adapter.Count;
+            var count = adapter?.Count ?? 0;
             for (var i = 0; i < count; i++)
             {
-                var title = adapter.GetPageTitleFormatted(i) ?? EmptyTitle;
+                var title = adapter!.GetPageTitleFormatted(i) ?? EmptyTitle;
 
                 var iconResId = 0;
                 if (iconAdapter != null)
@@ -225,8 +226,11 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 for (var i = 0; i < tabCount; i++)
                 {
                     var child = _tabLayout.GetChildAt(i);
-                    var selected = (i == value);
-                    child.Selected = selected;
+                    var selected = i == value;
+                    
+                    if (child != null)
+                        child.Selected = selected;
+
                     if (selected)
                         AnimateToTab(value);
                 }

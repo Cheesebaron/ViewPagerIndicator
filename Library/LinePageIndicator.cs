@@ -81,7 +81,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
 
             using (var configuration = ViewConfiguration.Get(context))
-                _touchSlop = configuration.ScaledPagingTouchSlop;
+                _touchSlop = configuration?.ScaledPagingTouchSlop ?? 0;
         }
 
         private ViewPager ViewPager
@@ -160,7 +160,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             base.OnDraw(canvas);
 
-            var count = ViewPager?.Adapter.Count ?? 0;
+            var count = ViewPager?.Adapter?.Count ?? 0;
             if (count == 0) return;
 
             if (_currentPage >= count)
@@ -191,7 +191,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (base.OnTouchEvent(e))
                 return true;
 
-            if (ViewPager?.Adapter.Count == 0)
+            if (ViewPager?.Adapter?.Count == 0)
                 return false;
 
             var action = e.ActionMasked;
@@ -223,7 +223,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 case MotionEventActions.Up:
                     if (!_isDragging)
                     {
-                        var count = _viewPager.Adapter.Count;
+                        var count = _viewPager.Adapter?.Count ?? 0;
                         var halfWidth = Width / 2f;
                         var sixthWidth = Width / 6f;
 
@@ -362,7 +362,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             else
             {
                 //Calculate the width according to the views count
-                var count = _viewPager.Adapter.Count;
+                var count = _viewPager.Adapter?.Count ?? 0;
                 result = (PaddingLeft + PaddingRight + (count * _lineWidth) + (count - 1) * _gapWidth);
                 if (specMode == MeasureSpecMode.AtMost)
                     result = Math.Min(result, specSize);
