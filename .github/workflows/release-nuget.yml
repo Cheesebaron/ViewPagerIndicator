@@ -1,0 +1,34 @@
+name: Release NuGet
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      runId:
+        description: "The run id of the GitHub Action Run to publish artifacts from"
+        required: false
+        default: '-1'
+
+jobs:
+  nuget-publish:
+    runs-on: windows-latest
+    steps:
+    - name: Download specific artifact
+      if: ${{ github.event.inputs.runId > 0 }}
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: build.yml
+        branch: master
+        run_id: ${{ github.event.inputs.runId }}
+
+    - name: Download latest artifact
+      if: ${{ github.event.inputs.runId == -1 }}
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: build.yml
+        branch: master
+      
+    - shell: pwsh
+      name: Publish NuGet Package
+      run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
