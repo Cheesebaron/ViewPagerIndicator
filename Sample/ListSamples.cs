@@ -25,7 +25,8 @@ namespace Sample
 
             ListAdapter = new ArrayAdapter<ActivityListItem>(this, Android.Resource.Layout.SimpleListItem1, Android.Resource.Id.Text1, items);
 
-            ListView.ItemClick += (s, e) => {
+            ListView.ItemClick += (s, e) =>
+            {
                 var listView = s as ListView;
                 if (listView == null) return;
 

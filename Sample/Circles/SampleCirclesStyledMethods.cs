@@ -25,7 +25,7 @@ namespace Sample.Circles
             _indicator.SetViewPager(_pager);
 
             var density = Resources.DisplayMetrics.Density;
-            var indicator = (CirclePageIndicator) _indicator;
+            var indicator = (CirclePageIndicator)_indicator;
             indicator.SetBackgroundColor(Color.Argb(255, 204, 204, 204));
             indicator.Radius = 10 * density;
             indicator.PageColor = Color.Argb(136, 0, 0, 255);

@@ -7,7 +7,7 @@ namespace Sample
 {
     public class TestFragmentAdapter : FragmentPagerAdapter, IIconPageAdapter
     {
-        private static readonly string[] Content = {"This", "Is", "A", "Test"};
+        private static readonly string[] Content = { "This", "Is", "A", "Test" };
         private static readonly int[] Icons =
         {
             Resource.Drawable.perm_group_calendar,
@@ -18,8 +18,8 @@ namespace Sample
 
         private int _count = Content.Length;
 
-        public TestFragmentAdapter(FragmentManager p0) 
-            : base(p0) 
+        public TestFragmentAdapter(FragmentManager p0)
+            : base(p0)
         {
         }
 

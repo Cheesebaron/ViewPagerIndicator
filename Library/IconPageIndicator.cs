@@ -12,7 +12,7 @@ using Java.Lang;
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
     [Register("dk.ostebaronen.droid.viewpagerindicator.IconPageIndicator")]
-    public class IconPageIndicator 
+    public class IconPageIndicator
         : HorizontalScrollView
         , IPageIndicator
     {
@@ -86,13 +86,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_viewPager == view) return;
 
             if (null != ViewPager)
-				_viewPager.ClearOnPageChangeListeners();
+                _viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
                 throw new InvalidOperationException("ViewPager does not have an Adapter instance.");
 
             _viewPager = view;
-			_viewPager.AddOnPageChangeListener(this);
+            _viewPager.AddOnPageChangeListener(this);
             NotifyDataSetChanged();
         }
 
@@ -107,7 +107,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             _iconsLayout.RemoveAllViews();
             var iconAdapter = (IIconPageAdapter)_viewPager.Adapter;
             var count = iconAdapter.Count;
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var view = new ImageView(Context, null, Resource.Attribute.vpiIconPageIndicatorStyle);
                 view.SetImageResource(iconAdapter.GetIconResId(i));
@@ -164,7 +164,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 _selectedIndex = value;
 
                 var tabCount = _iconsLayout.ChildCount;
-                for(var i = 0; i < tabCount; i++)
+                for (var i = 0; i < tabCount; i++)
                 {
                     var child = _iconsLayout.GetChildAt(i);
                     var selected = (i == value);

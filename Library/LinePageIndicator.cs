@@ -13,7 +13,7 @@ using Java.Interop;
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
     [Register("dk.ostebaronen.droid.viewpagerindicator.LinePageIndicator")]
-    public class LinePageIndicator 
+    public class LinePageIndicator
         : View
         , IPageIndicator
     {
@@ -50,7 +50,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public LinePageIndicator(Context context, IAttributeSet attrs, int defStyle)
             : base(context, attrs, defStyle)
         {
-            if(IsInEditMode) return;
+            if (IsInEditMode) return;
 
             var res = Resources;
 
@@ -161,9 +161,9 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             base.OnDraw(canvas);
 
             var count = ViewPager?.Adapter.Count ?? 0;
-            if(count == 0) return;
+            if (count == 0) return;
 
-            if(_currentPage >= count)
+            if (_currentPage >= count)
             {
                 CurrentItem = count - 1;
                 return;
@@ -174,11 +174,11 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             var verticalOffset = PaddingTop + ((Height - PaddingTop - PaddingBottom) / 2.0f);
             float horizontalOffset = PaddingLeft;
-            if(_centered)
+            if (_centered)
                 horizontalOffset += ((Width - PaddingLeft - PaddingRight) / 2.0f) - (indicatorWidth / 2.0f);
 
             //Draw stroked circles
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var dx1 = horizontalOffset + (i * lineWidthAndGap);
                 var dx2 = dx1 + LineWidth;
@@ -188,10 +188,10 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public override bool OnTouchEvent(MotionEvent e)
         {
-            if(base.OnTouchEvent(e))
+            if (base.OnTouchEvent(e))
                 return true;
 
-            if(ViewPager?.Adapter.Count == 0)
+            if (ViewPager?.Adapter.Count == 0)
                 return false;
 
             var action = e.ActionMasked;
@@ -247,25 +247,25 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     break;
 
                 case MotionEventActions.PointerDown:
-                {
-                    var pointerIndex = e.ActionIndex;
-                    _lastMotionX = e.GetX(pointerIndex);
-                    _activePointerId = e.GetPointerId(pointerIndex);
-                    break;
-                }
+                    {
+                        var pointerIndex = e.ActionIndex;
+                        _lastMotionX = e.GetX(pointerIndex);
+                        _activePointerId = e.GetPointerId(pointerIndex);
+                        break;
+                    }
 
                 case MotionEventActions.PointerUp:
-                {
-                    var pointerIndex = e.ActionIndex;
-                    var pointerId = e.GetPointerId(pointerIndex);
-                    if (pointerId == _activePointerId)
                     {
-                        var newPointerIndex = pointerIndex == 0 ? 1 : 0;
-                        _activePointerId = e.GetPointerId(newPointerIndex);
+                        var pointerIndex = e.ActionIndex;
+                        var pointerId = e.GetPointerId(pointerIndex);
+                        if (pointerId == _activePointerId)
+                        {
+                            var newPointerIndex = pointerIndex == 0 ? 1 : 0;
+                            _activePointerId = e.GetPointerId(newPointerIndex);
+                        }
+                        _lastMotionX = e.GetX(e.FindPointerIndex(_activePointerId));
+                        break;
                     }
-                    _lastMotionX = e.GetX(e.FindPointerIndex(_activePointerId));
-                    break;
-                }
             }
 
             return true;
@@ -276,13 +276,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_viewPager == view) return;
 
             if (null != ViewPager)
-				_viewPager.ClearOnPageChangeListeners();
+                _viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
                 throw new InvalidOperationException("ViewPager does not have an Adapter instance.");
 
             _viewPager = view;
-			_viewPager.AddOnPageChangeListener(this);
+            _viewPager.AddOnPageChangeListener(this);
             Invalidate();
         }
 
@@ -394,7 +394,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (savedState != null)
             {
                 base.OnRestoreInstanceState(savedState.SuperState);
-                _currentPage = savedState.CurrentPage;    
+                _currentPage = savedState.CurrentPage;
             }
             else
                 base.OnRestoreInstanceState(state);
@@ -411,7 +411,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             return savedState;
         }
 
-        public class LineSavedState 
+        public class LineSavedState
             : BaseSavedState
         {
             public int CurrentPage { get; set; }

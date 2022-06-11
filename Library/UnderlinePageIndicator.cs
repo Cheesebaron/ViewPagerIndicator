@@ -15,7 +15,7 @@ using Math = System.Math;
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
     [Register("dk.ostebaronen.droid.viewpagerindicator.UnderlinePageIndicator")]
-    public class UnderlinePageIndicator 
+    public class UnderlinePageIndicator
         : View
         , IPageIndicator
     {
@@ -169,12 +169,12 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             base.OnDraw(canvas);
 
-            if(null == ViewPager) return;
+            if (null == ViewPager) return;
 
             var count = _viewPager.Adapter.Count;
             if (count == 0) return;
-            
-            if(_currentPage >= count)
+
+            if (_currentPage >= count)
             {
                 CurrentItem = count - 1;
                 return;
@@ -279,13 +279,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_viewPager == view) return;
 
             if (null != ViewPager)
-				_viewPager.ClearOnPageChangeListeners();
+                _viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
                 throw new InvalidOperationException("ViewPager does not have an Adapter instance.");
 
             _viewPager = view;
-			_viewPager.AddOnPageChangeListener(this);
+            _viewPager.AddOnPageChangeListener(this);
             Invalidate();
             Post(_fadeRunnable);
         }
@@ -318,14 +318,14 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             _currentPage = position;
             _positionOffset = positionOffset;
-            if(_fades)
+            if (_fades)
             {
                 if (positionOffsetPixels > 0)
                 {
                     RemoveCallbacks(_fadeRunnable);
                     _paint.Alpha = Color.GetAlphaComponent(_selectedColor);
                 }
-                else if(_scrollState != ViewPager.ScrollStateDragging)
+                else if (_scrollState != ViewPager.ScrollStateDragging)
                     PostDelayed(_fadeRunnable, FadeFrameMs);
             }
             Invalidate();
@@ -364,7 +364,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (savedState != null)
             {
                 base.OnRestoreInstanceState(savedState.SuperState);
-                _currentPage = savedState.CurrentPage;    
+                _currentPage = savedState.CurrentPage;
             }
             else
                 base.OnRestoreInstanceState(state);
@@ -381,7 +381,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             return savedState;
         }
 
-        public class UnderlineSavedState 
+        public class UnderlineSavedState
             : BaseSavedState
         {
             public int CurrentPage { get; set; }

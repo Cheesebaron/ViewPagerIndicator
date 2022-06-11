@@ -34,8 +34,8 @@ namespace Sample.Tabs
                 "Recent", "Artists", "Album", "Songs", "Playlists", "Genres"
             };
 
-            public GoogleMusicAdapter(FragmentManager p0) 
-                : base(p0) 
+            public GoogleMusicAdapter(FragmentManager p0)
+                : base(p0)
             { }
 
             public override int Count

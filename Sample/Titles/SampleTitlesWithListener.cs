@@ -1,7 +1,7 @@
 using Android.App;
 using Android.OS;
-using AndroidX.ViewPager.Widget;
 using Android.Widget;
+using AndroidX.ViewPager.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 
 namespace Sample.Titles

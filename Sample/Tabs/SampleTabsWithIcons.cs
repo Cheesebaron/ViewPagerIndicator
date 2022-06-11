@@ -27,7 +27,7 @@ namespace Sample.Tabs
             _indicator.SetViewPager(_pager);
         }
 
-        private class GoogleMusicAdapter : TestFragmentAdapter, IIconPageAdapter 
+        private class GoogleMusicAdapter : TestFragmentAdapter, IIconPageAdapter
         {
             private static readonly string[] Content =
             {
@@ -42,8 +42,8 @@ namespace Sample.Tabs
                 Resource.Drawable.perm_group_location
             };
 
-            public GoogleMusicAdapter(FragmentManager p0) 
-                : base(p0) 
+            public GoogleMusicAdapter(FragmentManager p0)
+                : base(p0)
             { }
 
             public new int GetIconResId(int index) { return Icons[index]; }

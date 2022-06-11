@@ -12,7 +12,7 @@ using Java.Lang;
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
     [Register("dk.ostebaronen.droid.viewpagerindicator.TabPageIndicator")]
-    public class TabPageIndicator 
+    public class TabPageIndicator
         : HorizontalScrollView
         , IPageIndicator
     {
@@ -34,7 +34,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public TabPageIndicator(Context context)
             : this(context, null)
-        {}
+        { }
 
         public TabPageIndicator(Context context, IAttributeSet attrs)
             : base(context, attrs)
@@ -112,7 +112,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         private void AddTab(int index, ICharSequence text, int iconResId)
         {
-            var tabView = new TabView(Context, this) {Focusable = true, Index = index, TextFormatted = text};
+            var tabView = new TabView(Context, this) { Focusable = true, Index = index, TextFormatted = text };
             tabView.Click += OnTabClick;
 
             if (iconResId != 0)
@@ -170,13 +170,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_viewPager == view) return;
 
             if (null != ViewPager)
-				_viewPager.ClearOnPageChangeListeners();
+                _viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
                 throw new InvalidOperationException("ViewPager does not have an Adapter instance.");
 
             _viewPager = view;
-			_viewPager.AddOnPageChangeListener(this);
+            _viewPager.AddOnPageChangeListener(this);
             NotifyDataSetChanged();
         }
 
@@ -195,7 +195,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 iconAdapter = (IIconPageAdapter)adapter;
 
             var count = adapter.Count;
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var title = adapter.GetPageTitleFormatted(i) ?? EmptyTitle;
 
@@ -236,7 +236,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         private class TabView : TextView
         {
             private readonly WeakReference<TabPageIndicator> _weakIndicator;
-            
+
             public int Index { get; set; }
 
             public TabView(Context context, TabPageIndicator indicator)

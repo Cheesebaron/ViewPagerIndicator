@@ -2,13 +2,13 @@ using System;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class PageScrollStateChangedEventArgs 
+    public class PageScrollStateChangedEventArgs
         : EventArgs
     {
         public int State { get; set; }
     }
 
-    public class PageScrolledEventArgs 
+    public class PageScrolledEventArgs
         : EventArgs
     {
         public int Position { get; set; }
@@ -16,13 +16,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public int PositionOffsetPixels { get; set; }
     }
 
-    public class PageSelectedEventArgs 
+    public class PageSelectedEventArgs
         : EventArgs
     {
         public int Position { get; set; }
     }
 
-    public class TabReselectedEventArgs 
+    public class TabReselectedEventArgs
         : EventArgs
     {
         public int Position { get; set; }

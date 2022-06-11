@@ -13,7 +13,7 @@ using Java.Interop;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class CenterItemClickEventArgs 
+    public class CenterItemClickEventArgs
         : EventArgs
     {
         public int Position { get; set; }
@@ -22,7 +22,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
     public delegate void CenterItemClickEventHander(object sender, CenterItemClickEventArgs args);
 
     [Register("dk.ostebaronen.droid.viewpagerindicator.TitlePageIndicator")]
-    public class TitlePageIndicator 
+    public class TitlePageIndicator
         : View
         , IPageIndicator
     {
@@ -91,7 +91,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         public TitlePageIndicator(Context context, IAttributeSet attrs, int defStyle)
             : base(context, attrs, defStyle)
         {
-            if(IsInEditMode) return;
+            if (IsInEditMode) return;
 
             var res = Resources;
 
@@ -312,19 +312,19 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
         {
             base.OnDraw(canvas);
 
-            if(null == ViewPager) return;
+            if (null == ViewPager) return;
 
             var count = _viewPager.Adapter.Count;
 
-            if(0 == count) return;
+            if (0 == count) return;
 
-            if(-1 == _currentPage && ViewPager != null)
+            if (-1 == _currentPage && ViewPager != null)
                 _currentPage = _viewPager.CurrentItem;
 
             var bounds = CalculateAllBounds(_paintText);
             var boundsSize = bounds.Count;
 
-            if(_currentPage >= boundsSize)
+            if (_currentPage >= boundsSize)
             {
                 CurrentItem = boundsSize - 1;
                 return;
@@ -340,7 +340,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             var page = _currentPage;
             float offsetPercent;
-            if(_pageOffset <= 0.5)
+            if (_pageOffset <= 0.5)
                 offsetPercent = _pageOffset;
             else
             {
@@ -355,27 +355,27 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             //Verify if the current view must be clipped to the screen
             var curPageBound = bounds[_currentPage];
             var curPageWidth = curPageBound.Right - curPageBound.Left;
-            if(curPageBound.Left < leftClip)
+            if (curPageBound.Left < leftClip)
                 ClipViewOnTheLeft(curPageBound, curPageWidth, left);
-            if(curPageBound.Right > rightClip)
+            if (curPageBound.Right > rightClip)
                 ClipViewOnTheRight(curPageBound, curPageWidth, right);
 
             //Left view is starting from the current position
-            if(_currentPage > 0)
+            if (_currentPage > 0)
             {
-                for(var i = _currentPage - 1; i >= 0; i--)
+                for (var i = _currentPage - 1; i >= 0; i--)
                 {
                     var bound = bounds[i];
                     //Is left side outside the screen?
-                    if(bound.Left < leftClip)
+                    if (bound.Left < leftClip)
                     {
                         var w = bound.Right - bound.Left;
                         //Clip to the left screen side
                         ClipViewOnTheLeft(bound, w, left);
-                        
+
                         var rightBound = bounds[i + 1];
                         //Except if there is an intersection with the right view
-                        if(bound.Right + TitlePadding > rightBound.Left)
+                        if (bound.Right + TitlePadding > rightBound.Left)
                         {
                             bound.Left = (int)(rightBound.Left - w - TitlePadding);
                             bound.Right = bound.Left + w;
@@ -385,13 +385,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
 
             //Right view is starting from the current position
-            if(_currentPage < countMinusOne)
+            if (_currentPage < countMinusOne)
             {
-                for(var i = _currentPage + 1; i < count; i++)
+                for (var i = _currentPage + 1; i < count; i++)
                 {
                     var bound = bounds[i];
                     //Is right side outside the screen?
-                    if(bound.Right > rightClip)
+                    if (bound.Right > rightClip)
                     {
                         var w = bound.Right - bound.Left;
                         //Clip to the right screen side
@@ -399,7 +399,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
                         var leftBound = bounds[i - 1];
                         //Except if there is an intersection with the left view
-                        if(bound.Left - TitlePadding < leftBound.Right)
+                        if (bound.Left - TitlePadding < leftBound.Right)
                         {
                             bound.Left = (int)(leftBound.Right + TitlePadding);
                             bound.Right = bound.Left + w;
@@ -410,12 +410,12 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             //Now draw views!
             var colorTextAlpha = _colorText.A;
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 //Get the title
                 var bound = bounds[i];
                 //Only if one side is visible
-                if((bound.Left > left && bound.Left < right) || (bound.Right > left && bound.Right < right))
+                if ((bound.Left > left && bound.Left < right) || (bound.Right > left && bound.Right < right))
                 {
                     var currentPage = (i == page);
                     var pageTitle = GetTitle(i);
@@ -425,15 +425,15 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
                     //Draw text as unselected
                     _paintText.Color = _colorText;
-                    if(currentPage && currentSelected)
+                    if (currentPage && currentSelected)
                         //Fade out/in unselected text as the selected text fades in/out
                         _paintText.Alpha = colorTextAlpha - (int)(colorTextAlpha * selectedPercent);
 
                     //Except if there is an intersection with the right view
-                    if(i < boundsSize - 1)
+                    if (i < boundsSize - 1)
                     {
                         var rightBound = bounds[i + 1];
-                        if(bound.Right + TitlePadding > rightBound.Left)
+                        if (bound.Right + TitlePadding > rightBound.Left)
                         {
                             var w = bound.Right - bound.Left;
                             bound.Left = (int)(rightBound.Left - w - TitlePadding);
@@ -443,7 +443,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     canvas.DrawText(pageTitle, 0, pageTitle.Length, bound.Left, bound.Bottom + TopPadding, _paintText);
 
                     //If we are within the selected bound draw the selected text
-                    if(currentPage && currentSelected)
+                    if (currentPage && currentSelected)
                     {
                         _paintText.Color = _colorSelected;
                         _paintText.Alpha = (int)(_colorSelected.A * selectedPercent);
@@ -455,7 +455,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             //If we want the line on the top change height to zero and invert line height to trick the drawing code
             var footerLineHeight = _footerLineHeight;
             var footerIndicatorLineHeight = _footerIndicatorHeight;
-            if(_linePosition == LinePosition.Top)
+            if (_linePosition == LinePosition.Top)
             {
                 height = 0;
                 footerLineHeight = -footerLineHeight;
@@ -470,7 +470,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             canvas.DrawPath(_path, _paintFooterLine);
 
             var heightMinusLine = height - footerLineHeight;
-            switch(_footerIndicatorStyle)
+            switch (_footerIndicatorStyle)
             {
                 case IndicatorStyle.Triangle:
                     _path.Reset();
@@ -481,7 +481,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                     canvas.DrawPath(_path, _paintFooterIndicator);
                     break;
                 case IndicatorStyle.Underline:
-                    if(!currentSelected || page >= boundsSize)
+                    if (!currentSelected || page >= boundsSize)
                         break;
 
                     var underlineBounds = bounds[page];
@@ -505,11 +505,11 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         public override bool OnTouchEvent(MotionEvent e)
         {
-            if(base.OnTouchEvent(e)) return true;
-            if(ViewPager?.Adapter.Count == 0) return false;
+            if (base.OnTouchEvent(e)) return true;
+            if (ViewPager?.Adapter.Count == 0) return false;
 
             var action = e.ActionMasked;
-            switch(action)
+            switch (action)
             {
                 case MotionEventActions.Down:
                     _activePointerId = e.GetPointerId(0);
@@ -544,20 +544,20 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                         var rightThird = halfWidth + sixthWidth;
                         var eventX = e.GetX();
 
-                        if(eventX < leftThird)
+                        if (eventX < leftThird)
                         {
-                            if(_currentPage > 0)
+                            if (_currentPage > 0)
                             {
-                                if(action != MotionEventActions.Cancel)
+                                if (action != MotionEventActions.Cancel)
                                     _viewPager.CurrentItem = _currentPage - 1;
                                 return true;
                             }
                         }
-                        else if(eventX > rightThird)
+                        else if (eventX > rightThird)
                         {
-                            if(_currentPage < count - 1)
+                            if (_currentPage < count - 1)
                             {
-                                if(action != MotionEventActions.Cancel)
+                                if (action != MotionEventActions.Cancel)
                                     _viewPager.CurrentItem = _currentPage + 1;
                                 return true;
                             }
@@ -565,7 +565,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                         else
                         {
                             //Middle third
-                            if(null != CenterItemClick && action != MotionEventActions.Cancel)
+                            if (null != CenterItemClick && action != MotionEventActions.Cancel)
                                 CenterItemClick(this, new CenterItemClickEventArgs { Position = _currentPage });
                         }
                     }
@@ -618,7 +618,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
             var count = _viewPager.Adapter.Count;
             var halfWidth = Width / 2;
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var bounds = CalcBounds(i, paint);
                 var w = bounds.Right - bounds.Left;
@@ -667,13 +667,13 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (_viewPager == view) return;
 
             if (null != ViewPager)
-				_viewPager.ClearOnPageChangeListeners();
+                _viewPager.ClearOnPageChangeListeners();
 
             if (null == view.Adapter)
                 throw new InvalidOperationException("ViewPager does not have an Adapter instance.");
 
             _viewPager = view;
-			_viewPager.AddOnPageChangeListener(this);
+            _viewPager.AddOnPageChangeListener(this);
             Invalidate();
         }
 
@@ -761,7 +761,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (savedState != null)
             {
                 base.OnRestoreInstanceState(savedState.SuperState);
-                _currentPage = savedState.CurrentPage;    
+                _currentPage = savedState.CurrentPage;
             }
             else
                 base.OnRestoreInstanceState(state);
@@ -778,7 +778,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             return savedState;
         }
 
-        public class TitleSavedState 
+        public class TitleSavedState
             : BaseSavedState
         {
             public int CurrentPage { get; set; }

@@ -18,7 +18,7 @@ namespace Sample
             var builder = new StringBuilder();
             for (var i = 0; i < 20; i++)
                 builder.Append(content).Append(" ");
-            builder.Remove(builder.Length -1, 1);
+            builder.Remove(builder.Length - 1, 1);
             fragment._content = builder.ToString();
 
             return fragment;
@@ -35,20 +35,20 @@ namespace Sample
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var text = new TextView(Activity)
-                {
-                    Gravity = GravityFlags.Center,
-                    Text = _content,
-                    TextSize = 20 * Resources.DisplayMetrics.Density
-                };
+            {
+                Gravity = GravityFlags.Center,
+                Text = _content,
+                TextSize = 20 * Resources.DisplayMetrics.Density
+            };
             text.SetPadding(20, 20, 20, 20);
 
             var layout = new LinearLayout(Activity)
-                {
-                    LayoutParameters =
+            {
+                LayoutParameters =
                         new ViewGroup.LayoutParams(
                             ViewGroup.LayoutParams.MatchParent,
                             ViewGroup.LayoutParams.MatchParent)
-                };
+            };
             layout.SetGravity(GravityFlags.Center);
             layout.AddView(text);
 

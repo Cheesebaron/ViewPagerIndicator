@@ -6,7 +6,7 @@ using Android.Widget;
 
 namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 {
-    public class IcsLinearLayout 
+    public class IcsLinearLayout
         : LinearLayout
     {
         private static readonly int[] Ll =
@@ -62,11 +62,11 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             }
         }
 
-        protected override void MeasureChildWithMargins(View child, int parentWidthMeasureSpec, int widthUsed, 
+        protected override void MeasureChildWithMargins(View child, int parentWidthMeasureSpec, int widthUsed,
             int parentHeightMeasureSpec, int heightUsed)
         {
             var index = IndexOfChild(child);
-            var lparams = (LayoutParams) child.LayoutParameters;
+            var lparams = (LayoutParams)child.LayoutParameters;
 
             if (HasDividerBeforeChildAt(index))
             {
@@ -113,7 +113,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 {
                     if (HasDividerBeforeChildAt(i))
                     {
-                        var lp = (LayoutParams) child.LayoutParameters;
+                        var lp = (LayoutParams)child.LayoutParameters;
                         var top = child.Top - lp.TopMargin;
                         DrawHorizontalDivider(canvas, top);
                     }
@@ -142,7 +142,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
                 {
                     if (HasDividerBeforeChildAt(i))
                     {
-                        var lp = (LayoutParams) child.LayoutParameters;
+                        var lp = (LayoutParams)child.LayoutParameters;
                         var left = child.Left - lp.LeftMargin;
                         DrawVerticalDivider(canvas, left);
                     }
@@ -180,7 +180,7 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
             if (childIndex == 0 || childIndex == ChildCount)
                 return false;
 
-            if ((_showDividers & (int) ShowDividers.Middle) != 0)
+            if ((_showDividers & (int)ShowDividers.Middle) != 0)
             {
                 var hasVisibleViewBefore = false;
                 for (var i = childIndex; i >= 0; i--)
