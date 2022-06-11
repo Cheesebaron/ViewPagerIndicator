@@ -88,18 +88,10 @@ Task("CopyArtifacts")
     CopyFileToDirectory(gitVersionLog, outputDir);
 });
 
-Task("UploadArtifacts")
-    .IsDependentOn("CopyArtifacts")
-    .WithCriteria(() => isGitHubActionsBuild)
-    .Does(() => 
-{
-    GitHubActions.Commands.UploadArtifact(outputDir, "nugets");
-});
-
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
-    .IsDependentOn("UploadArtifacts");
+    .IsDependentOn("CopyArtifacts");
 
 RunTarget(target);

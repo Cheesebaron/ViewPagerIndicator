@@ -22,4 +22,9 @@ jobs:
       run: dotnet tool restore
 
     - name: Run the Cake script
-      run: dotnet cake
+      run: dotnet cake 
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: NugetPackage
+        path: artifacts
