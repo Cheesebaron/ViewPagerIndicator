@@ -8,6 +8,7 @@
     <Owners>cheesebaron</Owners>
     <PackageTags>viewpagerindicator, viewpager, android, xamarin, indicator, pager</PackageTags>
     <PackageReleaseNotes>https://github.com/Cheesebaron/ViewPagerIndicator/blob/master/releasenotes.md</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 
     <RepositoryUrl>https://github.com/Cheesebaron/ViewPagerIndicator</RepositoryUrl>
@@ -23,6 +24,7 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\LICENSE" Pack="true" PackagePath="\" />
     <None Include="$(MSBuildThisFileDirectory)\icon.png" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
