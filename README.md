@@ -1,7 +1,7 @@
 ViewPagerIndicator
 ==========================
 
-[![Build Status](https://dev.azure.com/Cheesebaron/ViewPagerIndicator/_apis/build/status/Cheesebaron.ViewPagerIndicator?branchName=master)](https://dev.azure.com/Cheesebaron/ViewPagerIndicator/_build/latest?definitionId=7&branchName=master)
+[![CI](https://github.com/Cheesebaron/ViewPagerIndicator/actions/workflows/build.yml/badge.svg)](https://github.com/Cheesebaron/ViewPagerIndicator/actions/workflows/build.yml)
 
 Paging indicator widgets that are compatible with the `ViewPager` from the
 [AndroidX Library][2] to improve discoverability of content.
