@@ -126,3 +126,9 @@ tools/
 
 # build output
 artifacts/
+
+# Rider
+.idea/
+
+# macOS
+.DS_Store
