@@ -8,7 +8,7 @@ using Android.Widget;
 
 namespace Sample
 {
-    [Activity(Label = "ViewPagerIndicator Sample", MainLauncher = true)]
+    [Activity(Label = "ViewPagerIndicator Sample", MainLauncher = true, Exported = true)]
     public class ListSamples : ListActivity
     {
         public const string SampleCategory = "dk.ostebaronen.viewpagerindicator.droid.sample";

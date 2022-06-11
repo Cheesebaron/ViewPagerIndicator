@@ -235,23 +235,27 @@ namespace DK.Ostebaronen.Droid.ViewPagerIndicator
 
         private class TabView : TextView
         {
-            [Weak]
-            private readonly TabPageIndicator _indicator;
+            private readonly WeakReference<TabPageIndicator> _weakIndicator;
+            
+            public int Index { get; set; }
 
             public TabView(Context context, TabPageIndicator indicator)
-                : base(context, null, Resource.Attribute.vpiTabPageIndicatorStyle) { _indicator = indicator; }
+                : base(context, null, Resource.Attribute.vpiTabPageIndicatorStyle)
+            {
+                _weakIndicator = new WeakReference<TabPageIndicator>(indicator);
+            }
 
             protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
             {
                 base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
 
                 //Re-measure if we went beyond our maximum size.
-                if (_indicator._maxTabWidth > 0 && MeasuredWidth > _indicator._maxTabWidth)
-                    base.OnMeasure(MeasureSpec.MakeMeasureSpec(_indicator._maxTabWidth, MeasureSpecMode.Exactly),
+                if (Indicator._maxTabWidth > 0 && MeasuredWidth > Indicator._maxTabWidth)
+                    base.OnMeasure(MeasureSpec.MakeMeasureSpec(Indicator._maxTabWidth, MeasureSpecMode.Exactly),
                                    heightMeasureSpec);
             }
 
-            public int Index { get; set; }
+            private TabPageIndicator Indicator => _weakIndicator.TryGetTarget(out var indicator) ? indicator : null;
         }
 
         private bool _isDisposed;

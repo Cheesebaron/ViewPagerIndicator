@@ -1,6 +1,4 @@
-using System;
 using Android.Views;
-using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.ViewPager.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;

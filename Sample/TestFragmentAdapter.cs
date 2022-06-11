@@ -1,5 +1,7 @@
 using AndroidX.Fragment.App;
 using DK.Ostebaronen.Droid.ViewPagerIndicator.Interfaces;
+using Fragment = AndroidX.Fragment.App.Fragment;
+using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
 namespace Sample
 {
