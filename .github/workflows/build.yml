@@ -1,0 +1,25 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Install iOS workload
+      run: dotnet workload install android
+      
+    - name: Restore dotnet tools
+      run: dotnet tool restore
+
+    - name: Run the Cake script
+      run: dotnet cake

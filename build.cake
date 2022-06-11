@@ -1,20 +1,18 @@
-#module nuget:https://api.nuget.org/v3/index.json?package=Cake.DotNetTool.Module&version=0.4.0
-#tool dotnet:https://api.nuget.org/v3/index.json?package=GitVersion.Tool&version=5.3.7
-#tool nuget:https://api.nuget.org/v3/index.json?package=vswhere&version=2.8.4
-#addin nuget:https://api.nuget.org/v3/index.json?package=Cake.Figlet&version=1.3.1
+#tool dotnet:https://api.nuget.org/v3/index.json?package=GitVersion.Tool&version=5.10.3
+#addin nuget:https://api.nuget.org/v3/index.json?package=Cake.Figlet&version=2.0.1
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var verbosityArg = Argument("verbosity", "Minimal");
 var outputDirArg = Argument("outputDir", "./artifacts");
-var verbosity = Verbosity.Minimal;
+var verbosity = DotNetVerbosity.Minimal;
 
 var gitVersionLog = new FilePath("./gitversion.log");
 
 var sln = new FilePath("./ViewPagerIndicator.sln");
 var outputDir = new DirectoryPath(outputDirArg);
 
-var isRunningOnPipelines = AzurePipelines.IsRunningOnAzurePipelines || AzurePipelines.IsRunningOnAzurePipelinesHosted;
+var isGitHubActionsBuild = GitHubActions.IsRunningOnGitHubActions;
 
 GitVersion versionInfo = null;
 
@@ -27,19 +25,6 @@ Setup(context =>
         LogFilePath = gitVersionLog.MakeAbsolute(context.Environment)
     });
 
-    if (isRunningOnPipelines)
-    {
-        var buildNumber = AzurePipelines.Environment.Build.Number;
-        var informationalVersion = versionInfo.InformationalVersion;
-
-        var invalidChars = new char[] { '"', '/', ':', '<', '>', '\\', '|', '?', '@', '*' };
-        foreach (var invalidChar in invalidChars)
-            informationalVersion = informationalVersion.Replace(invalidChar, '.');
-
-        AzurePipelines.Commands.UpdateBuildNumber(informationalVersion
-            + "-" + buildNumber);
-    }
-
     var cakeVersion = typeof(ICakeContext).Assembly.GetName().Version.ToString();
 
     Information(Figlet("ViewPagerIndicator"));
@@ -49,7 +34,7 @@ Setup(context =>
         target,
         cakeVersion);
 
-    verbosity = (Verbosity) Enum.Parse(typeof(Verbosity), verbosityArg, true);
+    verbosity = (DotNetVerbosity) Enum.Parse(typeof(DotNetVerbosity), verbosityArg, true);
 });
 
 Task("Clean").Does(() =>
@@ -61,51 +46,37 @@ Task("Clean").Does(() =>
     EnsureDirectoryExists(outputDir);
 });
 
-FilePath msBuildPath;
-Task("ResolveBuildTools")
-    .WithCriteria(() => IsRunningOnWindows())
-    .Does(() => 
-{
-    var vsWhereSettings = new VSWhereLatestSettings
-    {
-        IncludePrerelease = true,
-        Requires = "Component.Xamarin"
-    };
-    
-    var vsLatest = VSWhereLatest(vsWhereSettings);
-    msBuildPath = (vsLatest == null)
-        ? null
-        : vsLatest.CombineWithFilePath("./MSBuild/Current/Bin/MSBuild.exe");
-
-    if (msBuildPath != null)
-        Information("Found MSBuild at {0}", msBuildPath.ToString());
-});
-
 Task("Restore")
-    .IsDependentOn("ResolveBuildTools")
     .Does(() => 
 {
-    var settings = GetDefaultBuildSettings()
-        .WithTarget("Restore");
-    MSBuild(sln, settings);
+    DotNetRestore(sln.ToString());
 });
 
 Task("Build")
-    .IsDependentOn("ResolveBuildTools")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .Does(() =>
 {
-    var settings = GetDefaultBuildSettings()
+    var msBuildSettings = new DotNetMSBuildSettings
+    {
+        Version = versionInfo.SemVer,
+        PackageVersion = versionInfo.SemVer,
+        InformationalVersion = versionInfo.InformationalVersion,
+        ContinuousIntegrationBuild = true
+    };
+    
+    msBuildSettings = msBuildSettings
         .WithProperty("DebugSymbols", "True")
-        .WithProperty("DebugType", "Full")
-        .WithProperty("Version", versionInfo.SemVer)
-        .WithProperty("PackageVersion", versionInfo.SemVer)
-        .WithProperty("InformationalVersion", versionInfo.InformationalVersion)
-        .WithProperty("NoPackageAnalysis", "True")
-        .WithTarget("Build");
+        .WithProperty("DebugType", "Portable");
 
-    MSBuild(sln, settings);
+    var settings = new DotNetBuildSettings
+    {
+        Configuration = configuration,
+        Verbosity = verbosity,
+        MSBuildSettings = msBuildSettings
+    };
+
+    DotNetBuild(sln.ToString(), settings);
 });
 
 Task("CopyArtifacts")
@@ -119,30 +90,16 @@ Task("CopyArtifacts")
 
 Task("UploadArtifacts")
     .IsDependentOn("CopyArtifacts")
-    .WithCriteria(() => isRunningOnPipelines)
+    .WithCriteria(() => isGitHubActionsBuild)
     .Does(() => 
 {
-    AzurePipelines.Commands.UploadArtifactDirectory(outputDir);
+    GitHubActions.Commands.UploadArtifact(outputDir, "nugets");
 });
 
 Task("Default")
     .IsDependentOn("Clean")
-    .IsDependentOn("ResolveBuildTools")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
     .IsDependentOn("UploadArtifacts");
 
 RunTarget(target);
-
-MSBuildSettings GetDefaultBuildSettings()
-{
-    var settings = new MSBuildSettings 
-    {
-        Configuration = configuration,
-        ToolPath = msBuildPath,
-        Verbosity = verbosity,
-        ToolVersion = MSBuildToolVersion.VS2019
-    };
-
-    return settings;
-}
